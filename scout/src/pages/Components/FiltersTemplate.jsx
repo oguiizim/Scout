@@ -14,7 +14,7 @@ function FiltersTemplate({ filters, setFilters }) {
         <h1 className="text-2xl font-bold">Filtros</h1>
       </div>
 
-      <div className="w-full flex justify-between gap-6">
+      <div className="w-full flex justify-between gap-3">
         <input
           type="text"
           placeholder="Filtrar por time"

@@ -3,10 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
 
-  const linkClass = ({ isActive }) =>
-    `justify-center flex rounded-md p-2.5 px-4 hover:bg-[#F1F5F9] hover:scale-105 transition-all duration-200 ${
-      isActive ? "bg-[#F1F5F9]" : ""
-    }`;
+  const links =
+    "flex items-center justify-center rounded-md p-2.5 px-4 hover:bg-[#F1F5F9] hover:scale-105 transition-all duration-200 gap-2";
+  const inactive = "hover:bg-[#F1F5F9] hover:scale-105";
+  const active = "bg-[#F1F5F9] font-semibold";
+
+  const button = ({ isActive }) => `${links} ${isActive ? active : inactive}`;
 
   const handleLogout = () => {
     // se você estiver usando auth no futuro, limpa aqui
@@ -20,7 +22,7 @@ function Navbar() {
       <button
         type="button"
         onClick={() => navigate("/scout/m")}
-        className="flex justify-start items-center gap-5 text-xl font-bold"
+        className="flex justify-start items-center gap-5 text-xl font-bold cursor-pointer"
       >
         <div className="h-15 w-15">
           <img src="/src/assets/Logo Axion.png" alt="Logo" />
@@ -31,26 +33,30 @@ function Navbar() {
       {/* List of links */}
       <ul className="flex justify-center items-center gap-4 m-4">
         <li>
-          <NavLink to="/scout/m" className={linkClass}>
+          <NavLink to="/scout/m" className={button}>
+            <img src="/src/assets/icons8-prancheta.png" className="w-5 h-5" />
             Scouting de Partidas
           </NavLink>
         </li>
 
         <li>
-          <NavLink to="/scout/p" className={linkClass}>
+          <NavLink to="/scout/p" className={button}>
+            <img src="/src/assets/icons8-papel.png" className="w-5 h-5" />
             Scouting de Pit
           </NavLink>
         </li>
 
         <li>
-          <NavLink to="/records" className={linkClass}>
+          <NavLink to="/records" className={button}>
+            <img src="/src/assets/icons8-lista.png" className="w-5 h-5" />
             Registros
           </NavLink>
         </li>
 
         <li>
-          <NavLink to="/dashboard" className={linkClass}>
-            Dashboard
+          <NavLink to="/ranking" className={button}>
+            <img src="/src/assets/icons8-grafico.png" className="w-5 h-5" />{" "}
+            Ranking
           </NavLink>
         </li>
       </ul>

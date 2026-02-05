@@ -42,7 +42,8 @@ function ListTemplate({ filters }) {
     const matchQ = (filters?.match || "").trim();
 
     return sorted.filter((r) => {
-      const teamText = `${r.teamName || ""} #${r.teamNumber || ""}`.toLowerCase();
+      const teamText =
+        `${r.teamName || ""} #${r.teamNumber || ""}`.toLowerCase();
       const matchText = String(r.matchNumber ?? "");
 
       const okTeam = !teamQ || teamText.includes(teamQ);
@@ -53,9 +54,9 @@ function ListTemplate({ filters }) {
   }, [sorted, filters]);
 
   const formatPos = (p) => {
-    if (p === "left") return "Esq";
-    if (p === "center") return "Cen";
-    if (p === "right") return "Dir";
+    if (p === "left") return "Esquerda";
+    if (p === "center") return "Centro";
+    if (p === "right") return "Direita";
     return "-";
   };
 
@@ -71,11 +72,10 @@ function ListTemplate({ filters }) {
     if (!iso) return "-";
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return "-";
-    return d.toLocaleString("pt-BR");
+    return d.toLocaleDateString("pt-BR");
   };
 
   const formatTeam = (r) => {
-    if (r?.teamName && r?.teamNumber) return `${r.teamName} #${r.teamNumber}`;
     if (r?.teamNumber) return `#${r.teamNumber}`;
     return "-";
   };
@@ -86,10 +86,14 @@ function ListTemplate({ filters }) {
     setRecords(next);
     if (selected?.id === id) setSelected(null);
   };
+  const gridCols =
+    "grid-cols-[100fr_100fr_100fr_100fr_100fr_100fr_120fr_120fr_100fr]";
+
+  const cell = "flex items-center justify-center";
 
   return (
     <>
-      <div className="w-[60vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
+      <div className="w-[70vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
         <div className="flex items-center justify-between mb-4">
           {/* ✅ mostra filtrados / total */}
           <h1 className="text-2xl font-bold">
@@ -107,68 +111,67 @@ function ListTemplate({ filters }) {
         </div>
 
         {/* Header */}
-        <div className="w-full flex justify-between gap-10 text-[#2e2e2e] pb-2 border-b border-[#2e2e2e]">
-          <p>Partida</p>
-          <p>Time</p>
-          <p>Posição</p>
-          <p>Ciclos</p>
-          <p>Quebrou</p>
-          <p>Endgame</p>
-          <p>Scout</p>
-          <p>Data</p>
-          <p>Ações</p>
+        <div
+          className={`w-full font-semibold grid ${gridCols} text-[#2e2e2e] pb-2 border-b border-[#2e2e2e]`}
+        >
+          <p className={cell}>Partida</p>
+          <p className={cell}>Time</p>
+          <p className={cell}>Posição</p>
+          <p className={cell}>Ciclos</p>
+          <p className={cell}>Quebrou</p>
+          <p className={cell}>Endgame</p>
+          <p className={cell}>Scout</p>
+          <p className={cell}>Data</p>
+          <p className={cell}>Ações</p>
         </div>
 
         {/* Body */}
         <div className="w-full flex flex-col">
-          {filtered.length === 0 ? (
-            <div className="py-6 text-[#2e2e2e]">
-              Nenhum registro encontrado com esses filtros.
-            </div>
-          ) : (
-            filtered.map((r) => (
-              <div
-                key={r.id}
-                className="w-full flex justify-between gap-10 py-3 border-b border-[#E7E7E9] items-center"
-              >
-                <p className="min-w-[60px]">{r.matchNumber ?? "-"}</p>
+          {filtered.map((r) => (
+            <div
+              key={r.id}
+              className={`w-full grid ${gridCols} py-3 border-b border-[#E7E7E9]`}
+            >
+              <p className={cell}>{r.matchNumber ?? "-"}</p>
 
-                <p className="min-w-[60px]">{formatTeam(r)}</p>
+              <p className={`${cell} break-words leading-tight`}>
+                {formatTeam(r)}
+              </p>
 
-                <p className="min-w-[60px]">{formatPos(r.startPos)}</p>
+              <p className={cell}>{formatPos(r.startPos)}</p>
 
-                <p className="min-w-[80px]">
-                  {(r.autoCycles ?? 0) + (r.teleopCycles ?? 0)}
-                </p>
+              <p className={cell}>
+                {(r.autoCycles ?? 0) + (r.teleopCycles ?? 0)}
+              </p>
 
-                <p className="min-w-[70px]">{r.robotBroke ? "Sim" : "Não"}</p>
-                <p className="min-w-[70px]">{formatLvl(r.endgame)}</p>
+              <p className={cell}>{r.robotBroke ? "Sim" : "Não"}</p>
 
-                <p className="min-w-[80px]">{r.scoutName || "oguizim"}</p>
+              <p className={cell}>{formatLvl(r.endgame)}</p>
 
-                <p className="min-w-[170px]">{formatDate(r.createdAt)}</p>
+              <p className={cell}>{r.scoutName || "oguizim"}</p>
 
-                <div className="min-w-[140px] flex gap-2 justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setSelected(r)}
-                    className="rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-                  >
-                    Ver
-                  </button>
+              <p className={cell}>{formatDate(r.createdAt)}</p>
 
-                  <button
-                    type="button"
-                    onClick={() => removeRecord(r.id)}
-                    className="rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-                    title="Excluir"
-                  >
-                    Excluir
-                  </button>
-                </div>
+              <div className={`${cell} gap-2 flex flex-col`}>
+                <button
+                  type="button"
+                  onClick={() => setSelected(r)}
+                  className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                >
+                  Exibir
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => removeRecord(r.id)}
+                  className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                  title="Excluir"
+                >
+                  Excluir
+                </button>
               </div>
-            ))
-          )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -210,7 +213,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
               >
                 Fechar
               </button>
@@ -260,7 +263,7 @@ function ListTemplate({ filters }) {
 
               <div className="col-span-2">
                 <p className="font-semibold text-black">Observações</p>
-                <p className="break-words">{selected.notes || "-"}</p>
+                <p className="wrap-break-word">{selected.notes || "-"}</p>
               </div>
             </div>
 
@@ -269,7 +272,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => removeRecord(selected.id)}
-                className="rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
               >
                 Excluir
               </button>

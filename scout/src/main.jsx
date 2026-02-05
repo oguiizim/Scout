@@ -9,6 +9,10 @@ import Register from "./pages/register/Register.jsx";
 import ScoutM from "./pages/scout/ScoutM.jsx";
 import ScoutP from "./pages/scout/ScoutP.jsx";
 import Records from "./pages/records/Records";
+import Ranking from "./pages/ranking/Ranking.jsx";
+import TeamInfo from "./pages/ranking/TeamInfo.jsx";
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import PitScout from "./pages/scout/ScoutInfo.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -32,18 +36,15 @@ createRoot(document.getElementById("root")).render(
         <Route path="/records" element={<Records />} />
 
         {/* Dashboard (placeholder) */}
-        <Route
-          path="/dashboard"
-          element={
-            <div className="p-10 text-2xl font-bold">
-              Dashboard (em construção)
-            </div>
-          }
-        />
+        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/teamInfo" element={<TeamInfo />}></Route>
+
+        <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
+        <Route path="/info/:teamNumber" element={<PitScout />}></Route>
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );
