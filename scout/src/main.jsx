@@ -2,11 +2,14 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import Login from "./pages/login/Login.jsx";
-import Scout from "./pages/scout/Scout.jsx";
+import ScoutM from "./pages/scout/ScoutM.jsx";
+import ScoutP from "./pages/scout/ScoutP.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <Login /> */}
-    <Scout />
+    {/* <ScoutM /> */}
+    <ScoutP />
   </StrictMode>,
 );

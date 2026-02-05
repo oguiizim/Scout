@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import ScoutMForm from "../Components/ScoutMForm";
 
-function Scout() {
+function ScoutM() {
   const [count, setCount] = useState(0);
 
   return (
@@ -12,4 +12,4 @@ function Scout() {
     </div>
   );
 }
-export default Scout;
+export default ScoutM;
