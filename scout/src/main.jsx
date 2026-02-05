@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import Login from "./pages/login/Login.jsx";
+import Register from "./pages/register/Register.jsx";
 import ScoutM from "./pages/scout/ScoutM.jsx";
 import ScoutP from "./pages/scout/ScoutP.jsx";
 import Records from "./pages/records/Records";
@@ -16,8 +17,9 @@ createRoot(document.getElementById("root")).render(
         {/* Rota inicial */}
         <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* Login */}
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Atalho Scout */}
         <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
@@ -43,5 +45,5 @@ createRoot(document.getElementById("root")).render(
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 );

@@ -4,14 +4,18 @@ import FiltersTemp from "../Components/FiltersTemplate";
 import ListTemp from "../Components/ListTemplate";
 
 function Records() {
-  const [count, setCount] = useState(0);
+  const [filters, setFilters] = useState({
+    team: "",
+    match: "",
+  });
 
   return (
     <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
-      <Navbar></Navbar>
-      <FiltersTemp></FiltersTemp>
-      <ListTemp></ListTemp>
+      <Navbar />
+      <FiltersTemp filters={filters} setFilters={setFilters} />
+      <ListTemp filters={filters} />
     </div>
   );
 }
+
 export default Records;

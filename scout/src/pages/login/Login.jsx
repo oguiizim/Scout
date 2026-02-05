@@ -8,7 +8,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  // 🔹 redireciona direto
+  // 🔹 redireciona direto para o scout
   const handleEnter = () => {
     if (!username.trim() || !password.trim()) return;
     navigate("/scout/m");
@@ -53,13 +53,16 @@ function Login() {
             onMouseDown={() => setShowPass(true)}
             onMouseUp={() => setShowPass(false)}
             onMouseLeave={() => setShowPass(false)}
+            onTouchStart={() => setShowPass(true)}
+            onTouchEnd={() => setShowPass(false)}
             className="mx-3 cursor-pointer"
             title="Mostrar senha"
+            aria-label="Mostrar senha"
           >
             <img
               src="/src/assets/icons8-visivel.png"
               className="w-5 h-5"
-              alt="Mostrar senha"
+              alt=""
             />
           </button>
         </div>
@@ -73,9 +76,13 @@ function Login() {
           Entrar
         </button>
 
+        {/* 🔗 Cadastro */}
         <p className="text-sm">
           Não tem uma conta?{" "}
-          <span className="underline underline-offset-2 cursor-pointer">
+          <span
+            onClick={() => navigate("/register")}
+            className="underline underline-offset-2 cursor-pointer"
+          >
             Crie sua conta aqui.
           </span>
         </p>
