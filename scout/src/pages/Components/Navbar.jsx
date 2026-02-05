@@ -9,8 +9,8 @@ function Navbar() {
 
       {/* Name of the product */}
       <div className="flex justify-start items-center gap-5 text-xl font-bold">
-        <div className="h-10 w-10">
-          <img src="/src/assets/icons8-bot.png" />
+        <div className="h-15 w-15">
+          <img src="/src/assets/Logo Axion.png" />
         </div>
         FRC Scout 2026
       </div>

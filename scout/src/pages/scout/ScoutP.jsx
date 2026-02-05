@@ -8,7 +8,6 @@ function ScoutP() {
   return (
     <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
       <Navbar></Navbar>
-      {/* <ScoutMForm className="flex items-center justify-center"></ScoutMForm> */}
       <ScoutPForm></ScoutPForm>
     </div>
   );
