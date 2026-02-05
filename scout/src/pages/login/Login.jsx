@@ -16,7 +16,7 @@ function Login() {
 
   return (
     <div className="font-nunito w-full min-h-screen flex items-center justify-center bg-[#ffffff]">
-      <div className="text-black w-[30vw] min-w-[320px] max-w-[460px] flex flex-col items-center rounded-[20px] p-10 border-2 border-[#F1F5F9]">
+      <div className="text-black w-[30vw] min-w-[320px] max-w-115 flex flex-col items-center rounded-[20px] p-10 border-2 border-[#F1F5F9]">
         <div className="w-20 bg-[#E7E7E9] p-2 rounded-2xl my-2.5">
           <img src="/src/assets/Logo Axion.png" alt="Logo" />
         </div>
@@ -71,7 +71,7 @@ function Login() {
         <button
           type="button"
           onClick={handleEnter}
-          className="w-full bg-[#0F172A] py-2 px-4 mb-4 rounded-lg hover:bg-[#141e37] transition-all duration-200 text-white"
+          className="w-full bg-[#0F172A] py-2 px-4 mb-4 rounded-lg hover:bg-[#141e37] transition-all duration-200 text-white cursor-pointer"
         >
           Entrar
         </button>

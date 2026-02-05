@@ -151,7 +151,7 @@ function ScoutPForm() {
 
       {/* Velocidade dos Ciclos */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Velocidade media p/Ciclo:</h1>
+        <h1 className="font-semibold mb-3.5">Tempo medio p/Ciclo:</h1>
         <input
           type="text"
           placeholder="Ex: 7.65s"

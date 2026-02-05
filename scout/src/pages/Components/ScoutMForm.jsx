@@ -58,7 +58,7 @@ function ScoutMForm() {
       { number: 11094, name: "SEASIDE Robotics" },
       { number: 11105, name: "GC 4 Tomorrow" },
     ],
-    []
+    [],
   );
 
   const initialState = useMemo(
@@ -78,7 +78,7 @@ function ScoutMForm() {
       notes: "",
       createdAt: new Date().toISOString(),
     }),
-    []
+    [],
   );
 
   const [form, setForm] = useState(initialState);
@@ -194,7 +194,9 @@ function ScoutMForm() {
             value={form.matchNumber}
             inputMode="numeric"
             pattern="[0-9]*"
-            onChange={(e) => setField("matchNumber", onlyDigits(e.target.value))}
+            onChange={(e) =>
+              setField("matchNumber", onlyDigits(e.target.value))
+            }
           />
         </div>
 
@@ -255,7 +257,7 @@ function ScoutMForm() {
             onClick={() => setField("startPos", "left")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.startPos,
-              "left"
+              "left",
             )}`}
           >
             Esquerda
@@ -265,7 +267,7 @@ function ScoutMForm() {
             onClick={() => setField("startPos", "center")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.startPos,
-              "center"
+              "center",
             )}`}
           >
             Centro
@@ -275,7 +277,7 @@ function ScoutMForm() {
             onClick={() => setField("startPos", "right")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.startPos,
-              "right"
+              "right",
             )}`}
           >
             Direita
@@ -330,21 +332,6 @@ function ScoutMForm() {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Average Seconds Per Cycle */}
-      <div className="mb-4">
-        <h1 className="font-semibold mb-4">
-          Tempo Médio por Ciclo (segundos):
-        </h1>
-        <input
-          type="text"
-          placeholder="Ex: 8.72s"
-          className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
-          value={form.avgCycleSec}
-          inputMode="decimal"
-          onChange={(e) => setField("avgCycleSec", onlyDecimal(e.target.value))}
-        />
       </div>
 
       {/* Checkboxes */}
@@ -406,7 +393,7 @@ function ScoutMForm() {
               onClick={() => setField("endgame", val)}
               className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
                 form.endgame,
-                val
+                val,
               )}`}
             >
               {label}
@@ -431,7 +418,7 @@ function ScoutMForm() {
               onClick={() => setField("autoClimb", val)}
               className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
                 form.autoClimb,
-                val
+                val,
               )}`}
             >
               {label}
@@ -455,20 +442,16 @@ function ScoutMForm() {
       </div>
 
       {/* Save / Clear */}
-      <div className="w-full flex justify-between items-center gap-6">
+      <div className="w-full flex justify-between items-center gap-2">
         <button
           type="button"
           onClick={saveRecord}
-          className="w-full flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200"
+          className="w-[50%] flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200"
         >
           Salvar
         </button>
 
-        <button
-          type="button"
-          onClick={clearForm}
-          className="w-full flex justify-center rounded-lg py-2 cursor-pointer hover:bg-[#F1F5F9] transition-all duration-200"
-        >
+        <button className="w-[50%] flex justify-center bg-[#ffffff] text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200">
           Limpar
         </button>
       </div>

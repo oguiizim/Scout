@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import FiltersTemp from "../Components/FiltersTemplate";
-import ListTemp from "../Components/ListTemplate";
+import RankingTable from "../Components/RankingTable";
+import TeamInfo from "../ranking/TeamInfo";
 
-function Records() {
+function Ranking() {
   const [filters, setFilters] = useState({
     team: "",
     match: "",
@@ -12,9 +12,8 @@ function Records() {
   return (
     <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
       <Navbar />
-      <FiltersTemp filters={filters} setFilters={setFilters} />
-      <ListTemp filters={filters} />
+      <RankingTable></RankingTable>
     </div>
   );
 }
-export default Records;
+export default Ranking;
