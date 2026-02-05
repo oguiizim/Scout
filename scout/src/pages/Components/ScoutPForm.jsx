@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ScoutForm() {
+function ScoutPForm() {
   const [count, setCount] = useState(0);
 
   return (
@@ -191,4 +191,4 @@ function ScoutForm() {
     </div>
   );
 }
-export default ScoutForm;
+export default ScoutPForm;
