@@ -30,7 +30,7 @@ public class ScoutPit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "team", nullable = false)
+    @Column(name = "team", unique = true, nullable = false)
     @NotNull(message = "O time é obrigatório")
     private Long team;
 
