@@ -29,6 +29,12 @@ function Register() {
       >
         <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
         <p className="text-[#262626] mb-6">Cadastro no sistema FRC Scout</p>
+        <p className="self-start font-semibold">Time</p>
+        <input
+          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
+          placeholder="Digite seu time"
+          value={username}
+        />
 
         <p className="self-start font-semibold">Usuário</p>
         <input
