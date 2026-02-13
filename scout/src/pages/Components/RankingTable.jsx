@@ -169,7 +169,6 @@ export default function RankingTable() {
           <p className={cell}>Time</p>
           <p className={cell}>Consistência</p>
           <p className={cell}>Partidas</p>
-          <p className={cell}>Pit Scouting</p>
         </div>
 
         <div className="w-full flex flex-col">
