@@ -82,9 +82,13 @@ public class ScoutPit {
     @Size(min = 2, max = 50)
     private String tower;
 
+    @Column(name = "storage", nullable = false)
+    @NotNull(message = "O storage é obrigatório")
+    private Long storage;
+
     @Column(name = "time_cycles", nullable = false)
     @NotNull(message = "O tempo dos ciclos é obrigatório")
-    private Double timeCycles;
+    private Float timeCycles;
 
     @Column(name = "cycles", nullable = false)
     @NotNull(message = "O número de ciclos é obrigatório")

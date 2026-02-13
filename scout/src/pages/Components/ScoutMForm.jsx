@@ -144,7 +144,8 @@ function ScoutMForm() {
         </div>
 
         {/* Team (busca + dropdown) */}
-        <div className="w-[50%]" ref={dropdownRef}>
+        {/* Team (busca + dropdown overlay) */}
+        <div className="w-[50%] relative" ref={dropdownRef}>
           <h1 className="mb-3.5 font-semibold">Equipe (pesquise):</h1>
 
           <input
@@ -162,7 +163,7 @@ function ScoutMForm() {
           />
 
           {openTeams && (
-            <div className="mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white">
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
                 <div className="px-4 py-3 text-[#2e2e2e]">
                   Nenhuma equipe encontrada.
