@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
 
 import "./index.css";
 
@@ -17,6 +19,7 @@ import PitScout from "./pages/scout/ScoutInfo.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
+    <Toaster position="bottom-center" />
       <Routes>
         {/* Rota inicial */}
         <Route path="/" element={<Navigate to="/login" replace />} />

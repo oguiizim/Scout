@@ -37,7 +37,8 @@ public class SecurityConfig {
         private JWTUtil jwtUtil;
 
         private static final String[] PUBLIC_MATCHERS = {
-                        "/"
+                        "/",
+                        "/user/ping"
         };
 
         private static final String[] PUBLIC_MATCHERS_POST = {
@@ -86,14 +87,26 @@ public class SecurityConfig {
 
         @Bean
         CorsConfigurationSource corsConfigurationSource() {
-                CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-                configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE"));
-                // Se você usa Authorization no front, recomendo garantir:
-                configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-                configuration.setExposedHeaders(Arrays.asList("Authorization"));
+                CorsConfiguration configuration = new CorsConfiguration();
+
+                configuration.setAllowedOrigins(Arrays.asList(
+                                "http://localhost:5173"));
+
+                configuration.setAllowedMethods(Arrays.asList(
+                                "GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+                configuration.setAllowedHeaders(Arrays.asList(
+                                "Authorization",
+                                "Content-Type"));
+
+                configuration.setExposedHeaders(Arrays.asList(
+                                "Authorization"));
+
+                configuration.setAllowCredentials(true);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", configuration);
+
                 return source;
         }
 

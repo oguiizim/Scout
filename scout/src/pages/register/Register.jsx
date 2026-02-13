@@ -1,56 +1,108 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { registerUser } from "../../api/services/register.js";
+import toast from "react-hot-toast";
 
 function Register() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [form, setForm] = useState({
+    username: "",
+    team: "",
+    password: "",
+  });
 
-  const handleRegister = (e) => {
+  const [confirm, setConfirm] = useState(""); // ✅ confirmar senha
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  function handleChange(e) {
+    const { name, value, type } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "number" ? value : value,
+    }));
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError(null);
 
-    if (!username || !password || !confirm) return;
-    if (password !== confirm) {
-      alert("As senhas não coincidem");
+    if (form.password !== confirm) {
+      setError("As senhas não coincidem.");
       return;
     }
 
-    // futuramente: salvar no backend
-    navigate("/login"); // volta para login após cadastro
-  };
+    if (!form.team) {
+      setError("Informe o número do time.");
+      return;
+    }
+
+    const payload = {
+      username: form.username.trim(),
+      team: Number(form.team),
+      password: form.password,
+    };
+
+    try {
+      setLoading(true);
+      await registerUser(payload);
+      toast.success("Usuário criado com sucesso!");
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao criar usuário.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="font-nunito w-full min-h-screen flex items-center justify-center bg-[#ffffff]">
       <form
-        onSubmit={handleRegister}
+        onSubmit={handleSubmit}
         className="text-black w-[30vw] min-w-[320px] max-w-115 flex flex-col items-center rounded-[20px] p-10 border-2 border-[#F1F5F9]"
       >
         <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
         <p className="text-[#262626] mb-6">Cadastro no sistema FRC Scout</p>
+
+        {error && (
+          <div className="w-full mb-4 rounded-lg border border-red-200 bg-red-50 p-2 text-sm text-red-700">
+            {error}
+          </div>
+        )}
+
         <p className="self-start font-semibold">Time</p>
         <input
           className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
           placeholder="Digite seu time"
-          value={username}
+          type="number"
+          name="team"
+          value={form.team}
+          onChange={handleChange}
+          required
         />
 
         <p className="self-start font-semibold">Usuário</p>
         <input
           className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
           placeholder="Digite seu usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          value={form.username}
+          onChange={handleChange}
+          required
         />
 
         <p className="self-start font-semibold">Senha</p>
         <input
-          type="password"
           className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
           placeholder="Digite sua senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          name="password"
+          value={form.password}
+          onChange={handleChange}
+          required
         />
 
         <p className="self-start font-semibold">Confirmar Senha</p>
@@ -60,13 +112,15 @@ function Register() {
           placeholder="Confirme sua senha"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
+          required
         />
 
         <button
           type="submit"
-          className="w-full bg-[#0F172A] py-2 rounded-lg text-white hover:bg-[#141e37] cursor-pointer"
+          disabled={loading}
+          className="w-full bg-[#0F172A] py-2 rounded-lg text-white hover:bg-[#141e37] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Criar Conta
+          {loading ? "Criando..." : "Criar Conta"}
         </button>
 
         <button
