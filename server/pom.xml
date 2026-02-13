@@ -117,8 +117,7 @@
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
-			<version>3.1.0</version> <!-- ou 3.0.x/3.1.x conforme sua stack -->
-			<scope>provided</scope>
+			<version>3.2.0</version>
 		</dependency>
 
 	</dependencies>

@@ -35,9 +35,9 @@ public class ScoutMatch {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
-    @Column(name = "match", nullable = false)
+    @Column(name = "match_number", nullable = false)
     @NotNull(message = "A partida é obrigatória")
-    private Long match;
+    private Long matchNumber;
 
     @Column(name = "team", nullable = false)
     @NotNull(message = "O time é obrigatório")

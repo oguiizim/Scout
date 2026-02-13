@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.guizim.server.models.enums.ProfileEnum;
 
 import jakarta.persistence.CollectionTable;
@@ -17,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -49,7 +51,7 @@ public class User {
     private Long id;
 
     @Column(name = "user_team", nullable = false)
-    @NotBlank(groups = CreateUser.class, message = "O time é obrigatório")
+    @NotNull(groups = CreateUser.class, message = "O time é obrigatório")
     private Long team;
 
     @Column(name = "username", length = 40, nullable = false, unique = true)
@@ -57,6 +59,7 @@ public class User {
     @Size(groups = CreateUser.class, min = 2, max = 100, message = "O usuário deve ter entre 2 e 100 caracteres")
     private String username;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", length = 100, nullable = false)
     @NotBlank(groups = CreateUser.class, message = "A senha é obrigatória")
     @Size(groups = CreateUser.class, min = 6, max = 100, message = "A senha deve ter entre 6 e 100 caracteres")

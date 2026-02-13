@@ -30,12 +30,14 @@ public class UserService {
 
     public User findById(Long id) {
         UserSpringSecurity userSpringSecurity = authenticated();
-        if (Objects.nonNull(userSpringSecurity)
-                || !userSpringSecurity.hasRole(ProfileEnum.ADMIN) && !id.equals(userSpringSecurity.getId()))
+        if (userSpringSecurity == null ||
+                (!userSpringSecurity.hasRole(ProfileEnum.ADMIN) && !id.equals(userSpringSecurity.getId()))) {
             throw new AuthorizationException("Acesso negado!");
-        Optional<User> user = this.userRepository.findById(id);
-        return user.orElseThrow(() -> new ObjectNotFoundException(
-                "Usuario não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
+        }
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(
+                        "Usuario não encontrado! Id: " + id));
     }
 
     @Transactional
