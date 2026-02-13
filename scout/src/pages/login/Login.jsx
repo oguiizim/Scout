@@ -4,12 +4,15 @@ import toast from "react-hot-toast";
 import logoAxion from "../../assets/Logo Axion.png";
 import eyeIcon from "../../assets/icons8-visivel.png";
 import { loginUser } from "../../api/services/login.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Login() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
+
+  const { login } = useAuth();
 
   // 🔹 redireciona direto para o scout
   const handleChange = (e) => {
@@ -44,6 +47,7 @@ function Login() {
       localStorage.setItem("token", token);
 
       toast.success("Login realizado!");
+      login(token);
       navigate("/scout/m");
     } catch (err) {
       console.error(err);

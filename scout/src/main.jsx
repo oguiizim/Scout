@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 import "./index.css";
 
@@ -18,36 +18,41 @@ import PitScout from "./pages/scout/ScoutInfo.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-    <Toaster position="bottom-center" />
-      <Routes>
-        {/* Rota inicial */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Toaster
+          position="bottom-left"
+          toastOptions={{ style: { zIndex: 9999999 } }}
+        />
+        <Routes>
+          {/* Rota inicial */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* Auth */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        {/* Atalho Scout */}
-        <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
+          {/* Atalho Scout */}
+          <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
 
-        {/* Scouting */}
-        <Route path="/scout/m" element={<ScoutM />} />
-        <Route path="/scout/p" element={<ScoutP />} />
+          {/* Scouting */}
+          <Route path="/scout/m" element={<ScoutM />} />
+          <Route path="/scout/p" element={<ScoutP />} />
 
-        {/* Registros */}
-        <Route path="/records" element={<Records />} />
+          {/* Registros */}
+          <Route path="/records" element={<Records />} />
 
-        {/* Dashboard (placeholder) */}
-        <Route path="/ranking" element={<Ranking />} />
-        <Route path="/teamInfo" element={<TeamInfo />}></Route>
+          {/* Dashboard (placeholder) */}
+          <Route path="/ranking" element={<Ranking />} />
+          <Route path="/teamInfo" element={<TeamInfo />}></Route>
 
-        <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
-        <Route path="/info/:teamNumber" element={<PitScout />}></Route>
+          <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
+          <Route path="/info/:teamNumber" element={<PitScout />}></Route>
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>,
 );

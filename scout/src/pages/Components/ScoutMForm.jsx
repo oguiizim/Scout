@@ -1,120 +1,62 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { TEAMS } from "../../data/Teams.js";
+import { submitMatchData } from "../../api/services/scoutMatch.js";
+import toast, { Toaster } from "react-hot-toast";
+
+const initialState = {
+  matchNumber: "",
+  team: "",
+
+  teamQuery: "",
+  teamName: "",
+
+  autoCycles: 0, // <- nome igual o JSON que você quer
+  teleCycles: 0, // <- nome igual o JSON que você quer
+
+  position: "",
+
+  areBroke: false,
+  autoWork: false,
+
+  towerEnd: "none",
+  towerAuto: "none",
+
+  notes: "",
+};
 
 function ScoutMForm() {
-  // ✅ lista de equipes (as que você mandou)
-  const TEAMS = useMemo(
-    () => [
-      { number: 1156, name: "Under Control" },
-      { number: 1860, name: "Alphabots" },
-      { number: 3986, name: "Express-O" },
-      { number: 7459, name: "Taubatexas Robotics" },
-      { number: 7563, name: "SESI SENAI MEGAZORD" },
-      { number: 7565, name: "SESI SENAI ROBONÁTICOS" },
-      { number: 7567, name: "SESI SENAI OCTOPUS" },
-      { number: 8066, name: "WOLF ARMY ROBOTICS" },
-      { number: 8882, name: "INFINITY BR" },
-
-      { number: 9045, name: "North Lions SESI/SENAI" },
-      { number: 9046, name: "SESI SENAI BBTECH" },
-      { number: 9047, name: "TECHMAKER ROBOTICS" },
-      { number: 9048, name: "SESI/SENAI POTIBAT" },
-      { number: 9049, name: "SESI SENAI STEAMPUNK MONKEY FRC" },
-      { number: 9050, name: "Tucanus" },
-      { number: 9066, name: "Cavalo Vendado" },
-      { number: 9085, name: "SESI SENAI MEGA HARPY" },
-      { number: 9110, name: "SESI SENAI Atomic" },
-      { number: 9162, name: "ALL MIGHT" },
-      { number: 9163, name: "HYDRA" },
-      { number: 9164, name: "Tech Vikings" },
-      { number: 9166, name: "TecRobot" },
-      { number: 9169, name: "AGROTECH" },
-      { number: 9175, name: "BrainMachine-FRC" },
-
-      { number: 9195, name: "Prodixu" },
-      { number: 9199, name: "SESI SENAI SHARKS" },
-      { number: 9200, name: "SESI SENAI STARDUST" },
-      { number: 9219, name: "Nine Tails" },
-      { number: 9302, name: "PARATECH FRC" },
-      { number: 9305, name: "MonT" },
-
-      { number: 9458, name: "SESI SENAI JACTECH" },
-      { number: 9459, name: "SESI SENAI RPRT HAWKS" },
-      { number: 9460, name: "SESI SENAI STEEL BULLS" },
-      { number: 9484, name: "Robot’s District" },
-      { number: 9485, name: "HYOBOTS" },
-      { number: 9486, name: "ALPHASTORM FRC" },
-
-      { number: 9611, name: "SESI SENAI SC CyberRain" },
-      { number: 9614, name: "ROBOSSAUROS" },
-      { number: 9617, name: "Metal Knight" },
-      { number: 10263, name: "Temari Robotics" },
-
-      { number: 10291, name: "MUTUM-X" },
-      { number: 10295, name: "FOREST GUARDIANS" },
-      { number: 10297, name: "PANTANALBOTS" },
-      { number: 10345, name: "Sirius" },
-      { number: 10356, name: "Capitech" },
-      { number: 10917, name: "M.A.P.L.E." },
-      { number: 11094, name: "SEASIDE Robotics" },
-      { number: 11105, name: "GC 4 Tomorrow" },
-    ],
-    [],
-  );
-
-  const initialState = useMemo(
-    () => ({
-      matchNumber: "",
-      teamNumber: "", // será preenchido ao selecionar
-      teamName: "",
-      teamQuery: "", // texto de busca
-      startPos: "", // "left" | "center" | "right"
-      autoCycles: 0,
-      teleopCycles: 0,
-      avgCycleSec: "",
-      robotBroke: false,
-      autoWorked: false,
-      endgame: "none",
-      autoClimb: "none",
-      notes: "",
-      createdAt: new Date().toISOString(),
-    }),
-    [],
-  );
-
   const [form, setForm] = useState(initialState);
   const [openTeams, setOpenTeams] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dropdownRef = useRef(null);
 
   const setField = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
+  const onlyDigits = (s) => s.replace(/\D/g, "");
+
   const clampInt = (v) => {
-    const n = Number.parseInt(v, 10);
+    const n = Number.parseInt(String(v), 10);
     return Number.isFinite(n) ? n : 0;
   };
 
-  const inc = (key) => setForm((p) => ({ ...p, [key]: p[key] + 1 }));
+  const inc = (key) =>
+    setForm((p) => ({ ...p, [key]: (Number(p[key]) || 0) + 1 }));
+
   const dec = (key) =>
-    setForm((p) => ({ ...p, [key]: Math.max(0, p[key] - 1) }));
+    setForm((p) => ({ ...p, [key]: Math.max(0, (Number(p[key]) || 0) - 1) }));
 
   const isSelectedBtn = (current, value) =>
     current === value ? "bg-[#F1F5F9]" : "bg-[#ffffff]";
 
-  const onlyDigits = (s) => s.replace(/\D/g, "");
-  const onlyDecimal = (s) =>
-    s
-      .replace(",", ".")
-      .replace(/[^0-9.]/g, "")
-      .replace(/(\..*)\./g, "$1");
-
   const clearForm = () => {
-    setForm({ ...initialState, createdAt: new Date().toISOString() });
+    setForm(initialState);
     setOpenTeams(false);
   };
 
   const filteredTeams = useMemo(() => {
-    const q = form.teamQuery.trim().toLowerCase();
+    const q = (form.teamQuery || "").trim().toLowerCase();
     if (!q) return TEAMS;
 
     return TEAMS.filter((t) => {
@@ -122,12 +64,12 @@ function ScoutMForm() {
       const byName = t.name.toLowerCase().includes(q);
       return byNum || byName;
     });
-  }, [TEAMS, form.teamQuery]);
+  }, [form.teamQuery]);
 
   const selectTeam = (t) => {
     setForm((p) => ({
       ...p,
-      teamNumber: String(t.number),
+      team: String(t.number), // guardo como string no state e converto no submit
       teamName: t.name,
       teamQuery: `${t.name} #${t.number}`,
     }));
@@ -144,38 +86,39 @@ function ScoutMForm() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  const saveRecord = () => {
-    const match = clampInt(form.matchNumber);
-    const team = clampInt(form.teamNumber);
+  const saveRecord = async () => {
+    const matchNumber = clampInt(form.matchNumber);
+    const team = clampInt(form.team);
 
-    if (!match) {
-      alert("Preencha Nº da Partida.");
-      return;
-    }
-    if (!team) {
-      alert("Selecione a equipe (pesquise e clique na lista).");
-      return;
-    }
-    if (!form.startPos) {
-      alert("Selecione a Posição Inicial.");
-      return;
-    }
+    if (!matchNumber) return toast.error("Preencha Nº da Partida.");
+    if (!team)
+      return toast.error("Selecione a equipe (pesquise e clique na lista).");
+    if (!form.position) return toast.error("Selecione a Posição Inicial.");
 
-    const record = {
-      ...form,
-      matchNumber: match,
-      teamNumber: team,
-      createdAt: new Date().toISOString(),
-      id: crypto?.randomUUID?.() ?? String(Date.now()),
+    // ✅ payload 1:1 com seu JSON
+    const payload = {
+      matchNumber: Number(matchNumber),
+      team: Number(team),
+      autoCycles: Number(form.autoCycles),
+      teleCycles: Number(form.teleCycles),
+      position: form.position,
+      areBroke: Boolean(form.areBroke),
+      autoWork: Boolean(form.autoWork),
+      towerEnd: form.towerEnd,
+      towerAuto: form.towerAuto,
+      notes: form.notes ?? "",
     };
 
-    const key = "scout_records";
-    const current = JSON.parse(localStorage.getItem(key) || "[]");
-    current.push(record);
-    localStorage.setItem(key, JSON.stringify(current));
-
-    alert("Scout salvo com sucesso!");
-    clearForm(); // ✅ limpa automaticamente
+    try {
+      setLoading(true);
+      await submitMatchData(payload); // <- chama seu service
+      toast.success("Scout enviado com sucesso!");
+      clearForm();
+    } catch (err) {
+      toast.error(err?.message || "Erro ao enviar scout para a API.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -211,7 +154,7 @@ function ScoutMForm() {
             value={form.teamQuery}
             onChange={(e) => {
               setField("teamQuery", e.target.value);
-              setField("teamNumber", "");
+              setField("team", "");
               setField("teamName", "");
               setOpenTeams(true);
             }}
@@ -239,10 +182,9 @@ function ScoutMForm() {
             </div>
           )}
 
-          {/* opcional: mostra selecionado */}
-          {form.teamNumber && (
+          {form.team && (
             <p className="mt-2 text-sm text-[#2e2e2e]">
-              Selecionado: {form.teamName} #{form.teamNumber}
+              Selecionado: {form.teamName} #{form.team}
             </p>
           )}
         </div>
@@ -254,9 +196,9 @@ function ScoutMForm() {
         <div className="w-full flex flex-row justify-between gap-2 hover:cursor-pointer">
           <button
             type="button"
-            onClick={() => setField("startPos", "left")}
+            onClick={() => setField("position", "left")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
-              form.startPos,
+              form.position,
               "left",
             )}`}
           >
@@ -264,9 +206,9 @@ function ScoutMForm() {
           </button>
           <button
             type="button"
-            onClick={() => setField("startPos", "center")}
+            onClick={() => setField("position", "center")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
-              form.startPos,
+              form.position,
               "center",
             )}`}
           >
@@ -274,9 +216,9 @@ function ScoutMForm() {
           </button>
           <button
             type="button"
-            onClick={() => setField("startPos", "right")}
+            onClick={() => setField("position", "right")}
             className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
-              form.startPos,
+              form.position,
               "right",
             )}`}
           >
@@ -315,17 +257,17 @@ function ScoutMForm() {
           <div className="w-full flex flex-row gap-5">
             <button
               type="button"
-              onClick={() => dec("teleopCycles")}
+              onClick={() => dec("teleCycles")}
               className="text-xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               -
             </button>
             <h1 className="text-6xl flex justify-center items-center">
-              {form.teleopCycles}
+              {form.teleCycles}
             </h1>
             <button
               type="button"
-              onClick={() => inc("teleopCycles")}
+              onClick={() => inc("teleCycles")}
               className="text-3xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               +
@@ -340,8 +282,8 @@ function ScoutMForm() {
           <input
             type="checkbox"
             className="peer hidden"
-            checked={form.robotBroke}
-            onChange={(e) => setField("robotBroke", e.target.checked)}
+            checked={form.areBroke}
+            onChange={(e) => setField("areBroke", e.target.checked)}
           />
           <span
             className="
@@ -361,8 +303,8 @@ function ScoutMForm() {
           <input
             type="checkbox"
             className="peer hidden"
-            checked={form.autoWorked}
-            onChange={(e) => setField("autoWorked", e.target.checked)}
+            checked={form.autoWork}
+            onChange={(e) => setField("autoWork", e.target.checked)}
           />
           <span
             className="
@@ -373,7 +315,7 @@ function ScoutMForm() {
           ></span>
         </label>
         <h1 className="font-semibold items-center">
-          Autonomo funcionou como deveria
+          Autônomo funcionou como deveria
         </h1>
       </div>
 
@@ -390,9 +332,9 @@ function ScoutMForm() {
             <button
               key={val}
               type="button"
-              onClick={() => setField("endgame", val)}
+              onClick={() => setField("towerEnd", val)}
               className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
-                form.endgame,
+                form.towerEnd,
                 val,
               )}`}
             >
@@ -415,9 +357,9 @@ function ScoutMForm() {
             <button
               key={val}
               type="button"
-              onClick={() => setField("autoClimb", val)}
+              onClick={() => setField("towerAuto", val)}
               className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
-                form.autoClimb,
+                form.towerAuto,
                 val,
               )}`}
             >
@@ -433,7 +375,7 @@ function ScoutMForm() {
           <h1 className="mb-3.5 font-semibold">Observações:</h1>
           <input
             type="text"
-            placeholder="Ex: Robô tem a estratégia x somando com sua base torna fácil y coisas"
+            placeholder="Ex: Robô tem a estratégia x..."
             className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
             value={form.notes}
             onChange={(e) => setField("notes", e.target.value)}
@@ -446,12 +388,18 @@ function ScoutMForm() {
         <button
           type="button"
           onClick={saveRecord}
-          className="w-[50%] flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200"
+          disabled={loading}
+          className="w-[50%] flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Salvar
+          {loading ? "Enviando..." : "Salvar"}
         </button>
 
-        <button className="w-[50%] flex justify-center bg-[#ffffff] text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200">
+        <button
+          type="button"
+          onClick={clearForm}
+          disabled={loading}
+          className="w-[50%] flex justify-center bg-[#ffffff] text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+        >
           Limpar
         </button>
       </div>
