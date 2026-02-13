@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.guizim.server.models.ScoutPit;
 
 @Repository
-public interface ScoutPitRepository extends JpaRepository<ScoutPit, Long>{
+public interface ScoutPitRepository extends JpaRepository<ScoutPit, Long> {
     Optional<ScoutPit> findByTeam(Long team);
+
+    Optional<ScoutPit> findByTeamAndUser_id(Long team, Long id);
 }

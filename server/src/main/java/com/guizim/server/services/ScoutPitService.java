@@ -1,11 +1,16 @@
 package com.guizim.server.services;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.guizim.server.models.ScoutPit;
+import com.guizim.server.models.User;
 import com.guizim.server.repositorys.ScoutPitRepository;
+import com.guizim.server.security.UserSpringSecurity;
+import com.guizim.server.services.exceptions.AuthorizationException;
 import com.guizim.server.services.exceptions.DataBindingViolationException;
 import com.guizim.server.services.exceptions.ObjectNotFoundException;
 
@@ -15,9 +20,19 @@ public class ScoutPitService {
     @Autowired
     private ScoutPitRepository scoutPitRepository;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public ScoutPit create(ScoutPit obj) {
+        UserSpringSecurity userSS = UserService.authenticated();
+        if (Objects.isNull(userSS)) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+        User user = this.userService.findById(userSS.getId());
+
         obj.setId(null);
+        obj.setUser(user);
         return this.scoutPitRepository.save(obj);
     }
 
@@ -39,8 +54,13 @@ public class ScoutPitService {
     }
 
     public ScoutPit findByTeam(Long team) {
-        ScoutPit pit = this.scoutPitRepository.findByTeam(team)
-                .orElseThrow(() -> new ObjectNotFoundException("ScoutPit não encontrado! Time: " + team));
+        UserSpringSecurity userSS = UserService.authenticated();
+        if (userSS == null)
+            throw new AuthorizationException("Acesso negado!");
+
+        ScoutPit pit = this.scoutPitRepository.findByTeamAndUser_id(team, userSS.getId())
+                .orElseThrow(() -> new ObjectNotFoundException(
+                        "ScoutPit não encontrado! Time: " + team + ", Usuário: " + userSS.getId()));
         return pit;
     }
 

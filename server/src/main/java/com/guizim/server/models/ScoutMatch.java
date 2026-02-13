@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -43,11 +44,34 @@ public class ScoutMatch {
     @NotNull(message = "O time é obrigatório")
     private Long team;
 
-    @Column(name = "autoCycles", nullable = false)
+    @Column(name = "auto_cycles", nullable = false)
     @NotNull(message = "Os ciclos são obrigatórios")
     private Long autoCycles;
 
-    @Column(name = "teleCycles", nullable = false)
+    @Column(name = "tele_cycles", nullable = false)
     @NotNull(message = "Os ciclos são obrigatórios")
     private Long teleCycles;
+
+    @Column(name = "position", nullable = false)
+    @NotBlank(message = "A posição é obrigatória")
+    private String position;
+
+    @Column(name = "broke", nullable = false)
+    @NotNull(message = "O status de quebra é obrigatório")
+    private Boolean areBroke;
+
+    @Column(name = "auto", nullable = false)
+    @NotNull(message = "O status de auto é obrigatório")
+    private Boolean autoWork;
+
+    @Column(name = "tower_end", nullable = false)
+    @NotBlank(message = "O status de torre é obrigatório")
+    private String towerEnd;
+
+    @Column(name = "tower_auto", nullable = false)
+    @NotBlank(message = "O status de torre é obrigatório")
+    private String towerAuto;
+
+    @Column(name = "notes", columnDefinition = "TEXT", nullable = true)
+    private String notes;
 }
