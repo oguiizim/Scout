@@ -102,4 +102,13 @@ public class ScoutMatchService {
         return scoutMatchRepository.findAllByMatchNumberAndUser_id(match, userSS.getId());
     }
 
+    public List<ScoutMatch> findAllFromLoggedUser() {
+        UserSpringSecurity userSS = UserService.authenticated();
+        if (userSS == null) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+
+        return scoutMatchRepository.findAllByUser_id(userSS.getId());
+    }
+
 }

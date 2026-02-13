@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import TeamInfo from "../ranking/TeamInfo"; // ajuste o caminho se necessário
-
-const STORAGE_KEY = "scout_records";
+import TeamInfo from "../ranking/TeamInfo";
+import { fetchAllScoutsForRanking } from "../../api/services/rankingServices.js";
 
 function calcConsistency(teamMatches, tolPct = 0.2) {
   if (!teamMatches?.length) return 0;
@@ -28,11 +27,44 @@ function calcConsistency(teamMatches, tolPct = 0.2) {
   const x = brokeCount / n;
 
   const inconsistent = excessAvg > 0;
-
   const penaltyMult = inconsistent ? 1.5 : 1.0;
   const penaltyPoints = Math.round(base * x * penaltyMult);
 
   return Math.max(0, base - penaltyPoints);
+}
+
+/**
+ * ✅ Ajuste aqui para bater com o retorno REAL do seu backend.
+ * Como você tem ScoutMatch no Spring, muito provável que venha:
+ * raw.team.number (e raw.team.name) OU raw.teamNumber direto.
+ */
+function normalizeScout(raw) {
+  // tenta achar teamNumber de várias formas
+  const teamNumber =
+    raw.teamNumber ??
+    raw.team_number ??
+    raw.team?.number ?? // ✅ comum no Spring: objeto team
+    raw.team?.teamNumber ??
+    raw.team ??
+    null;
+
+  const teamName =
+    raw.teamName ?? raw.team_name ?? raw.team?.name ?? raw.team?.teamName ?? "";
+
+  const autoCycles = raw.autoCycles ?? raw.auto_cycles ?? raw.auto ?? 0;
+  const teleopCycles = raw.teleopCycles ?? raw.teleop_cycles ?? raw.teleop ?? 0;
+
+  const robotBroke =
+    raw.robotBroke ?? raw.robot_broke ?? raw.broke ?? raw.brokeDown ?? false;
+
+  return {
+    ...raw,
+    teamNumber,
+    teamName,
+    autoCycles,
+    teleopCycles,
+    robotBroke,
+  };
 }
 
 export default function RankingTable() {
@@ -40,32 +72,60 @@ export default function RankingTable() {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [popupPos, setPopupPos] = useState(null);
 
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+
   useEffect(() => {
-    const load = () => {
+    async function load() {
+      setLoading(true);
+      setErrorMsg("");
+
       try {
-        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        setRecords(Array.isArray(data) ? data : []);
-      } catch {
+        const scouts = await fetchAllScoutsForRanking();
+
+        // ✅ AQUI estava o problema: você estava setando cru e o teamNumber vinha undefined
+        const normalized = (Array.isArray(scouts) ? scouts : [])
+          .map(normalizeScout)
+          .filter(
+            (r) => r.teamNumber != null && String(r.teamNumber).trim() !== "",
+          );
+
+        setRecords(normalized);
+
+        // debug útil
+        console.log("[ranking] total scouts:", scouts?.length ?? 0);
+        console.log("[ranking] normalized:", normalized);
+      } catch (err) {
+        console.error("Erro:", err);
+
+        const status = err?.response?.status;
+        const apiMsg =
+          err?.response?.data?.message ||
+          err?.response?.data?.error ||
+          (typeof err?.response?.data === "string" ? err.response.data : "");
+
+        setErrorMsg(
+          `Erro ao carregar scouts` +
+            (status ? ` (HTTP ${status})` : "") +
+            (apiMsg ? `: ${apiMsg}` : ""),
+        );
         setRecords([]);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
 
     load();
-    window.addEventListener("storage", load);
-    return () => window.removeEventListener("storage", load);
   }, []);
 
   const ranking = useMemo(() => {
     const byTeam = new Map();
 
     for (const r of records) {
-      const teamNumber = r.teamNumber;
-      if (!teamNumber) continue;
-
-      const key = String(teamNumber);
+      const key = String(r.teamNumber); // agora nunca é undefined
       if (!byTeam.has(key)) {
         byTeam.set(key, {
-          teamNumber,
+          teamNumber: r.teamNumber,
           teamName: r.teamName || "",
           matches: [],
         });
@@ -102,7 +162,6 @@ export default function RankingTable() {
       <div className="w-[40vw] bg-white flex flex-col text-black p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
         <h1 className="text-2xl font-bold mb-4">Rankings</h1>
 
-        {/* Header */}
         <div
           className={`w-full grid ${cols} pb-2 border-b border-[#2e2e2e] font-semibold`}
         >
@@ -112,11 +171,14 @@ export default function RankingTable() {
           <p className={cell}>Partidas</p>
         </div>
 
-        {/* Body */}
         <div className="w-full flex flex-col">
-          {ranking.length === 0 ? (
+          {loading ? (
+            <div className="py-6 text-[#2e2e2e]">Carregando ranking...</div>
+          ) : errorMsg ? (
+            <div className="py-6 text-[#b00020]">{errorMsg}</div>
+          ) : ranking.length === 0 ? (
             <div className="py-6 text-[#2e2e2e]">
-              Ainda não há scouts salvos.
+              Ainda não há scouts salvos no banco.
             </div>
           ) : (
             ranking.map((t, idx) => (
@@ -126,12 +188,11 @@ export default function RankingTable() {
               >
                 <p className={cell}>{idx + 1}º</p>
 
-                {/* ✅ SOMENTE o time é botão */}
                 <button
                   type="button"
                   className={`${cellTeam} hover:underline underline-offset-4`}
                   onClick={(e) => {
-                    e.stopPropagation(); // (opcional) evita qualquer click "vazar"
+                    e.stopPropagation();
                     const rect = e.currentTarget.getBoundingClientRect();
 
                     setSelectedTeam({ ...t, rank: idx + 1 });
@@ -154,7 +215,6 @@ export default function RankingTable() {
         </div>
       </div>
 
-      {/* ✅ Modal TeamInfo */}
       {selectedTeam && (
         <TeamInfo
           team={selectedTeam}

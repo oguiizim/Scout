@@ -25,7 +25,7 @@ const initialFormState = {
   timeCycles: 0.0, // float
   cycles: 0,
 
-  notes: "none",
+  notes: "",
 };
 
 function ScoutPForm() {
@@ -105,8 +105,9 @@ function ScoutPForm() {
     if (!form.intake) return toast.error("Selecione o tipo de Intake.");
     if (!form.trenchOrBump) return toast.error("Selecione Trincheira/Bump.");
     if (!form.tower) return toast.error("Selecione o nível de Escalada.");
-    if(!form.cycles) return toast.error("Preencha a quantidade de ciclos p/Break.");
-    if(!form.timeCycles) return toast.error("Preencha o tempo médio p/Ciclo.");
+    if (!form.cycles)
+      return toast.error("Preencha a quantidade de ciclos p/Break.");
+    if (!form.timeCycles) return toast.error("Preencha o tempo médio p/Ciclo.");
 
     const payload = {
       team, // number
@@ -317,7 +318,7 @@ function ScoutPForm() {
         </h1>
         <div className="flex flex-row gap-2">
           <input
-            type="text"
+            type="number"
             placeholder="Esquerda"
             className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
             value={form.autoLeft}
@@ -325,7 +326,7 @@ function ScoutPForm() {
             onChange={(e) => setField("autoLeft", onlyDigits(e.target.value))}
           />
           <input
-            type="text"
+            type="number"
             placeholder="Centro"
             className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
             value={form.autoCenter}
@@ -333,7 +334,7 @@ function ScoutPForm() {
             onChange={(e) => setField("autoCenter", onlyDigits(e.target.value))}
           />
           <input
-            type="text"
+            type="number"
             placeholder="Direita"
             className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
             value={form.autoRight}
@@ -347,7 +348,7 @@ function ScoutPForm() {
       <div className="flex flex-col mb-4">
         <h1 className="font-semibold mb-3.5">Capacidade de Armazenamento:</h1>
         <input
-          type="text"
+          type="number"
           placeholder="Ex: 26"
           className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.storage}
@@ -385,7 +386,7 @@ function ScoutPForm() {
       <div className="flex flex-col mb-4">
         <h1 className="font-semibold mb-3.5">Tempo médio p/Ciclo:</h1>
         <input
-          type="text"
+          type="number"
           placeholder="Ex: 7.65"
           className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.timeCycles}
@@ -398,7 +399,7 @@ function ScoutPForm() {
       <div className="flex flex-col mb-4">
         <h1 className="font-semibold mb-3.5">Quantidade de ciclos p/Break:</h1>
         <input
-          type="text"
+          type="number"
           placeholder="Ex: 2"
           className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.cycles}

@@ -48,7 +48,15 @@ public class ScoutMatchController {
         return ResponseEntity.ok().body(obj);
     }
 
+    // READ ALL FROM LOGGED USER
+    @GetMapping("/me")
+    public ResponseEntity<List<ScoutMatch>> findMyMatches() {
+        List<ScoutMatch> obj = this.scoutMatchService.findAllFromLoggedUser();
+        return ResponseEntity.ok().body(obj);
+    }
+
     // READ ALL BY USER_ID
+    // ! getMatchesByUserid
     @GetMapping("/userid/{user_id}")
     public ResponseEntity<List<ScoutMatch>> findByUser_id(@PathVariable Long user_id) {
         List<ScoutMatch> obj = this.scoutMatchService.findAllByUser_id(user_id);
@@ -56,6 +64,7 @@ public class ScoutMatchController {
     }
 
     // READ ALL BY TEAMNUMBER
+    // ! getMatchesByTeam
     @GetMapping("/team/{team}")
     public ResponseEntity<List<ScoutMatch>> findByTeam(@PathVariable Long team) {
         List<ScoutMatch> obj = this.scoutMatchService.findByTeam(team);
@@ -63,6 +72,7 @@ public class ScoutMatchController {
     }
 
     // READ ALL BY MATCHNUMBER
+    // ! getMatchesByMatch
     @GetMapping("/match/{matchNumber}")
     public ResponseEntity<List<ScoutMatch>> findByMatch(@PathVariable Long matchNumber) {
         List<ScoutMatch> obj = this.scoutMatchService.findAllByMatchNumberAndUser_id(matchNumber);
@@ -70,6 +80,7 @@ public class ScoutMatchController {
     }
 
     // READ ALL BY TEAMNUMBER AND MATCH
+    // ! getMatchesByTeamAndMatch
     @GetMapping("/team/{team}/{matchNumber}")
     public ResponseEntity<ScoutMatch> findByTeamAndMatch(
             @PathVariable Long team,
