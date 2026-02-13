@@ -45,7 +45,7 @@ public class UserService {
         obj.setId(null); // ! Importante para casos onde nao tem verificaçao e a propria task tem um id.
                          // ! Sem isso, pode acabar dando erro ao tentar adicionar o objeto e ele ja ter
                          // ! um id feito pelo usuario
-        obj.setPassword(this.bCryptPasswordEncoder.encode(obj.getPassword()));
+        obj.setPassword(this.bCryptPasswordEncoder.encode(obj.getPassword()).trim());
         obj.setProfiles(Stream.of(ProfileEnum.USER.getCode()).collect(Collectors.toSet()));
         obj = this.userRepository.save(obj);
         return obj;
