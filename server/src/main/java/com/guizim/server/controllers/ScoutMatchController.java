@@ -55,6 +55,12 @@ public class ScoutMatchController {
         return ResponseEntity.ok().body(obj);
     }
 
+    @GetMapping("/me/team/{teamNumber}")
+    public ResponseEntity<List<ScoutMatch>> findMyMatchesByTeam(@PathVariable Long teamNumber) {
+        List<ScoutMatch> obj = this.scoutMatchService.findAllFromLoggedUserByTeam(teamNumber);
+        return ResponseEntity.ok().body(obj);
+    }
+
     // READ ALL BY USER_ID
     // ! getMatchesByUserid
     @GetMapping("/userid/{user_id}")

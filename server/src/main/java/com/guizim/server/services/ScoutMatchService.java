@@ -71,7 +71,7 @@ public class ScoutMatchService {
         if (userSS == null)
             throw new AuthorizationException("Acesso negado!");
 
-        return scoutMatchRepository.findAllByTeamAndUser_id(team, userSS.getId());
+        return scoutMatchRepository.findAllByUser_idAndTeam(userSS.getId(), team);
     }
 
     public ScoutMatch findByTeamAndMatch(Long team, Long matchNumber) {
@@ -109,6 +109,11 @@ public class ScoutMatchService {
         }
 
         return scoutMatchRepository.findAllByUser_id(userSS.getId());
+    }
+
+    public List<ScoutMatch> findAllFromLoggedUserByTeam(Long teamNumber) {
+        UserSpringSecurity userSS = UserService.authenticated(); // ou como você pega o logado
+        return scoutMatchRepository.findAllByUser_idAndTeam(userSS.getId(), teamNumber);
     }
 
 }
