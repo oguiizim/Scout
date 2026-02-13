@@ -1,7 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const { user, logout } = useAuth();
 
   const links =
     "flex items-center justify-center rounded-md p-2.5 px-4 hover:bg-[#F1F5F9] hover:scale-105 transition-all duration-200 gap-2";
@@ -63,7 +66,7 @@ function Navbar() {
 
       {/* Logout */}
       <div className="flex justify-end items-center gap-5 mr-5 text-lr text-[#b6b6b6]">
-        oguizim
+        {user}
         <button
           type="button"
           onClick={handleLogout}

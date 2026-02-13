@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import config from "../../config";
 
 function TeamInfo({ team, position, onClose }) {
   const navigate = useNavigate();
@@ -17,12 +16,12 @@ function TeamInfo({ team, position, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/30 z-50" onClick={onClose}>
       <div
-        className={config.baseTeamInfo}
+        className="w-fit bg-white flex flex-col text-black p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]"
         style={{ position: "fixed", top, left }} // ✅ aqui usa a posição
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row items-center justify-between mb-4 gap-4">
-          <h1 className={config.title}>Info do Time: {teamLabel}</h1>
+          <h1 className="text-2xl font-bold">Info do Time: {teamLabel}</h1>
 
           <button
             type="button"

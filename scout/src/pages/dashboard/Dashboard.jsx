@@ -4,7 +4,7 @@ import DashboardTemp from "../Components/DashboardTemplate";
 
 function Dashboard() {
   return (
-    <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
+    <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">    
       <Navbar></Navbar>
       <DashboardTemp></DashboardTemp>
     </div>

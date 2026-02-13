@@ -1,11 +1,73 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { TEAMS } from "../../data/Teams.js";
 
 function FiltersTemplate({ filters, setFilters }) {
-  const setField = (key, value) =>
-    setFilters((p) => ({ ...p, [key]: value }));
-
-  // só números para partida
+  const setField = (key, value) => setFilters((p) => ({ ...p, [key]: value }));
   const onlyDigits = (s) => s.replace(/\D/g, "");
+
+  const [openTeams, setOpenTeams] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0); // <- item "selecionável" no teclado
+  const dropdownRef = useRef(null);
+
+  const filteredTeams = useMemo(() => {
+    const qRaw = (filters?.team || "").trim().toLowerCase();
+    if (!qRaw) return TEAMS;
+
+    const qDigits = qRaw.replace(/\D/g, "");
+
+    return TEAMS.filter((t) => {
+      const byNum = qDigits && String(t.number).includes(qDigits);
+      const byName = t.name.toLowerCase().includes(qRaw);
+      return byNum || byName;
+    });
+  }, [filters?.team]);
+
+  const selectTeam = (t) => {
+    setField("team", String(t.number)); // salva só o número
+    setOpenTeams(false);
+  };
+
+  // fecha dropdown ao clicar fora
+  useEffect(() => {
+    const onDown = (e) => {
+      if (!dropdownRef.current) return;
+      if (!dropdownRef.current.contains(e.target)) setOpenTeams(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, []);
+
+  // sempre que a lista muda ou abre, reseta o "ativo" pro primeiro item
+  useEffect(() => {
+    if (openTeams) setActiveIndex(0);
+  }, [openTeams, filters?.team]);
+
+  const onTeamKeyDown = (e) => {
+    if (!openTeams && (e.key === "ArrowDown" || e.key === "Enter")) {
+      setOpenTeams(true);
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, filteredTeams.length - 1));
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const pick = filteredTeams[activeIndex] || filteredTeams[0];
+      if (pick) selectTeam(pick); // <- Enter pega o item e salva só o número
+    }
+
+    if (e.key === "Escape") {
+      setOpenTeams(false);
+    }
+  };
 
   return (
     <div className="w-[60vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 rounded-[20px] border-2 border-[#E7E7E9]">
@@ -15,14 +77,45 @@ function FiltersTemplate({ filters, setFilters }) {
       </div>
 
       <div className="w-full flex justify-between gap-3">
-        <input
-          type="text"
-          placeholder="Filtrar por time"
-          className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
-          value={filters.team}
-          onChange={(e) => setField("team", e.target.value)}
-        />
+        {/* dropdown time (overlay) */}
+        <div className="w-full relative" ref={dropdownRef}>
+          <input
+            type="text"
+            placeholder="Filtrar por time (nome ou número)"
+            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            value={filters.team}
+            onChange={(e) => {
+              setField("team", e.target.value); // aqui pode ser nome enquanto digita
+              setOpenTeams(true);
+            }}
+            onFocus={() => setOpenTeams(true)}
+            onKeyDown={onTeamKeyDown}
+          />
 
+          {openTeams && (
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
+              {filteredTeams.length === 0 ? (
+                <div className="px-4 py-3 text-[#2e2e2e]">
+                  Nenhuma equipe encontrada.
+                </div>
+              ) : (
+                filteredTeams.map((t, idx) => (
+                  <button
+                    key={t.number}
+                    type="button"
+                    onClick={() => selectTeam(t)}
+                    className={`w-full text-left px-4 py-2 transition-all duration-150
+                      ${idx === activeIndex ? "bg-[#F1F5F9]" : "hover:bg-[#F1F5F9]"}`}
+                  >
+                    {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
+                  </button>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* partida */}
         <input
           type="text"
           placeholder="Filtrar por partida"
@@ -32,6 +125,16 @@ function FiltersTemplate({ filters, setFilters }) {
           pattern="[0-9]*"
           onChange={(e) => setField("match", onlyDigits(e.target.value))}
         />
+      </div>
+
+      <div className="mt-3 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setFilters({ team: "", match: "" })}
+          className="rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+        >
+          Limpar filtros
+        </button>
       </div>
     </div>
   );
