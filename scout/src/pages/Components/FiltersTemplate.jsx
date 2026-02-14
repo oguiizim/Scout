@@ -70,13 +70,27 @@ function FiltersTemplate({ filters, setFilters }) {
   };
 
   return (
-    <div className="w-[60vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 rounded-[20px] border-2 border-[#E7E7E9]">
+    <div
+      className="
+      w-full
+      max-w-130 sm:max-w-160 md:max-w-205 lg:max-w-245
+      bg-white flex flex-col text-black
+      p-4 sm:p-5 md:p-6
+      mt-4 sm:mt-5
+      rounded-2xl sm:rounded-[18px] md:rounded-[20px]
+      border-2 border-[#E7E7E9]
+    "
+    >
       <div className="flex items-center gap-3 mb-4">
-        <img src="/src/assets/icons8-pesquisar.png" className="w-6 h-6" alt="" />
-        <h1 className="text-2xl font-bold">Filtros</h1>
+        <img
+          src="/src/assets/icons8-pesquisar.png"
+          className="w-6 h-6"
+          alt=""
+        />
+        <h1 className="text-xl sm:text-2xl font-bold">Filtros</h1>
       </div>
 
-      <div className="w-full flex justify-between gap-3">
+      <div className="w-full flex flex-col md:flex-row justify-between gap-3">
         {/* dropdown time (overlay) */}
         <div className="w-full relative" ref={dropdownRef}>
           <input
@@ -85,7 +99,7 @@ function FiltersTemplate({ filters, setFilters }) {
             className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
             value={filters.team}
             onChange={(e) => {
-              setField("team", e.target.value); // aqui pode ser nome enquanto digita
+              setField("team", e.target.value);
               setOpenTeams(true);
             }}
             onFocus={() => setOpenTeams(true)}
@@ -104,8 +118,11 @@ function FiltersTemplate({ filters, setFilters }) {
                     key={t.number}
                     type="button"
                     onClick={() => selectTeam(t)}
-                    className={`w-full text-left px-4 py-2 transition-all duration-150
-                      ${idx === activeIndex ? "bg-[#F1F5F9]" : "hover:bg-[#F1F5F9]"}`}
+                    className={`w-full text-left px-4 py-2 transition-all duration-150 ${
+                      idx === activeIndex
+                        ? "bg-[#F1F5F9]"
+                        : "hover:bg-[#F1F5F9]"
+                    }`}
                   >
                     {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
                   </button>
@@ -119,7 +136,7 @@ function FiltersTemplate({ filters, setFilters }) {
         <input
           type="text"
           placeholder="Filtrar por partida"
-          className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full md:max-w-65 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={filters.match}
           inputMode="numeric"
           pattern="[0-9]*"

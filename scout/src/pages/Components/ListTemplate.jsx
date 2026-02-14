@@ -54,7 +54,11 @@ function ListTemplate({ filters }) {
       setRecords(list);
       setSelected(null);
     } catch (err) {
-      console.log("load records error:", err?.response?.status, err?.response?.data);
+      console.log(
+        "load records error:",
+        err?.response?.status,
+        err?.response?.data,
+      );
       toast.error("Erro ao carregar registros.");
       setRecords([]);
     } finally {
@@ -83,7 +87,11 @@ function ListTemplate({ filters }) {
 
     return sorted.filter((r) => {
       const teamNum = String(r.teamNumber ?? "");
-      const teamName = (r.teamName || getTeamName(r.teamNumber) || "").toLowerCase();
+      const teamName = (
+        r.teamName ||
+        getTeamName(r.teamNumber) ||
+        ""
+      ).toLowerCase();
       const teamText = `${teamName} #${teamNum}`.toLowerCase();
 
       const matchText = String(r.matchNumber ?? "");
@@ -159,11 +167,23 @@ function ListTemplate({ filters }) {
 
   return (
     <>
-      <div className="w-[70vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">
+      <div
+        className="
+        w-full
+        max-w-130 sm:max-w-180 md:max-w-245 lg:max-w-300
+        bg-white flex flex-col text-black
+        p-4 sm:p-5 md:p-6
+        mt-4 sm:mt-5 mb-4 sm:mb-5
+        rounded-2xl sm:rounded-[18px] md:rounded-[20px]
+        border-2 border-[#E7E7E9]
+      "
+      >
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <h1 className="text-xl sm:text-2xl font-bold">
             Registros{" "}
-            {loading ? "(Carregando...)" : `(${filtered.length}/${sorted.length})`}
+            {loading
+              ? "(Carregando...)"
+              : `(${filtered.length}/${sorted.length})`}
           </h1>
 
           <button
@@ -178,17 +198,32 @@ function ListTemplate({ filters }) {
         </div>
 
         {/* Header */}
+        {/* Mobile: Partida | Time | Posição | Ciclos  (Ações ficam embaixo, então não entram no header) */}
+        {/* Tablet (md): Partida | Time | Posição | Ciclos | Endgame | Scout | Ações  (sem Quebrou) */}
+        {/* PC (lg): Partida | Time | Posição | Ciclos | Quebrou | Endgame | Scout | Ações */}
         <div
-          className={`w-full font-semibold grid ${gridCols} text-[#2e2e2e] pb-2 border-b border-[#2e2e2e]`}
+          className="
+          w-full font-semibold text-[#2e2e2e] pb-2 border-b border-[#2e2e2e]
+          grid gap-2
+          grid-cols-4
+          md:grid-cols-7
+          lg:grid-cols-8
+        "
         >
           <p className={cell}>Partida</p>
           <p className={cell}>Time</p>
           <p className={cell}>Posição</p>
           <p className={cell}>Ciclos</p>
-          <p className={cell}>Quebrou</p>
-          <p className={cell}>Endgame</p>
-          <p className={cell}>Scout</p>
-          <p className={cell}>Ações</p>
+
+          {/* Tablet+ */}
+          <p className={`${cell} hidden md:block`}>Endgame</p>
+          <p className={`${cell} hidden md:block`}>Scout</p>
+
+          {/* PC only */}
+          <p className={`${cell} hidden lg:block`}>Quebrou</p>
+
+          {/* Tablet+ */}
+          <p className={`${cell} hidden md:block`}>Ações</p>
         </div>
 
         {/* Body */}
@@ -199,33 +234,70 @@ function ListTemplate({ filters }) {
             </div>
           ) : (
             filtered.map((r) => (
-              <div
-                key={r.id}
-                className={`w-full grid ${gridCols} py-3 border-b border-[#E7E7E9]`}
-              >
-                <p className={cell}>{r.matchNumber ?? "-"}</p>
+              <div key={r.id} className="w-full border-b border-[#E7E7E9] py-3">
+                {/* Linha principal (grid) */}
+                <div
+                  className="
+                  grid gap-2 items-center
+                  grid-cols-4
+                  md:grid-cols-7
+                  lg:grid-cols-8
+                "
+                >
+                  <p className={cell}>{r.matchNumber ?? "-"}</p>
 
-                <p className={`${cell} px-2 text-center leading-tight`}>
-                  {formatTeamFull(r.teamNumber)}
-                </p>
+                  <p className={`${cell} px-2 text-center leading-tight`}>
+                    {formatTeamFull(r.teamNumber)}
+                  </p>
 
-                <p className={cell}>{formatPos(r.startPos)}</p>
+                  <p className={cell}>{formatPos(r.startPos)}</p>
 
-                <p className={cell}>
-                  {(Number(r.autoCycles) || 0) + (Number(r.teleopCycles) || 0)}
-                </p>
+                  <p className={cell}>
+                    {(Number(r.autoCycles) || 0) +
+                      (Number(r.teleopCycles) || 0)}
+                  </p>
 
-                <p className={cell}>{r.robotBroke ? "Sim" : "Não"}</p>
+                  {/* Tablet+ */}
+                  <p className={`${cell} hidden md:block`}>
+                    {formatLvl(r.endgame)}
+                  </p>
 
-                <p className={cell}>{formatLvl(r.endgame)}</p>
+                  <p className={`${cell} hidden md:block`}>
+                    {r.user?.username ?? "-"}
+                  </p>
 
-                <p className={cell}>{r.user?.username ?? "-"}</p>
+                  {/* PC only */}
+                  <p className={`${cell} hidden lg:block`}>
+                    {r.robotBroke ? "Sim" : "Não"}
+                  </p>
 
-                <div className={`${cell} gap-2 flex flex-col`}>
+                  {/* Tablet+ ações (continua flex-col) */}
+                  <div className={`${cell} hidden md:flex gap-2 flex-col`}>
+                    <button
+                      type="button"
+                      onClick={() => setSelected(r)}
+                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    >
+                      Exibir
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => removeRecord(r.id)}
+                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                      title="Excluir"
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                </div>
+
+                {/* Mobile ações embaixo, centralizado */}
+                <div className="mt-3 flex md:hidden justify-center gap-3">
                   <button
                     type="button"
                     onClick={() => setSelected(r)}
-                    className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
                   >
                     Exibir
                   </button>
@@ -233,7 +305,7 @@ function ListTemplate({ filters }) {
                   <button
                     type="button"
                     onClick={() => removeRecord(r.id)}
-                    className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
                     title="Excluir"
                   >
                     Excluir
@@ -247,106 +319,121 @@ function ListTemplate({ filters }) {
 
       {/* Modal */}
       {selected && (
-        <div
-          className="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="w-[55vw] bg-white rounded-[20px] border-2 border-[#E7E7E9] p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex flex-col gap-1">
-                <h2 className="text-2xl font-bold text-black">
-                  {selectedTeamName
-                    ? `${selectedTeamName} #${selectedTeamNumber}`
-                    : `Equipe #${selectedTeamNumber || "-"}`}
-                </h2>
+  <div
+    className="
+      fixed inset-0 bg-black/30 z-50
+      flex items-start sm:items-center justify-center
+      overflow-y-auto
+      p-3 sm:p-6
+    "
+    onClick={() => setSelected(null)}
+  >
+    <div
+      className="
+        w-full
+        max-w-140 md:max-w-205 lg:max-w-245
+        bg-white rounded-2xl md:rounded-[20px]
+        border-2 border-[#E7E7E9]
+        p-4 sm:p-5 md:p-6
+        max-h-[90vh]
+        overflow-y-auto
+      "
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-black">
+            {selectedTeamName
+              ? `${selectedTeamName} #${selectedTeamNumber}`
+              : `Equipe #${selectedTeamNumber || "-"}`}
+          </h2>
 
-                <div className="flex gap-6 text-[#2e2e2e]">
-                  <p>
-                    <span className="font-semibold text-black">Partida:</span>{" "}
-                    {selected.matchNumber ?? "-"}
-                  </p>
-                  <p>
-                    <span className="font-semibold text-black">Scout:</span>{" "}
-                    {selected.user?.username ?? "-"}
-                  </p>
-                  
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-              >
-                Fechar
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
-              <div>
-                <p className="font-semibold text-black">Posição Inicial</p>
-                <p>{formatPos(selected.startPos)}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Ciclos no Autonomo</p>
-                <p>{selected.autoCycles ?? 0}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Ciclos no Teleoperado</p>
-                <p>{selected.teleopCycles ?? 0}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Quebrou</p>
-                <p>{selected.robotBroke ? "Sim" : "Não"}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Auto Funcionou</p>
-                <p>{selected.autoWorked ? "Sim" : "Não"}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Escalada no Endgame</p>
-                <p>{formatLvl(selected.endgame)}</p>
-              </div>
-
-              <div>
-                <p className="font-semibold text-black">Escalado no Auto</p>
-                <p>{formatLvl(selected.autoClimb)}</p>
-              </div>
-
-              <div className="col-span-2">
-                <p className="font-semibold text-black">Observações</p>
-                <p className="wrap-break-word">{selected.notes || "-"}</p>
-              </div>
-            </div>
-
-            <div className="mt-8 flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => removeRecord(selected.id)}
-                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-              >
-                Excluir
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200"
-              >
-                OK
-              </button>
-            </div>
+          <div className="flex flex-col sm:flex-row sm:gap-6 gap-1 text-[#2e2e2e]">
+            <p>
+              <span className="font-semibold text-black">Partida:</span>{" "}
+              {selected.matchNumber ?? "-"}
+            </p>
+            <p>
+              <span className="font-semibold text-black">Scout:</span>{" "}
+              {selected.user?.username ?? "-"}
+            </p>
           </div>
         </div>
-      )}
+
+        <button
+          type="button"
+          onClick={() => setSelected(null)}
+          className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+        >
+          Fechar
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
+        <div>
+          <p className="font-semibold text-black">Posição Inicial</p>
+          <p>{formatPos(selected.startPos)}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">Ciclos no Autonomo</p>
+          <p>{selected.autoCycles ?? 0}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">
+            Ciclos no Teleoperado
+          </p>
+          <p>{selected.teleopCycles ?? 0}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">Quebrou</p>
+          <p>{selected.robotBroke ? "Sim" : "Não"}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">Auto Funcionou</p>
+          <p>{selected.autoWorked ? "Sim" : "Não"}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">Escalada no Endgame</p>
+          <p>{formatLvl(selected.endgame)}</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-black">Escalado no Auto</p>
+          <p>{formatLvl(selected.autoClimb)}</p>
+        </div>
+
+        <div className="sm:col-span-2">
+          <p className="font-semibold text-black">Observações</p>
+          <p className="wrap-break-word">{selected.notes || "-"}</p>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
+        <button
+          type="button"
+          onClick={() => removeRecord(selected.id)}
+          className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+        >
+          Excluir
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelected(null)}
+          className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

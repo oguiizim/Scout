@@ -122,14 +122,24 @@ function ScoutMForm() {
   };
 
   return (
-    <div className="w-[40vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
-      <h1 className="font-bold text-2xl justify-start mb-4">Novo Scout</h1>
+    <div
+      className="
+      w-full
+      max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
+      bg-white flex flex-col text-black
+      p-4 sm:p-5 md:p-6
+      mt-4 sm:mt-5 mb-4 sm:mb-5
+      rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
+      border-2 border-[#E7E7E9]
+    "
+    >
+      <h1 className="font-bold text-xl sm:text-2xl mb-4">Novo Scout</h1>
 
       {/* Team and Match Number */}
-      <div className="flex flex-row justify-between gap-5 mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-5 mb-4">
         {/* Match */}
-        <div className="w-[50%]">
-          <h1 className="mb-3.5 font-semibold">Nº da Partida:</h1>
+        <div className="w-full md:w-1/2">
+          <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Nº da Partida:</h1>
           <input
             type="text"
             placeholder="Ex: 7"
@@ -143,10 +153,9 @@ function ScoutMForm() {
           />
         </div>
 
-        {/* Team (busca + dropdown) */}
         {/* Team (busca + dropdown overlay) */}
-        <div className="w-[50%] relative" ref={dropdownRef}>
-          <h1 className="mb-3.5 font-semibold">Equipe (pesquise):</h1>
+        <div className="w-full md:w-1/2 relative" ref={dropdownRef}>
+          <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Equipe (pesquise):</h1>
 
           <input
             type="text"
@@ -193,12 +202,12 @@ function ScoutMForm() {
 
       {/* Initial Position */}
       <div className="mb-4">
-        <h1 className="mb-3.5 font-semibold">Posição Inicial:</h1>
+        <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Posição Inicial:</h1>
         <div className="w-full flex flex-row justify-between gap-2 hover:cursor-pointer">
           <button
             type="button"
             onClick={() => setField("position", "left")}
-            className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.position,
               "left",
             )}`}
@@ -208,7 +217,7 @@ function ScoutMForm() {
           <button
             type="button"
             onClick={() => setField("position", "center")}
-            className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.position,
               "center",
             )}`}
@@ -218,7 +227,7 @@ function ScoutMForm() {
           <button
             type="button"
             onClick={() => setField("position", "right")}
-            className={`py-2 w-[33.33%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
               form.position,
               "right",
             )}`}
@@ -229,47 +238,51 @@ function ScoutMForm() {
       </div>
 
       {/* Cycles Counter */}
-      <div className="mb-4 flex flex-row justify-between gap-5">
-        <div className="w-[50%]">
-          <h1 className="font-semibold mb-4">Ciclos Completados Auto:</h1>
-          <div className="w-full flex flex-row gap-5">
+      <div className="mb-4 flex flex-col md:flex-row md:justify-between gap-4 md:gap-5">
+        <div className="w-full md:w-1/2">
+          <h1 className="font-semibold mb-3 sm:mb-4">
+            Ciclos Completados Auto:
+          </h1>
+          <div className="w-full flex flex-row gap-4 sm:gap-5 items-center">
             <button
               type="button"
               onClick={() => dec("autoCycles")}
-              className="text-xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               -
             </button>
-            <h1 className="text-6xl flex justify-center items-center">
+            <h1 className="text-5xl sm:text-6xl flex justify-center items-center">
               {form.autoCycles}
             </h1>
             <button
               type="button"
               onClick={() => inc("autoCycles")}
-              className="text-3xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               +
             </button>
           </div>
         </div>
 
-        <div className="w-[50%]">
-          <h1 className="font-semibold mb-4">Ciclos Completados Teleop:</h1>
-          <div className="w-full flex flex-row gap-5">
+        <div className="w-full md:w-1/2">
+          <h1 className="font-semibold mb-3 sm:mb-4">
+            Ciclos Completados Teleop:
+          </h1>
+          <div className="w-full flex flex-row gap-4 sm:gap-5 items-center">
             <button
               type="button"
               onClick={() => dec("teleCycles")}
-              className="text-xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               -
             </button>
-            <h1 className="text-6xl flex justify-center items-center">
+            <h1 className="text-5xl sm:text-6xl flex justify-center items-center">
               {form.teleCycles}
             </h1>
             <button
               type="button"
               onClick={() => inc("teleCycles")}
-              className="text-3xl w-15 h-15 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
             >
               +
             </button>
@@ -288,10 +301,10 @@ function ScoutMForm() {
           />
           <span
             className="
-              w-5 h-5 rounded-md border border-[#343434]
-              flex items-center justify-center transition
-              peer-checked:bg-[#dbe9f6] peer-checked:border-[#dbe9f6]
-            "
+            w-5 h-5 rounded-md border border-[#343434]
+            flex items-center justify-center transition
+            peer-checked:bg-[#dbe9f6] peer-checked:border-[#dbe9f6]
+          "
           ></span>
         </label>
         <h1 className="font-semibold items-center">
@@ -309,10 +322,10 @@ function ScoutMForm() {
           />
           <span
             className="
-              w-5 h-5 rounded-md border border-[#343434]
-              flex items-center justify-center transition
-              peer-checked:bg-[#dbe9f6] peer-checked:border-[#dbe9f6]
-            "
+            w-5 h-5 rounded-md border border-[#343434]
+            flex items-center justify-center transition
+            peer-checked:bg-[#dbe9f6] peer-checked:border-[#dbe9f6]
+          "
           ></span>
         </label>
         <h1 className="font-semibold items-center">
@@ -322,8 +335,9 @@ function ScoutMForm() {
 
       {/* Endgame */}
       <div className="mb-4">
-        <h1 className="mb-3.5 font-semibold">Endgame:</h1>
-        <div className="w-[65%] flex flex-row justify-between gap-2 hover:cursor-pointer">
+        <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Endgame:</h1>
+
+        <div className="w-full md:w-[65%] grid grid-cols-2 sm:grid-cols-4 gap-2 hover:cursor-pointer">
           {[
             ["none", "Nenhum"],
             ["l1", "Nivel 1"],
@@ -334,7 +348,7 @@ function ScoutMForm() {
               key={val}
               type="button"
               onClick={() => setField("towerEnd", val)}
-              className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+              className={`py-2 w-full flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
                 form.towerEnd,
                 val,
               )}`}
@@ -347,8 +361,9 @@ function ScoutMForm() {
 
       {/* Climbing on Auto */}
       <div className="mb-4">
-        <h1 className="mb-3.5 font-semibold">Escalado no Auto:</h1>
-        <div className="w-[65%] flex flex-row justify-between gap-2 hover:cursor-pointer">
+        <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Escalado no Auto:</h1>
+
+        <div className="w-full md:w-[65%] grid grid-cols-2 sm:grid-cols-4 gap-2 hover:cursor-pointer">
           {[
             ["none", "Nenhum"],
             ["l1", "Nivel 1"],
@@ -359,7 +374,7 @@ function ScoutMForm() {
               key={val}
               type="button"
               onClick={() => setField("towerAuto", val)}
-              className={`py-2 w-[25%] flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+              className={`py-2 w-full flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
                 form.towerAuto,
                 val,
               )}`}
@@ -373,7 +388,7 @@ function ScoutMForm() {
       {/* Observations */}
       <div className="mb-4">
         <div className="w-full">
-          <h1 className="mb-3.5 font-semibold">Observações:</h1>
+          <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Observações:</h1>
           <input
             type="text"
             placeholder="Ex: Robô tem a estratégia x..."
@@ -385,12 +400,12 @@ function ScoutMForm() {
       </div>
 
       {/* Save / Clear */}
-      <div className="w-full flex justify-between items-center gap-2">
+      <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-2">
         <button
           type="button"
           onClick={saveRecord}
           disabled={loading}
-          className="w-[50%] flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? "Enviando..." : "Salvar"}
         </button>
@@ -399,7 +414,7 @@ function ScoutMForm() {
           type="button"
           onClick={clearForm}
           disabled={loading}
-          className="w-[50%] flex justify-center bg-[#ffffff] text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-white text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           Limpar
         </button>

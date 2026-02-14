@@ -25,6 +25,7 @@ createRoot(document.getElementById("root")).render(
           toastOptions={{ style: { zIndex: 9999999 } }}
         />
         <Routes>
+          
           {/* Rota inicial */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
