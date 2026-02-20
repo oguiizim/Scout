@@ -36,7 +36,7 @@ function TeamInfo({ team, position, onClose }) {
           <button
             type="button"
             onClick={() => {
-              navigate(`/scout/p?team=${team.teamNumber}`);
+              navigate(`/info/${team.teamNumber}`);
               onClose();
             }}
             className="w-[50%] p-2 border-2 border-[#E7E7E9] rounded-lg cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"

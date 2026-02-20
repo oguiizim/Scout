@@ -14,7 +14,7 @@ import Records from "./pages/records/Records";
 import Ranking from "./pages/ranking/Ranking.jsx";
 import TeamInfo from "./pages/ranking/TeamInfo.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import PitScout from "./pages/scout/ScoutInfo.jsx";
+import PitScout from "./pages/pit/PitScoutPage.jsx";
 import Home from "./pages/home/Home.jsx";
 import RequireAuth from "./context/RequireAuth.jsx";
 
