@@ -16,6 +16,7 @@ import {
   fetchMyTeamPitScout,
 } from "../../api/services/dashboard.js";
 import { getTeamNameByNumber } from "../../api/teamsUtils.js";
+import sair from "../../assets/icons8-sair.png";
 
 ChartJS.register(
   CategoryScale,
@@ -313,7 +314,7 @@ export default function Dashboard() {
         title="Voltar"
         aria-label="Voltar"
       >
-        <img src="/src/assets/icons8-sair.png" alt="Voltar" />
+        <img src={sair} alt="Voltar" />
       </button>
     </div>
 

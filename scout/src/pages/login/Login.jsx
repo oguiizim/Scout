@@ -10,25 +10,23 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
-
-  navigate(from, { replace: true });
+  // destino que a pessoa queria antes de cair no login
+  const from = location.state?.from?.pathname || "/home";
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const { login } = useAuth();
 
-  // 🔹 redireciona direto para o scout
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const [showPass, setShowPass] = useState(false);
-
   async function handleSubmit(e) {
     e.preventDefault();
+    if (loading) return;
 
     try {
       setLoading(true);
@@ -38,22 +36,18 @@ function Login() {
         password: form.password,
       });
 
-      console.log("HEADERS:", res.headers);
-
-      // ✅ pega o token do header Authorization
-      const authHeader = res.headers.authorization;
+      const authHeader = res.headers?.authorization || res.headers?.Authorization;
 
       if (!authHeader) {
         toast.error("Token não encontrado na resposta.");
         return;
       }
 
-      const token = authHeader.replace("Bearer ", "");
-      localStorage.setItem("token", token);
+      const token = authHeader.replace(/^Bearer\s+/i, "");
+      login(token); // <- AuthContext já salva no localStorage
 
       toast.success("Login realizado!");
-      login(token);
-      navigate("/home");
+      navigate(from, { replace: true }); // volta pra rota que a pessoa queria
     } catch (err) {
       console.error(err);
       toast.error("Usuário ou senha inválidos.");
@@ -75,7 +69,6 @@ function Login() {
         </p>
 
         <form onSubmit={handleSubmit} className="w-full">
-          {/* Usuário */}
           <p className="self-start font-semibold mt-2.5">Usuário</p>
           <input
             className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2.5 mb-1"
@@ -84,9 +77,9 @@ function Login() {
             name="username"
             value={form.username}
             onChange={handleChange}
+            autoComplete="username"
           />
 
-          {/* Senha */}
           <p className="self-start font-semibold mt-2.5">Senha</p>
           <div className="grid grid-cols-[1fr_auto] items-center w-full">
             <input
@@ -96,9 +89,9 @@ function Login() {
               name="password"
               value={form.password}
               onChange={handleChange}
+              autoComplete="current-password"
             />
 
-            {/* 👁️ mostra senha SOMENTE enquanto pressionado */}
             <button
               type="button"
               onMouseDown={() => setShowPass(true)}
@@ -114,7 +107,6 @@ function Login() {
             </button>
           </div>
 
-          {/* 🔥 BOTÃO ENTRAR */}
           <button
             type="submit"
             disabled={loading}
@@ -124,7 +116,6 @@ function Login() {
           </button>
         </form>
 
-        {/* 🔗 Cadastro */}
         <p className="text-sm">
           Não tem uma conta?{" "}
           <span
