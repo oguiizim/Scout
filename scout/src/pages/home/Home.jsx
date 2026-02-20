@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import banner from "../../assets/banner.svg";
 import inbr from "../../assets/inbr.svg";
 import maple from "../../assets/maple.svg";
-import axion from "../../assets/axion-branco.svg";
+import axion from "../../assets/axion-branco.png";
 import email from "../../assets/email-branco.png";
 import instagram from "../../assets/instagram-branco.png";
 
@@ -50,16 +50,144 @@ function useBreakpoint() {
 
 function mobileHome() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-6 p-4">
-      <img src={axion} alt="Logo Axion" className="w-40" />
+    <div className="w-full h-full flex flex-col">
+      <div className="bg-[#0F172A] w-full flex flex-col items-center justify-center">
+        <img
+          src={axion}
+          alt="Logo Axion"
+          className="w-50 items-center justify-center mx-auto my-4"
+        />
+        <h1 className="text-white text-xl font-bold">AXION SCOUTING</h1>
+        <div className="bg-[#12244d] m-4 rounded-2xl shadow-lg">
+          <p className="text-white text-normal leading-relaxed max-w-2xl px-5 py-4 text-justify">
+            Axion Scouting é uma plataforma de scouting desenvolvida para
+            equipes de robótica. Com uma interface intuitiva e recursos
+            avançados, perfeito para análises de alto nivel durante todo o
+            campeonato. Assegurando que sua equipe esteja sempre com as melhores
+            estratégias e informações.
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full py-5 flex flex-col items-center my-5">
+        <div className="flex gap-8">
+          <a href="https://inbr.vercel.app/" target="_blank">
+            <img src={inbr} alt="Inbr" className="w-28" />
+          </a>
+
+          <a
+            href="https://www.instagram.com/maple10917?igsh=bTY5ZGpudGM5ZGR3"
+            target="_blank"
+          >
+            <img src={maple} alt="Maple" className="w-28" />
+          </a>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col items-center">
+        <p className="text-black font-semibold tracking-wide mb-2">
+          ENTRE EM CONTATO
+        </p>
+
+        <div
+          className="
+            bg-[#0F172A] text-white px-6 py-3 rounded-md flex flex-col items-center gap-6 shadow-lg mb-3"
+        >
+          <div className="flex items-center gap-2">
+            <img src={email} alt="Email" className="w-5 h-5" />
+            <a
+              href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJvlqsBKBsQZtwxXqVLHMHJlhkZBPmbzxnvZsWzxffZKSJrJFdzgMWWChplhsBlnghVlZkg"
+              target="_blank"
+              className="text-md hover:text-[#a2beff]"
+            >
+              axionsystem@gmail.com
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <img src={instagram} alt="Instagram" className="w-5 h-5" />
+            <a
+              href="https://www.instagram.com/axion_systems"
+              target="_blank"
+              className="text-md hover:text-[#a2beff]"
+            >
+              @axion_systems
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 function tabletHome() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-6 p-4">
-      <img src={axion} alt="" />
+    <div className="w-full h-full flex flex-col items-center justify-center gap-6">
+      <div className="bg-[#0F172A] w-full flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <h1 className="text-white text-2xl font-bold">AXION SCOUTING</h1>
+          <div className="bg-[#12244d] m-4 rounded-2xl shadow-lg">
+            <p className="text-white text-xl leading-relaxed px-5 py-2 text-justify">
+              Axion Scouting é uma plataforma de scouting desenvolvida para
+              equipes de robótica. Com uma interface intuitiva e recursos
+              avançados, perfeito para análises de alto nivel durante todo o
+              campeonato. Assegurando que sua equipe esteja sempre com as
+              melhores estratégias e informações.
+            </p>
+          </div>
+        </div>
+        <img
+          src={axion}
+          alt="Logo Axion"
+          className="w-90 items-center justify-center mx-auto my-4"
+        />
+      </div>
+
+      <div className="w-full py-5 flex flex-col items-center my-5">
+        <div className="flex gap-8">
+          <a href="https://inbr.vercel.app/" target="_blank">
+            <img src={inbr} alt="Inbr" className="w-35" />
+          </a>
+
+          <a
+            href="https://www.instagram.com/maple10917?igsh=bTY5ZGpudGM5ZGR3"
+            target="_blank"
+          >
+            <img src={maple} alt="Maple" className="w-35" />
+          </a>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col items-center text-xl">
+        <p className="text-black font-semibold tracking-wide mb-2">
+          ENTRE EM CONTATO
+        </p>
+
+        <div
+          className="
+            bg-[#0F172A] text-white px-6 py-3 rounded-md flex items-center gap-6 shadow-lg mb-3"
+        >
+          <div className="flex items-center gap-2">
+            <img src={email} alt="Email" className="w-5 h-5" />
+            <a
+              href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJvlqsBKBsQZtwxXqVLHMHJlhkZBPmbzxnvZsWzxffZKSJrJFdzgMWWChplhsBlnghVlZkg"
+              target="_blank"
+              className="hover:text-[#a2beff]"
+            >
+              axionsystem@gmail.com
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <img src={instagram} alt="Instagram" className="w-5 h-5" />
+            <a
+              href="https://www.instagram.com/axion_systems"
+              target="_blank"
+              className="hover:text-[#a2beff]"
+            >
+              @axion_systems
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -74,10 +202,10 @@ function desktopHome() {
           {/* <img src={banner} alt="Banner" className="w-full" /> */}
           <div className="bg-[#0F172A] w-full h-145"></div>
 
-          <div className="absolute top-40 left-30 max-w-3xl">
+          <div className="absolute top-40 left-30 w-130">
             <h1 className="text-6xl font-semibold mb-6">AXION SCOUTING</h1>
 
-            <p className="hidden md:block lg:block text-base md:text-xl lg:text-normal leading-relaxed max-w-2xl">
+            <p className="text-white text-normal leading-relaxed text-justify max-w-full">
               Axion Scouting é uma plataforma de scouting desenvolvida para
               equipes de robótica, oferecendo uma solução completa para coleta,
               análise e visualização de dados de desempenho. Com uma interface
@@ -93,9 +221,9 @@ function desktopHome() {
             alt="Logo Axion"
             className="
               absolute
-              w-120
-              top-10 
-              right-25
+              w-130
+              top-5 
+              right-20
             "
           />
         </div>
@@ -104,14 +232,14 @@ function desktopHome() {
       <div className="w-full py-5 flex flex-col items-center my-5">
         <div className="flex gap-8">
           <a href="https://inbr.vercel.app/" target="_blank">
-            <img src={inbr} alt="Inbr" className="w-30" />
+            <img src={inbr} alt="Inbr" className="w-35" />
           </a>
 
           <a
             href="https://www.instagram.com/maple10917?igsh=bTY5ZGpudGM5ZGR3"
             target="_blank"
           >
-            <img src={maple} alt="Maple" className="w-30" />
+            <img src={maple} alt="Maple" className="w-35" />
           </a>
         </div>
       </div>
@@ -125,18 +253,9 @@ function desktopHome() {
           ENTRE EM CONTATO
         </p>
 
-        {/* Caixa central */}
         <div
           className="
-            bg-[#0F172A]
-            text-white
-            px-6
-            py-3
-            rounded-md
-            flex
-            items-center
-            gap-6
-            shadow-lg"
+            bg-[#0F172A] text-white px-6 py-3 rounded-md flex items-center gap-6 shadow-lg mb-3"
         >
           <div className="flex items-center gap-2">
             <img src={email} alt="Email" className="w-5 h-5" />

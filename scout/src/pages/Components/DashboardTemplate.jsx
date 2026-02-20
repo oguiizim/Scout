@@ -294,11 +294,11 @@ export default function Dashboard() {
   <div
     className="
       w-full
-      max-w-[520px] sm:max-w-[760px] md:max-w-[980px] lg:max-w-[1200px]
+      max-w-130 sm:max-w-190 md:max-w-245 lg:max-w-300
       bg-white flex flex-col text-black
       p-4 sm:p-5 md:p-6
       mt-4 sm:mt-5 mb-4 sm:mb-5
-      rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
+      rounded-2xl sm:rounded-[18px] md:rounded-[20px]
       border-2 border-[#E7E7E9]
     "
   >
