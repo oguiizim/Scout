@@ -37,13 +37,13 @@ public class SecurityConfig {
         private JWTUtil jwtUtil;
 
         private static final String[] PUBLIC_MATCHERS = {
-                        "/",
-                        "/user/ping"
+                        "/"
         };
 
         private static final String[] PUBLIC_MATCHERS_POST = {
                         "/user",
-                        "/login"
+                        "/login",
+                        "/register"
         };
 
         private static final String[] PUBLIC_MATCHERS_DELETE = {
