@@ -198,8 +198,8 @@ function ListTemplate({ filters }) {
         </div>
 
         {/* Header */}
-        {/* Mobile: Partida | Time | Posição | Ciclos  (Ações ficam embaixo, então não entram no header) */}
-        {/* Tablet (md): Partida | Time | Posição | Ciclos | Endgame | Scout | Ações  (sem Quebrou) */}
+        {/* Mobile: Partida | Time | Posição | Ciclos*/}
+        {/* Tablet (md): Partida | Time | Posição | Ciclos | Endgame | Scout | Ações*/}
         {/* PC (lg): Partida | Time | Posição | Ciclos | Quebrou | Endgame | Scout | Ações */}
         <div
           className="
@@ -216,14 +216,14 @@ function ListTemplate({ filters }) {
           <p className={cell}>Ciclos</p>
 
           {/* Tablet+ */}
-          <p className={`${cell} hidden md:block`}>Endgame</p>
-          <p className={`${cell} hidden md:block`}>Scout</p>
+          <p className={`${cell} hidden md:flex`}>Endgame</p>
+          <p className={`${cell} hidden md:flex`}>Scout</p>
 
           {/* PC only */}
-          <p className={`${cell} hidden lg:block`}>Quebrou</p>
+          <p className={`${cell} hidden lg:flex`}>Quebrou</p>
 
           {/* Tablet+ */}
-          <p className={`${cell} hidden md:block`}>Ações</p>
+          <p className={`${cell} hidden md:flex`}>Ações</p>
         </div>
 
         {/* Body */}
@@ -258,16 +258,16 @@ function ListTemplate({ filters }) {
                   </p>
 
                   {/* Tablet+ */}
-                  <p className={`${cell} hidden md:block`}>
+                  <p className={`${cell} hidden md:flex`}>
                     {formatLvl(r.endgame)}
                   </p>
 
-                  <p className={`${cell} hidden md:block`}>
+                  <p className={`${cell} hidden md:flex`}>
                     {r.user?.username ?? "-"}
                   </p>
 
                   {/* PC only */}
-                  <p className={`${cell} hidden lg:block`}>
+                  <p className={`${cell} hidden lg:flex`}>
                     {r.robotBroke ? "Sim" : "Não"}
                   </p>
 

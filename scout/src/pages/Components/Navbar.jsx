@@ -1,6 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useEffect, useState } from "react";
+import prancheta from "../../assets/icons8-prancheta.png";
+import papel from "../../assets/icons8-papel.png";
+import lista from "../../assets/icons8-lista.png";
+import grafico from "../../assets/icons8-grafico.png";
+import sair from "../../assets/icons8-sair.png";
+import axion from "../../assets/logo.svg";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -56,12 +62,12 @@ function Navbar() {
         {/* Brand */}
         <button
           type="button"
-          onClick={() => go("/scout/m")}
-          className="flex items-center gap-3 font-bold"
+          onClick={() => go("/home")}
+          className="flex items-center gap-3 font-bold cursor-pointer"
         >
           <div className="h-10 w-10 md:h-11 md:w-11 lg:h-12 lg:w-12 shrink-0">
             <img
-              src="/src/assets/Logo Axion.png"
+              src={axion}
               alt="Logo"
               className="h-full w-full object-contain"
             />
@@ -80,7 +86,7 @@ function Navbar() {
           <li>
             <NavLink to="/scout/m" className={linkClass}>
               <img
-                src="/src/assets/icons8-prancheta.png"
+                src={prancheta}
                 className="w-5 h-5"
                 alt=""
               />
@@ -95,7 +101,7 @@ function Navbar() {
           <li>
             <NavLink to="/scout/p" className={linkClass}>
               <img
-                src="/src/assets/icons8-papel.png"
+                src={papel}
                 className="w-5 h-5"
                 alt=""
               />
@@ -109,7 +115,7 @@ function Navbar() {
           <li>
             <NavLink to="/records" className={linkClass}>
               <img
-                src="/src/assets/icons8-lista.png"
+                src={lista}
                 className="w-5 h-5"
                 alt=""
               />
@@ -120,7 +126,7 @@ function Navbar() {
           <li>
             <NavLink to="/ranking" className={linkClass}>
               <img
-                src="/src/assets/icons8-grafico.png"
+                src={grafico}
                 className="w-5 h-5"
                 alt=""
               />
@@ -151,7 +157,7 @@ function Navbar() {
             aria-label="Sair"
           >
             <img
-              src="/src/assets/icons8-sair.png"
+              src={sair}
               alt="Sair"
               className="w-6 h-6"
             />
@@ -184,7 +190,7 @@ function Navbar() {
               type="button"
             >
               <img
-                src="/src/assets/icons8-prancheta.png"
+                src={prancheta}
                 className="w-5 h-5"
                 alt=""
               />
@@ -197,7 +203,7 @@ function Navbar() {
               type="button"
             >
               <img
-                src="/src/assets/icons8-papel.png"
+                src={papel}
                 className="w-5 h-5"
                 alt=""
               />
@@ -210,7 +216,7 @@ function Navbar() {
               type="button"
             >
               <img
-                src="/src/assets/icons8-lista.png"
+                src={lista}
                 className="w-5 h-5"
                 alt=""
               />
@@ -223,7 +229,7 @@ function Navbar() {
               type="button"
             >
               <img
-                src="/src/assets/icons8-grafico.png"
+                src={grafico}
                 className="w-5 h-5"
                 alt=""
               />

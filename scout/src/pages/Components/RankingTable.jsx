@@ -186,7 +186,7 @@ export default function RankingTable() {
         <p className={cell}>Colocação</p>
         <p className={cell}>Time</p>
         <p className={cell}>Consistência</p>
-        <p className={`${cell} hidden md:block`}>Partidas</p>
+        <p className={`${cell} hidden md:flex`}>Partidas</p>
       </div>
 
       <div className="w-full flex flex-col">
@@ -231,7 +231,7 @@ export default function RankingTable() {
               <p className={cell}>{t.consistency}%</p>
 
               {/* Partidas só no tablet/pc */}
-              <p className={`${cell} hidden md:block`}>{t.matchesCount}</p>
+              <p className={`${cell} hidden md:flex`}>{t.matchesCount}</p>
             </div>
           ))
         )}
