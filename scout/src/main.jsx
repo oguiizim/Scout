@@ -16,6 +16,7 @@ import TeamInfo from "./pages/ranking/TeamInfo.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import PitScout from "./pages/scout/ScoutInfo.jsx";
 import Home from "./pages/home/Home.jsx";
+import RequireAuth from "./context/RequireAuth.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -26,34 +27,29 @@ createRoot(document.getElementById("root")).render(
           toastOptions={{ style: { zIndex: 9999999 } }}
         />
         <Routes>
-          
+          {/* Home */}
           <Route path="/home" element={<Home />} />
           {/* Rota inicial */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-
           {/* Auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
-          {/* Atalho Scout */}
-          <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
-
-          {/* Scouting */}
-          <Route path="/scout/m" element={<ScoutM />} />
-          <Route path="/scout/p" element={<ScoutP />} />
-
-          {/* Registros */}
-          <Route path="/records" element={<Records />} />
-
-          {/* Dashboard (placeholder) */}
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/teamInfo" element={<TeamInfo />}></Route>
-
-          <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
-          <Route path="/info/:teamNumber" element={<PitScout />}></Route>
-
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route element={<RequireAuth />}>
+            {/* Atalho Scout */}
+            <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
+            {/* Scouting */}
+            <Route path="/scout/m" element={<ScoutM />} />
+            <Route path="/scout/p" element={<ScoutP />} />
+            {/* Registros */}
+            <Route path="/records" element={<Records />} />
+            {/* Dashboard (placeholder) */}
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/teamInfo" element={<TeamInfo />}></Route>
+            <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
+            <Route path="/info/:teamNumber" element={<PitScout />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

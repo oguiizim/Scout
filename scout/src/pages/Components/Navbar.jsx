@@ -10,7 +10,7 @@ import axion from "../../assets/logo.svg";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
 
@@ -42,6 +42,7 @@ function Navbar() {
     ].join(" ");
 
   const handleLogout = () => {
+    logout();
     navigate("/login", { replace: true });
   };
 
@@ -85,11 +86,7 @@ function Navbar() {
         <ul className="hidden md:flex items-center md:gap-2 lg:gap-3">
           <li>
             <NavLink to="/scout/m" className={linkClass}>
-              <img
-                src={prancheta}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={prancheta} className="w-5 h-5" alt="" />
               {/* tablet: texto curto | pc: texto completo */}
               <span className="text-sm lg:text-base">
                 <span className="inline lg:hidden">Partidas</span>
@@ -100,11 +97,7 @@ function Navbar() {
 
           <li>
             <NavLink to="/scout/p" className={linkClass}>
-              <img
-                src={papel}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={papel} className="w-5 h-5" alt="" />
               <span className="text-sm lg:text-base">
                 <span className="inline lg:hidden">Pit</span>
                 <span className="hidden lg:inline">Scouting de Pit</span>
@@ -114,22 +107,14 @@ function Navbar() {
 
           <li>
             <NavLink to="/records" className={linkClass}>
-              <img
-                src={lista}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={lista} className="w-5 h-5" alt="" />
               <span className="text-sm lg:text-base">Registros</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/ranking" className={linkClass}>
-              <img
-                src={grafico}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={grafico} className="w-5 h-5" alt="" />
               <span className="text-sm lg:text-base">Ranking</span>
             </NavLink>
           </li>
@@ -156,11 +141,7 @@ function Navbar() {
             title="Sair"
             aria-label="Sair"
           >
-            <img
-              src={sair}
-              alt="Sair"
-              className="w-6 h-6"
-            />
+            <img src={sair} alt="Sair" className="w-6 h-6" />
           </button>
 
           {/* Hamburger só no celular */}
@@ -189,11 +170,7 @@ function Navbar() {
               onClick={() => go("/scout/m")}
               type="button"
             >
-              <img
-                src={prancheta}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={prancheta} className="w-5 h-5" alt="" />
               Scouting de Partidas
             </button>
 
@@ -202,11 +179,7 @@ function Navbar() {
               onClick={() => go("/scout/p")}
               type="button"
             >
-              <img
-                src={papel}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={papel} className="w-5 h-5" alt="" />
               Scouting de Pit
             </button>
 
@@ -215,11 +188,7 @@ function Navbar() {
               onClick={() => go("/records")}
               type="button"
             >
-              <img
-                src={lista}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={lista} className="w-5 h-5" alt="" />
               Registros
             </button>
 
@@ -228,11 +197,7 @@ function Navbar() {
               onClick={() => go("/ranking")}
               type="button"
             >
-              <img
-                src={grafico}
-                className="w-5 h-5"
-                alt=""
-              />
+              <img src={grafico} className="w-5 h-5" alt="" />
               Ranking
             </button>
           </div>

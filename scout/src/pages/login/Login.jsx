@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import logoAxion from "../../assets/Logo Axion.png";
 import eyeIcon from "../../assets/icons8-visivel.png";
@@ -8,6 +8,11 @@ import { useAuth } from "../../context/AuthContext.jsx";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
+  navigate(from, { replace: true });
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
