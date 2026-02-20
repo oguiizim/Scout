@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
+import pesquisar from "../../assets/icons8-pesquisar.png";
 
 function FiltersTemplate({ filters, setFilters }) {
   const setField = (key, value) => setFilters((p) => ({ ...p, [key]: value }));
@@ -83,7 +84,7 @@ function FiltersTemplate({ filters, setFilters }) {
     >
       <div className="flex items-center gap-3 mb-4">
         <img
-          src="/src/assets/icons8-pesquisar.png"
+          src={pesquisar}
           className="w-6 h-6"
           alt=""
         />
