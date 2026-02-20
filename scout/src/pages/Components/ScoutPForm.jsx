@@ -142,17 +142,29 @@ function ScoutPForm() {
   };
 
   return (
-    <div className="w-[40vw] bg-[#ffffff] flex flex-col text-[#000000] p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
-      <h1 className="font-bold text-2xl justify-start mb-4">Novo Scout Pit</h1>
+    <div
+      className="
+      w-full
+      max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
+      bg-white flex flex-col text-black
+      p-4 sm:p-5 md:p-6
+      mt-4 sm:mt-5 mb-4 sm:mb-5
+      rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
+      border-2 border-[#E7E7E9]
+    "
+    >
+      <h1 className="font-bold text-xl sm:text-2xl justify-start mb-4">
+        Novo Scout Pit
+      </h1>
 
       {/* Team + Robot Name */}
-      <div className="flex flex-row justify-between gap-2 mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-5 mb-4">
         {/* Team dropdown overlay */}
         <div
-          className="w-[50%] flex flex-col mb-3.5 font-semibold relative"
+          className="w-full md:w-1/2 flex flex-col mb-2.5 sm:mb-3.5 font-semibold relative"
           ref={dropdownRef}
         >
-          <h1 className="mb-3.5">Nº do Time:</h1>
+          <h1 className="mb-2.5 sm:mb-3.5">Nº do Time:</h1>
 
           <input
             type="text"
@@ -168,9 +180,9 @@ function ScoutPForm() {
             onFocus={() => setOpenTeams(true)}
           />
 
-          {/* ✅ overlay: não empurra nada pra baixo */}
+          {/* overlay: não empurra nada pra baixo */}
           {openTeams && (
-            <div className="absolute top-[92px] left-0 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
                 <div className="px-4 py-3 text-[#2e2e2e]">
                   Nenhuma equipe encontrada.
@@ -198,8 +210,8 @@ function ScoutPForm() {
         </div>
 
         {/* Robot name */}
-        <div className="w-[50%] flex flex-col">
-          <h1 className="mb-3.5 font-semibold">Nome do robô:</h1>
+        <div className="w-full md:w-1/2 flex flex-col">
+          <h1 className="mb-2.5 sm:mb-3.5 font-semibold">Nome do robô:</h1>
           <input
             type="text"
             placeholder="Ex: Doppler"
@@ -212,12 +224,12 @@ function ScoutPForm() {
 
       {/* DriveBase */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Tipo de Drive Train:</h1>
-        <div className="flex flex-row justify-between gap-2">
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Tipo de Drive Train:</h1>
+        <div className="flex flex-col sm:flex-row justify-between gap-2">
           <button
             type="button"
             onClick={() => setField("driveTrain", "swerve")}
-            className={`w-[50%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
               form.driveTrain,
               "swerve",
             )}`}
@@ -227,7 +239,7 @@ function ScoutPForm() {
           <button
             type="button"
             onClick={() => setField("driveTrain", "tank")}
-            className={`w-[50%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
               form.driveTrain,
               "tank",
             )}`}
@@ -239,8 +251,8 @@ function ScoutPForm() {
 
       {/* Shooter */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Tipo de Shooter:</h1>
-        <div className="flex flex-row justify-between gap-2">
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Tipo de Shooter:</h1>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {[
             ["turret", "Torreta"],
             ["pivot", "Pivot"],
@@ -251,7 +263,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("shooter", val)}
-              className={`w-[25%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.shooter,
                 val,
               )}`}
@@ -264,8 +276,8 @@ function ScoutPForm() {
 
       {/* Intake */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Tipo de Intake:</h1>
-        <div className="flex flex-row justify-between gap-2">
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Tipo de Intake:</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {[
             ["4bar", "4 Bar / Linkage"],
             ["pivot", "Pivot"],
@@ -276,7 +288,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("intake", val)}
-              className={`w-[25%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.intake,
                 val,
               )}`}
@@ -289,8 +301,8 @@ function ScoutPForm() {
 
       {/* Trench/Bump */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Trincheira ou Bump:</h1>
-        <div className="flex flex-row justify-between gap-2">
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Trincheira ou Bump:</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {[
             ["trench", "Trincheira"],
             ["bump", "Bump"],
@@ -300,7 +312,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("trenchOrBump", val)}
-              className={`w-[33%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.trenchOrBump,
                 val,
               )}`}
@@ -313,44 +325,62 @@ function ScoutPForm() {
 
       {/* Auto Routes */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">
+        <h1 className="font-semibold mb-2.5 sm:mb-2.5">
           Quantidade de Auto rotas por posição:
         </h1>
-        <div className="flex flex-row gap-2">
-          <input
-            type="number"
-            placeholder="Esquerda"
-            className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
-            value={form.autoLeft}
-            inputMode="numeric"
-            onChange={(e) => setField("autoLeft", onlyDigits(e.target.value))}
-          />
-          <input
-            type="number"
-            placeholder="Centro"
-            className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
-            value={form.autoCenter}
-            inputMode="numeric"
-            onChange={(e) => setField("autoCenter", onlyDigits(e.target.value))}
-          />
-          <input
-            type="number"
-            placeholder="Direita"
-            className="w-[33%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
-            value={form.autoRight}
-            inputMode="numeric"
-            onChange={(e) => setField("autoRight", onlyDigits(e.target.value))}
-          />
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="flex flex-col">
+            <p className="mb-2 font-medium">Esquerda</p>
+            <input
+              type="number"
+              placeholder="Esquerda"
+              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              value={form.autoLeft}
+              inputMode="numeric"
+              onChange={(e) => setField("autoLeft", onlyDigits(e.target.value))}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <p className="mb-2 font-medium">Centro</p>
+            <input
+              type="number"
+              placeholder="Centro"
+              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              value={form.autoCenter}
+              inputMode="numeric"
+              onChange={(e) =>
+                setField("autoCenter", onlyDigits(e.target.value))
+              }
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <p className="mb-2 font-medium">Direita</p>
+            <input
+              type="number"
+              placeholder="Direita"
+              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              value={form.autoRight}
+              inputMode="numeric"
+              onChange={(e) =>
+                setField("autoRight", onlyDigits(e.target.value))
+              }
+            />
+          </div>
         </div>
       </div>
 
       {/* Storage */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Capacidade de Armazenamento:</h1>
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">
+          Capacidade de Armazenamento:
+        </h1>
         <input
           type="number"
           placeholder="Ex: 26"
-          className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.storage}
           inputMode="numeric"
           onChange={(e) => setField("storage", onlyDigits(e.target.value))}
@@ -359,8 +389,8 @@ function ScoutPForm() {
 
       {/* Tower */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Nivel de Escalada:</h1>
-        <div className="flex flex-row justify-between gap-2">
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Nivel de Escalada:</h1>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {[
             ["none", "Nenhum"],
             ["l1", "L1"],
@@ -371,7 +401,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("tower", val)}
-              className={`w-[25%] py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.tower,
                 val,
               )}`}
@@ -384,11 +414,11 @@ function ScoutPForm() {
 
       {/* Time per cycle */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Tempo médio p/Ciclo:</h1>
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Tempo médio p/Ciclo:</h1>
         <input
           type="number"
           placeholder="Ex: 7.65"
-          className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.timeCycles}
           inputMode="decimal"
           onChange={(e) => setField("timeCycles", onlyDecimal(e.target.value))}
@@ -397,11 +427,13 @@ function ScoutPForm() {
 
       {/* Cycles */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Quantidade de ciclos p/Break:</h1>
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">
+          Quantidade de ciclos p/Break:
+        </h1>
         <input
           type="number"
           placeholder="Ex: 2"
-          className="w-[50%] px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
           value={form.cycles}
           inputMode="numeric"
           onChange={(e) => setField("cycles", onlyDigits(e.target.value))}
@@ -410,7 +442,7 @@ function ScoutPForm() {
 
       {/* Notes */}
       <div className="flex flex-col mb-4">
-        <h1 className="font-semibold mb-3.5">Observações:</h1>
+        <h1 className="font-semibold mb-2.5 sm:mb-3.5">Observações:</h1>
         <input
           type="text"
           placeholder="Ex: Atira em qualquer local da arena"
@@ -421,12 +453,12 @@ function ScoutPForm() {
       </div>
 
       {/* Save / Clear */}
-      <div className="flex flex-row justify-between gap-2">
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
         <button
           type="button"
           onClick={savePit}
           disabled={loading}
-          className="w-[50%] flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? "Enviando..." : "Salvar"}
         </button>
@@ -435,7 +467,7 @@ function ScoutPForm() {
           type="button"
           onClick={clearForm}
           disabled={loading}
-          className="w-[50%] flex justify-center bg-[#ffffff] text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-white text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           Limpar
         </button>

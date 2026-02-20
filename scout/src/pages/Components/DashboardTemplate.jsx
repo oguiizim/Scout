@@ -290,87 +290,103 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="w-[80vw] bg-white flex flex-col text-black p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">
-          Dashboard #{teamNumber}: {safeTeamName}
-        </h1>
+  <div
+    className="
+      w-full
+      max-w-[520px] sm:max-w-[760px] md:max-w-[980px] lg:max-w-[1200px]
+      bg-white flex flex-col text-black
+      p-4 sm:p-5 md:p-6
+      mt-4 sm:mt-5 mb-4 sm:mb-5
+      rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
+      border-2 border-[#E7E7E9]
+    "
+  >
+    <div className="flex justify-between items-center gap-3 mb-4">
+      <h1 className="text-xl sm:text-2xl font-bold">
+        Dashboard #{teamNumber}: {safeTeamName}
+      </h1>
 
-        <button
-          type="button"
-          className="w-10 h-10 cursor-pointer"
-          onClick={() => navigate("/ranking")}
-          title="Voltar"
-          aria-label="Voltar"
-        >
-          <img src="/src/assets/icons8-sair.png" alt="Voltar" />
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="py-6 text-[#2e2e2e]">Carregando dados do time...</div>
-      ) : errorMsg ? (
-        <div className="py-6 text-[#b00020]">{errorMsg}</div>
-      ) : (
-        <div className="grid grid-cols-4 gap-4">
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Total de Scouts:</p>
-            <p className="font-normal text-3xl">{metrics.total} partidas</p>
-          </div>
-
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Taxa de Quebras:</p>
-            <p className="font-normal text-3xl">
-              {metrics.breakRatePercent}% ({metrics.brokeOnes}/
-              {metrics.brokeOnes + metrics.brokeZeros})
-            </p>
-          </div>
-
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Média de Ciclos:</p>
-            <p className="font-normal text-3xl">
-              {metrics.avgCycles} ciclos por partida
-            </p>
-          </div>
-
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Média de Pontos:</p>
-
-            {metrics.avgPoints == null ? (
-              <p className="text-gray-500 text-3xl">N/A (sem Pit)</p>
-            ) : (
-              <p className="font-normal text-3xl">
-                {metrics.avgPoints} pts
-                <span className="text-base text-gray-500">
-                  {" "}
-                  (storage {metrics.storage} × {metrics.avgCycles})
-                </span>
-              </p>
-            )}
-          </div>
-
-          <div className="col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Gráfico dos ciclos em Partida:</p>
-            {metrics.total === 0 ? (
-              <p className="text-[#2e2e2e]">Sem dados para exibir.</p>
-            ) : (
-              <Bar data={barData} options={barOptions} />
-            )}
-          </div>
-
-          <div className="col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-xl">
-            <p className="font-semibold mb-2">Distribuição da Tower:</p>
-
-            {Object.keys(metrics.towerDist).length === 0 ? (
-              <p className="font-normal">N/A</p>
-            ) : (
-              <div className="h-80">
-                <Pie data={pieData} options={pieOptions} />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <button
+        type="button"
+        className="w-10 h-10 cursor-pointer"
+        onClick={() => navigate("/ranking")}
+        title="Voltar"
+        aria-label="Voltar"
+      >
+        <img src="/src/assets/icons8-sair.png" alt="Voltar" />
+      </button>
     </div>
-  );
+
+    {loading ? (
+      <div className="py-6 text-[#2e2e2e]">Carregando dados do time...</div>
+    ) : errorMsg ? (
+      <div className="py-6 text-[#b00020]">{errorMsg}</div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* 4 primeiros itens: grid 2x2 (em md+) */}
+        <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Total de Scouts:</p>
+          <p className="font-normal text-2xl sm:text-3xl">
+            {metrics.total} partidas
+          </p>
+        </div>
+
+        <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Taxa de Quebras:</p>
+          <p className="font-normal text-2xl sm:text-3xl">
+            {metrics.breakRatePercent}% ({metrics.brokeOnes}/
+            {metrics.brokeOnes + metrics.brokeZeros})
+          </p>
+        </div>
+
+        <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Média de Ciclos:</p>
+          <p className="font-normal text-2xl sm:text-3xl">
+            {metrics.avgCycles} ciclos por partida
+          </p>
+        </div>
+
+        <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Média de Pontos:</p>
+
+          {metrics.avgPoints == null ? (
+            <p className="text-gray-500 text-2xl sm:text-3xl">N/A (sem Pit)</p>
+          ) : (
+            <p className="font-normal text-2xl sm:text-3xl">
+              {metrics.avgPoints} pts
+              <span className="text-sm sm:text-base text-gray-500">
+                {" "}
+                (storage {metrics.storage} × {metrics.avgCycles})
+              </span>
+            </p>
+          )}
+        </div>
+
+        {/* Gráfico 1: pega a linha inteira (col-span-2 no md+) */}
+        <div className="md:col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Gráfico dos ciclos em Partida:</p>
+          {metrics.total === 0 ? (
+            <p className="text-[#2e2e2e]">Sem dados para exibir.</p>
+          ) : (
+            <Bar data={barData} options={barOptions} />
+          )}
+        </div>
+
+        {/* Gráfico 2: pega a linha inteira (col-span-2 no md+) */}
+        <div className="md:col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <p className="font-semibold mb-2">Distribuição da Tower:</p>
+
+          {Object.keys(metrics.towerDist).length === 0 ? (
+            <p className="font-normal">N/A</p>
+          ) : (
+            <div className="h-72 sm:h-80">
+              <Pie data={pieData} options={pieOptions} />
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 }

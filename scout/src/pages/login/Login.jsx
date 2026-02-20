@@ -48,7 +48,7 @@ function Login() {
 
       toast.success("Login realizado!");
       login(token);
-      navigate("/scout/m");
+      navigate("/home");
     } catch (err) {
       console.error(err);
       toast.error("Usuário ou senha inválidos.");

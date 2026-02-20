@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.guizim.server.exceptions.GlobalExpectionHandler;
 import com.guizim.server.models.User;
 
 import jakarta.servlet.FilterChain;

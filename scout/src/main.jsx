@@ -15,6 +15,7 @@ import Ranking from "./pages/ranking/Ranking.jsx";
 import TeamInfo from "./pages/ranking/TeamInfo.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import PitScout from "./pages/scout/ScoutInfo.jsx";
+import Home from "./pages/home/Home.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -25,6 +26,8 @@ createRoot(document.getElementById("root")).render(
           toastOptions={{ style: { zIndex: 9999999 } }}
         />
         <Routes>
+          
+          <Route path="/home" element={<Home />} />
           {/* Rota inicial */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
