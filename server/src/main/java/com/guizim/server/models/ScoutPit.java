@@ -36,6 +36,10 @@ public class ScoutPit {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "workspace_id", nullable = false, updatable = false)
+    private Workspace workspace;
+
     @Column(name = "team", unique = true, nullable = false)
     @NotNull(message = "O time é obrigatório")
     private Long team;

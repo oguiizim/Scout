@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.guizim.server.models.enums.ProfileEnum;
@@ -16,6 +17,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -65,6 +68,11 @@ public class User {
     @Size(groups = CreateUser.class, min = 6, max = 100, message = "A senha deve ter entre 6 e 100 caracteres")
     private String password;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "active_workspace_id", nullable = true)
+    private Workspace active_workspace_id;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @CollectionTable(name = "user_profile")
@@ -78,4 +86,5 @@ public class User {
     public void addProfile(ProfileEnum profileEnum) {
         this.profiles.add(profileEnum.getCode());
     }
+
 }

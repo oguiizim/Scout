@@ -7,6 +7,7 @@ import lista from "../../assets/icons8-lista.png";
 import grafico from "../../assets/icons8-grafico.png";
 import sair from "../../assets/icons8-sair.png";
 import axion from "../../assets/logo.svg";
+import settings from "../../assets/icons8-config.png";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -133,6 +134,10 @@ function Navbar() {
           >
             {user}
           </span>
+
+          <NavLink to="/settings" className="w-10 h10">
+            <img src={settings} alt="Config" />
+          </NavLink>
 
           <button
             type="button"

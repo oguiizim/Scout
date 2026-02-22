@@ -36,6 +36,10 @@ public class ScoutMatch {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "workspace_id", nullable = false, updatable = false)
+    private Workspace workspace;
+
     @Column(name = "match_number", nullable = false)
     @NotNull(message = "A partida é obrigatória")
     private Long matchNumber;

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { WorkspaceProvider } from "./context/WorkspaceContext.jsx";
 
 import "./index.css";
 
@@ -17,41 +18,49 @@ import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import PitScout from "./pages/pit/PitScoutPage.jsx";
 import Home from "./pages/home/Home.jsx";
 import RequireAuth from "./context/RequireAuth.jsx";
+import Settings from "./pages/settings/Settings.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Toaster
-          position="bottom-left"
-          toastOptions={{ style: { zIndex: 9999999 } }}
-        />
-        <Routes>
-          {/* Home */}
-          <Route path="/home" element={<Home />} />
-          {/* Rota inicial */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          {/* Auth */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route element={<RequireAuth />}>
-            {/* Atalho Scout */}
-            <Route path="/scout" element={<Navigate to="/scout/m" replace />} />
-            {/* Scouting */}
-            <Route path="/scout/m" element={<ScoutM />} />
-            <Route path="/scout/p" element={<ScoutP />} />
-            {/* Registros */}
-            <Route path="/records" element={<Records />} />
-            {/* Dashboard (placeholder) */}
-            <Route path="/ranking" element={<Ranking />} />
-            <Route path="/teamInfo" element={<TeamInfo />}></Route>
-            <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
-            <Route path="/info/:teamNumber" element={<PitScout />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <WorkspaceProvider>
+        <BrowserRouter>
+          <Toaster
+            position="bottom-left"
+            toastOptions={{ style: { zIndex: 9999999 } }}
+          />
+          <Routes>
+            {/* Home */}
+            <Route path="/home" element={<Home />} />
+            {/* Rota inicial */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            {/* Auth */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route element={<RequireAuth />}>
+              {/* Atalho Scout */}
+              <Route
+                path="/scout"
+                element={<Navigate to="/scout/m" replace />}
+              />
+              {/* Scouting */}
+              <Route path="/scout/m" element={<ScoutM />} />
+              <Route path="/scout/p" element={<ScoutP />} />
+              {/* Registros */}
+              <Route path="/records" element={<Records />} />
+              {/* Dashboard (placeholder) */}
+              <Route path="/ranking" element={<Ranking />} />
+              <Route path="/teamInfo" element={<TeamInfo />}></Route>
+              <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
+              <Route path="/info/:teamNumber" element={<PitScout />}></Route>
+              {/* User Settings */}
+              <Route path="/settings" element={<Settings />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </WorkspaceProvider>
     </AuthProvider>
   </StrictMode>,
 );
