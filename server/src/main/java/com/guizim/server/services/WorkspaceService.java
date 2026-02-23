@@ -79,7 +79,7 @@ public class WorkspaceService {
 
         // cria workspace pessoal
         Workspace ws = new Workspace();
-        ws.setName("Equipe " + user.getTeam());
+        ws.setName("Workspace " + user.getTeam());
         ws.setOwner(user); // se o owner no Workspace é User
         ws.setShareCode(generateUniqueShareCode());
         ws = workspaceRepository.save(ws);
@@ -125,27 +125,38 @@ public class WorkspaceService {
 
     @Transactional
     public WorkspaceMember joinByCode(String shareCode, boolean setActive) {
-        User user = getLoggedUser();
+        User user = authService.getAuthenticatedUser();
 
         Workspace ws = workspaceRepository.findByShareCode(shareCode)
-                .orElseThrow(() -> new ObjectNotFoundException("Código inválido."));
+                .orElseThrow(() -> new ObjectNotFoundException("Workspace não encontrado"));
 
-        WorkspaceMember member = workspaceMemberRepository
+        // ✅ se já for membro, não cria de novo
+        WorkspaceMember existing = workspaceMemberRepository
                 .findByWorkspace_IdAndUser_Id(ws.getId(), user.getId())
-                .orElseGet(() -> {
-                    WorkspaceMember m = new WorkspaceMember();
-                    m.setWorkspace(ws);
-                    m.setUser(user);
-                    m.setRole(WorkspaceRole.MEMBER);
-                    return workspaceMemberRepository.save(m);
-                });
+                .orElse(null);
+
+        if (existing != null) {
+            if (setActive) {
+                user.setActive_workspace_id(ws);
+                userRepository.save(user);
+            }
+            return existing;
+        }
+
+        // ✅ se não é membro, cria
+        WorkspaceMember member = new WorkspaceMember();
+        member.setWorkspace(ws);
+        member.setUser(user);
+        member.setRole(WorkspaceRole.MEMBER);
+
+        WorkspaceMember saved = workspaceMemberRepository.save(member);
 
         if (setActive) {
             user.setActive_workspace_id(ws);
             userRepository.save(user);
         }
 
-        return member;
+        return saved;
     }
 
     @Transactional

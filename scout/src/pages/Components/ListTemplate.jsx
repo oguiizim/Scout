@@ -319,17 +319,17 @@ function ListTemplate({ filters }) {
 
       {/* Modal */}
       {selected && (
-  <div
-    className="
+        <div
+          className="
       fixed inset-0 bg-black/30 z-50
       flex items-start sm:items-center justify-center
       overflow-y-auto
       p-3 sm:p-6
     "
-    onClick={() => setSelected(null)}
-  >
-    <div
-      className="
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="
         w-full
         max-w-140 md:max-w-205 lg:max-w-245
         bg-white rounded-2xl md:rounded-[20px]
@@ -338,102 +338,101 @@ function ListTemplate({ filters }) {
         max-h-[90vh]
         overflow-y-auto
       "
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-xl sm:text-2xl font-bold text-black">
-            {selectedTeamName
-              ? `${selectedTeamName} #${selectedTeamNumber}`
-              : `Equipe #${selectedTeamNumber || "-"}`}
-          </h2>
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+              <div className="flex flex-col gap-1">
+                <h2 className="text-xl sm:text-2xl font-bold text-black">
+                  {selectedTeamName
+                    ? `${selectedTeamName} #${selectedTeamNumber}`
+                    : `Equipe #${selectedTeamNumber || "-"}`}
+                </h2>
 
-          <div className="flex flex-col sm:flex-row sm:gap-6 gap-1 text-[#2e2e2e]">
-            <p>
-              <span className="font-semibold text-black">Partida:</span>{" "}
-              {selected.matchNumber ?? "-"}
-            </p>
-            <p>
-              <span className="font-semibold text-black">Scout:</span>{" "}
-              {selected.user?.username ?? "-"}
-            </p>
+                <div className="flex flex-col sm:flex-row sm:gap-6 gap-1 text-[#2e2e2e]">
+                  <p>
+                    <span className="font-semibold text-black">Partida:</span>{" "}
+                    {selected.matchNumber ?? "-"}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-black">Scout:</span>{" "}
+                    {selected.user?.username ?? "-"}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelected(null)}
+                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+              >
+                Fechar
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
+              <div>
+                <p className="font-semibold text-black">Posição Inicial</p>
+                <p>{formatPos(selected.startPos)}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">Ciclos no Autonomo</p>
+                <p>{selected.autoCycles ?? 0}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">
+                  Ciclos no Teleoperado
+                </p>
+                <p>{selected.teleopCycles ?? 0}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">Quebrou</p>
+                <p>{selected.robotBroke ? "Sim" : "Não"}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">Auto Funcionou</p>
+                <p>{selected.autoWorked ? "Sim" : "Não"}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">Escalada no Endgame</p>
+                <p>{formatLvl(selected.endgame)}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold text-black">Escalado no Auto</p>
+                <p>{formatLvl(selected.autoClimb)}</p>
+              </div>
+
+              <div className="sm:col-span-2">
+                <p className="font-semibold text-black">Observações</p>
+                <p className="wrap-break-word">{selected.notes || "-"}</p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => removeRecord(selected.id)}
+                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+              >
+                Excluir
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelected(null)}
+                className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200"
+              >
+                OK
+              </button>
+            </div>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setSelected(null)}
-          className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-        >
-          Fechar
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
-        <div>
-          <p className="font-semibold text-black">Posição Inicial</p>
-          <p>{formatPos(selected.startPos)}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">Ciclos no Autonomo</p>
-          <p>{selected.autoCycles ?? 0}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">
-            Ciclos no Teleoperado
-          </p>
-          <p>{selected.teleopCycles ?? 0}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">Quebrou</p>
-          <p>{selected.robotBroke ? "Sim" : "Não"}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">Auto Funcionou</p>
-          <p>{selected.autoWorked ? "Sim" : "Não"}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">Escalada no Endgame</p>
-          <p>{formatLvl(selected.endgame)}</p>
-        </div>
-
-        <div>
-          <p className="font-semibold text-black">Escalado no Auto</p>
-          <p>{formatLvl(selected.autoClimb)}</p>
-        </div>
-
-        <div className="sm:col-span-2">
-          <p className="font-semibold text-black">Observações</p>
-          <p className="wrap-break-word">{selected.notes || "-"}</p>
-        </div>
-      </div>
-
-      <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
-        <button
-          type="button"
-          onClick={() => removeRecord(selected.id)}
-          className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-        >
-          Excluir
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setSelected(null)}
-          className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200"
-        >
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </>
   );
 }

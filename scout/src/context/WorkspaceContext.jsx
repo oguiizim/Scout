@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import api from "../api/client.js";
 
-const WorkspaceContext = createContext(null);
+// eslint-disable-next-line react-refresh/only-export-components
+export const WorkspaceContext = createContext(null);
 
 export function WorkspaceProvider({ children }) {
   const [activeWorkspace, setActiveWorkspace] = useState(null);
@@ -18,17 +19,17 @@ export function WorkspaceProvider({ children }) {
   }
 
   useEffect(() => {
-    const loadWorkspace = async () => {
+    (async () => {
       try {
-        await refreshActiveWorkspace();
-      } catch (error) {
-        console.error("Erro ao carregar workspace:", error);
+        const { data } = await api.get("/workspaces/active");
+        setActiveWorkspace(data);
+      } catch (e) {
+        console.error("Erro ao carregar workspace:", e);
+        setActiveWorkspace(null); // ✅ não quebra
       } finally {
         setLoadingWorkspace(false);
       }
-    };
-
-    loadWorkspace();
+    })();
   }, []);
 
   return (

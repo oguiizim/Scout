@@ -135,7 +135,7 @@ function Navbar() {
             {user}
           </span>
 
-          <NavLink to="/settings" className="w-10 h10">
+          <NavLink to="/settings" className="w-8 h8">
             <img src={settings} alt="Config" />
           </NavLink>
 
