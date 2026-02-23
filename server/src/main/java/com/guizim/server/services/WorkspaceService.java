@@ -125,7 +125,7 @@ public class WorkspaceService {
 
     @Transactional
     public WorkspaceMember joinByCode(String shareCode, boolean setActive) {
-        User user = authService.getAuthenticatedUser();
+        User user = getLoggedUser();
 
         Workspace ws = workspaceRepository.findByShareCode(shareCode)
                 .orElseThrow(() -> new ObjectNotFoundException("Workspace não encontrado"));
