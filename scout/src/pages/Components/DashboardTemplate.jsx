@@ -17,6 +17,7 @@ import {
 } from "../../api/services/dashboard.js";
 import { getTeamNameByNumber } from "../../api/teamsUtils.js";
 import back from "../../assets/icons8-voltar.png";
+import useWorkspace from "../../context/UseWorkspace.jsx";
 
 ChartJS.register(
   CategoryScale,
@@ -116,6 +117,8 @@ export default function Dashboard() {
   const { teamNumber } = useParams();
   const navigate = useNavigate();
 
+  const { activeWorkspace } = useWorkspace();
+
   const [pit, setPit] = useState(null);
   const [scouts, setScouts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -163,7 +166,7 @@ export default function Dashboard() {
     }
 
     loadAll();
-  }, [teamNumber]);
+  }, [teamNumber, activeWorkspace?.id]);
 
   const metrics = useMemo(() => {
     const n = scouts.length;

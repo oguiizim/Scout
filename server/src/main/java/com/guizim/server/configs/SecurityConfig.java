@@ -72,6 +72,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS_DELETE).permitAll()
                                 .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                                 .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated());
 
                 // Stateless
@@ -90,7 +92,9 @@ public class SecurityConfig {
                 CorsConfiguration configuration = new CorsConfiguration();
 
                 configuration.setAllowedOrigins(Arrays.asList(
-                                "http://localhost:5173", "https://scout-two-ochre.vercel.app", "https://axionscout.vercel.app"));
+                                "http://localhost:5173",
+                                "https://scout-two-ochre.vercel.app",
+                                "https://axionscout.vercel.app"));
 
                 configuration.setAllowedMethods(Arrays.asList(
                                 "GET", "POST", "PUT", "DELETE", "OPTIONS"));

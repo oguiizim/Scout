@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { registerUser } from "../../api/services/register.js";
+// import InviteCodeButton from "../Components/InvideCodeButton.jsx";
 import toast from "react-hot-toast";
 
 function Register() {
@@ -65,7 +66,7 @@ function Register() {
         className="text-black w-[30vw] min-w-[320px] max-w-115 flex flex-col items-center rounded-[20px] p-10 border-2 border-[#F1F5F9]"
       >
         <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
-        <p className="text-[#262626] mb-6">Cadastro no sistema FRC Scout</p>
+        <p className="text-[#262626] mb-4">Cadastro no sistema FRC Scout</p>
 
         {error && (
           <div className="w-full mb-4 rounded-lg border border-red-200 bg-red-50 p-2 text-sm text-red-700">
@@ -75,7 +76,7 @@ function Register() {
 
         <p className="self-start font-semibold">Time</p>
         <input
-          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
+          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-2"
           placeholder="Digite seu time"
           type="number"
           name="team"
@@ -86,7 +87,7 @@ function Register() {
 
         <p className="self-start font-semibold">Usuário</p>
         <input
-          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
+          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-2"
           placeholder="Digite seu usuário"
           name="username"
           value={form.username}
@@ -96,7 +97,7 @@ function Register() {
 
         <p className="self-start font-semibold">Senha</p>
         <input
-          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-4"
+          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-2"
           placeholder="Digite sua senha"
           type="password"
           name="password"
@@ -108,7 +109,7 @@ function Register() {
         <p className="self-start font-semibold">Confirmar Senha</p>
         <input
           type="password"
-          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-6"
+          className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2 mb-2"
           placeholder="Confirme sua senha"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
