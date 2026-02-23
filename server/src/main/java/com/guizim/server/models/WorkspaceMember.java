@@ -36,11 +36,11 @@ public class WorkspaceMember {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "workspace_id", nullable = false, updatable = false, unique = true)
+    @JoinColumn(name = "workspace_id", nullable = false, updatable = false)
     private Workspace workspace;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false, updatable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
     @Enumerated(EnumType.STRING)
