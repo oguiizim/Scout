@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import TeamInfo from "../ranking/TeamInfo";
 import { fetchAllScoutsForRanking } from "../../api/services/rankingServices.js";
+import useWorkspace from "../../context/UseWorkspace.jsx";
 
 function calcConsistency(teamMatches, tolPct = 0.2) {
   if (!teamMatches?.length) return 0;
@@ -68,6 +69,7 @@ function normalizeScout(raw) {
 }
 
 export default function RankingTable() {
+  const { activeWorkspace } = useWorkspace();
   const [records, setRecords] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [popupPos, setPopupPos] = useState(null);
@@ -116,7 +118,7 @@ export default function RankingTable() {
     }
 
     load();
-  }, []);
+  }, [activeWorkspace?.id]);
 
   const ranking = useMemo(() => {
     const byTeam = new Map();
@@ -158,9 +160,9 @@ export default function RankingTable() {
   const cellTeam = "flex items-center justify-center cursor-pointer";
 
   return (
-  <>
-    <div
-      className="
+    <>
+      <div
+        className="
         w-full
         max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
         bg-white flex flex-col text-black
@@ -169,86 +171,87 @@ export default function RankingTable() {
         rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
         border-2 border-[#E7E7E9]
       "
-    >
-      <h1 className="text-xl sm:text-2xl font-bold mb-4">Rankings</h1>
+      >
+        <h1 className="text-xl sm:text-2xl font-bold mb-4">Rankings</h1>
 
-      {/* Header */}
-      {/* Mobile: Colocação | Time | Consistência (esconde Partidas) */}
-      {/* Tablet/PC: mostra tudo */}
-      <div
-        className="
+        {/* Header */}
+        {/* Mobile: Colocação | Time | Consistência (esconde Partidas) */}
+        {/* Tablet/PC: mostra tudo */}
+        <div
+          className="
           w-full grid
           grid-cols-3 md:grid-cols-4
           pb-2 border-b border-[#2e2e2e]
           font-semibold
         "
-      >
-        <p className={cell}>Colocação</p>
-        <p className={cell}>Time</p>
-        <p className={cell}>Consistência</p>
-        <p className={`${cell} hidden md:flex`}>Partidas</p>
-      </div>
+        >
+          <p className={cell}>Colocação</p>
+          <p className={cell}>Time</p>
+          <p className={cell}>Consistência</p>
+          <p className={`${cell} hidden md:flex`}>Partidas</p>
+        </div>
 
-      <div className="w-full flex flex-col">
-        {loading ? (
-          <div className="py-6 text-[#2e2e2e]">Carregando ranking...</div>
-        ) : errorMsg ? (
-          <div className="py-6 text-[#b00020]">{errorMsg}</div>
-        ) : ranking.length === 0 ? (
-          <div className="py-6 text-[#2e2e2e]">
-            Ainda não há scouts salvos no banco.
-          </div>
-        ) : (
-          ranking.map((t, idx) => (
-            <div
-              key={String(t.teamNumber)}
-              className="
+        <div className="w-full flex flex-col">
+          {loading ? (
+            <div className="py-6 text-[#2e2e2e]">Carregando ranking...</div>
+          ) : errorMsg ? (
+            <div className="py-6 text-[#b00020]">{errorMsg}</div>
+          ) : ranking.length === 0 ? (
+            <div className="py-6 text-[#2e2e2e]">
+              Ainda não há scouts salvos no banco.
+            </div>
+          ) : (
+            ranking.map((t, idx) => (
+              <div
+                key={String(t.teamNumber)}
+                className="
                 w-full grid
                 grid-cols-3 md:grid-cols-4
                 py-3 border-b border-[#E7E7E9]
                 hover:bg-[#F1F5F9] transition-all duration-200
               "
-            >
-              <p className={cell}>{idx + 1}º</p>
-
-              <button
-                type="button"
-                className={`${cellTeam} hover:underline underline-offset-4`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const rect = e.currentTarget.getBoundingClientRect();
-
-                  setSelectedTeam({ ...t, rank: idx + 1 });
-                  setPopupPos({
-                    top: rect.top + window.scrollY,
-                    left: rect.right + 12,
-                  });
-                }}
               >
-                {t.teamName ? `${t.teamName} #${t.teamNumber}` : `#${t.teamNumber}`}
-              </button>
+                <p className={cell}>{idx + 1}º</p>
 
-              <p className={cell}>{t.consistency}%</p>
+                <button
+                  type="button"
+                  className={`${cellTeam} hover:underline underline-offset-4`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const rect = e.currentTarget.getBoundingClientRect();
 
-              {/* Partidas só no tablet/pc */}
-              <p className={`${cell} hidden md:flex`}>{t.matchesCount}</p>
-            </div>
-          ))
-        )}
+                    setSelectedTeam({ ...t, rank: idx + 1 });
+                    setPopupPos({
+                      top: rect.top + window.scrollY,
+                      left: rect.right + 12,
+                    });
+                  }}
+                >
+                  {t.teamName
+                    ? `${t.teamName} #${t.teamNumber}`
+                    : `#${t.teamNumber}`}
+                </button>
+
+                <p className={cell}>{t.consistency}%</p>
+
+                {/* Partidas só no tablet/pc */}
+                <p className={`${cell} hidden md:flex`}>{t.matchesCount}</p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
 
-    {selectedTeam && (
-      <TeamInfo
-        team={selectedTeam}
-        position={popupPos}
-        onClose={() => {
-          setSelectedTeam(null);
-          setPopupPos(null);
-        }}
-      />
-    )}
-  </>
-);
-
+      {selectedTeam && (
+        <TeamInfo
+          team={selectedTeam}
+          position={popupPos}
+          onClose={() => {
+            setSelectedTeam(null);
+            setPopupPos(null);
+          }}
+        />
+      )}
+    </>
+  );
 }

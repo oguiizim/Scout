@@ -3,8 +3,10 @@ import toast from "react-hot-toast";
 import { getMyScoutMatches } from "../../api/services/getMatchesUser.js";
 import { deleteScoutMatch } from "../../api/services/deleteScoutMatch.js";
 import { TEAMS } from "../../data/Teams.js";
+import useWorkspace from "../../context/UseWorkspace.jsx";
 
 function ListTemplate({ filters }) {
+  const { activeWorkspace } = useWorkspace();
   const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -69,7 +71,7 @@ function ListTemplate({ filters }) {
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activeWorkspace?.id]);
 
   // Ordena por data mais recente
   const sorted = useMemo(() => {

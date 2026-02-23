@@ -1,19 +1,23 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useEffect, useState } from "react";
-import prancheta from "../../assets/icons8-prancheta.png";
-import papel from "../../assets/icons8-papel.png";
-import lista from "../../assets/icons8-lista.png";
-import grafico from "../../assets/icons8-grafico.png";
-import sair from "../../assets/icons8-sair.png";
+import prancheta from "../../assets/prancheta.png";
+import papel from "../../assets/document.png";
+import ranking from "../../assets/ranking.png";
+import grafico from "../../assets/graph.png";
+import grafico_gif from "../../assets/graph-gif.gif";
+import sair from "../../assets/sair.png";
+import sair_gif from "../../assets/sair-gif.gif";
 import axion from "../../assets/logo.svg";
-import settings from "../../assets/icons8-config.png";
+import settings from "../../assets/configuracoes.png";
 
 function Navbar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
+
+  const [isHover, setIsHover] = useState(false);
 
   // fecha menu ao trocar de tamanho pra tablet/pc
   useEffect(() => {
@@ -107,15 +111,29 @@ function Navbar() {
           </li>
 
           <li>
-            <NavLink to="/records" className={linkClass}>
-              <img src={lista} className="w-5 h-5" alt="" />
+            <NavLink
+              to="/records"
+              className={linkClass}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
+              <img
+                src={isHover ? grafico_gif : grafico}
+                className="w-5 h-5"
+                alt=""
+              />
               <span className="text-sm lg:text-base">Registros</span>
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/ranking" className={linkClass}>
-              <img src={grafico} className="w-5 h-5" alt="" />
+            <NavLink
+              to="/ranking"
+              className={linkClass}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
+              <img src={ranking} className="w-5 h-5" alt="" />
               <span className="text-sm lg:text-base">Ranking</span>
             </NavLink>
           </li>
@@ -135,18 +153,29 @@ function Navbar() {
             {user}
           </span>
 
-          <NavLink to="/settings" className="w-8 h8">
-            <img src={settings} alt="Config" />
-          </NavLink>
+          <div className="w-10 h-10 grid place-items-center rounded-md hover:bg-[#F1F5F9] transition">
+            <NavLink
+              to="/settings"
+              className="w-7 h-7 hover:rotate-90 hover:scale-105 transition-all duration-500"
+            >
+              <img src={settings} alt="Config" />
+            </NavLink>
+          </div>
 
           <button
             type="button"
             onClick={handleLogout}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
             className="w-10 h-10 grid place-items-center rounded-md hover:bg-[#F1F5F9] transition"
             title="Sair"
             aria-label="Sair"
           >
-            <img src={sair} alt="Sair" className="w-6 h-6" />
+            <img
+              src={isHover ? sair_gif : sair}
+              alt="Sair"
+              className="w-6 h-6"
+            />
           </button>
 
           {/* Hamburger só no celular */}
@@ -193,7 +222,7 @@ function Navbar() {
               onClick={() => go("/records")}
               type="button"
             >
-              <img src={lista} className="w-5 h-5" alt="" />
+              <img src={grafico} className="w-5 h-5" alt="" />
               Registros
             </button>
 
@@ -202,7 +231,7 @@ function Navbar() {
               onClick={() => go("/ranking")}
               type="button"
             >
-              <img src={grafico} className="w-5 h-5" alt="" />
+              <img src={ranking} className="w-5 h-5" alt="" />
               Ranking
             </button>
           </div>

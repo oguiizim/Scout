@@ -29,18 +29,14 @@ function Settings() {
       toast.success("Você entrou no workspace!");
       setJoinCode("");
     } catch (e) {
-      const raw = e?.response?.data?.message || "";
-
-      if (
-        e?.response?.status === 409 &&
-        String(raw).includes("Duplicate entry")
-      ) {
-        toast.success("Você já está nesse workspace!");
-        await refreshActiveWorkspace();
-        return;
-      }
-
-      toast.error(String(raw || "Não foi possível entrar no workspace."));
+      const msg =
+        e?.response?.data?.message ||
+        e?.response?.data?.error ||
+        (typeof e?.response?.data === "string" ? e.response.data : "") ||
+        "Não foi possível entrar no workspace.";
+      toast.error(String(msg));
+    } finally {
+      setJoining(false);
     }
   };
 
