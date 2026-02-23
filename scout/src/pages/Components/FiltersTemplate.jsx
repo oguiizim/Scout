@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
-import pesquisar from "../../assets/icons8-pesquisar.png";
+import pesquisar from "../../assets/pesquisar.png";
 
 function FiltersTemplate({ filters, setFilters }) {
   const setField = (key, value) => setFilters((p) => ({ ...p, [key]: value }));

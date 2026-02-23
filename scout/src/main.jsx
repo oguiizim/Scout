@@ -19,6 +19,7 @@ import PitScout from "./pages/pit/PitScoutPage.jsx";
 import Home from "./pages/home/Home.jsx";
 import RequireAuth from "./context/RequireAuth.jsx";
 import Settings from "./pages/settings/Settings.jsx";
+import Preview from "./pages/preview/Preview.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -57,6 +58,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/info/:teamNumber" element={<PitScout />}></Route>
               {/* User Settings */}
               <Route path="/settings" element={<Settings />}></Route>
+              <Route path="/preview" element={<Preview />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
