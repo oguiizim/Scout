@@ -54,10 +54,18 @@ public class ScoutPitService {
     public ScoutPit update(ScoutPit obj) {
         ScoutPit newObj = findByTeam(obj.getTeam());
 
-        // não deixa trocar workspace/user
         newObj.setDriveTrain(obj.getDriveTrain());
         newObj.setRobotName(obj.getRobotName());
-        // coloque aqui os outros campos do pit que você tiver
+        newObj.setAutoCenter(obj.getAutoCenter());
+        newObj.setAutoLeft(obj.getAutoLeft());
+        newObj.setAutoRight(obj.getAutoRight());
+        newObj.setCycles(obj.getCycles());
+        newObj.setIntake(obj.getIntake());
+        newObj.setShooter(obj.getShooter());
+        newObj.setStorage(obj.getStorage());
+        newObj.setTimeCycles(obj.getTimeCycles());
+        newObj.setTower(obj.getTower());
+        newObj.setTrenchOrBump(obj.getTrenchOrBump());
 
         return this.scoutPitRepository.save(newObj);
     }

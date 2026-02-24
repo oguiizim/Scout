@@ -60,24 +60,14 @@ function getStorageFromPit(pitData) {
   const pit = Array.isArray(pitData) ? pitData[0] : pitData;
   if (!pit) return 0;
 
-  return Number(
-    pit.storage ??
-      pit.storageCapacity ??
-      pit.capacity ??
-      pit.capacidade ??
-      pit.qtyStorage ??
-      pit.quantidadeArmazenamento ??
-      0,
-  );
+  return Number(pit.storage ?? 0);
 }
 
 // ✅ Ajuste de campos: se seu backend usa outros nomes, mexe só aqui.
 function normalizeScout(raw, pitData) {
-  const autoCycles = Number(raw.autoCycles ?? raw.auto_cycles ?? 0);
+  const autoCycles = Number(raw.autoCycles ?? 0);
 
-  const teleopCycles = Number(
-    raw.teleCycles ?? raw.teleopCycles ?? raw.teleop_cycles ?? 0,
-  );
+  const teleopCycles = Number(raw.teleCycles ?? 0);
 
   const totalCycles = autoCycles + teleopCycles;
 
@@ -144,7 +134,7 @@ export default function Dashboard() {
         let pitData = null;
         try {
           pitData = await fetchMyTeamPitScout(teamNumber);
-        } catch (_) {
+        } catch (e) {
           pitData = null;
         }
 
@@ -386,7 +376,9 @@ export default function Dashboard() {
 
           {/* Gráfico 2: pega a linha inteira (col-span-2 no md+) */}
           <div className="md:col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
-            <p className="font-semibold mb-2">Distribuição da Tower:</p>
+            <p className="font-semibold mb-2">
+              Distribuição da Tower End Game:
+            </p>
 
             {Object.keys(metrics.towerDist).length === 0 ? (
               <p className="font-normal">N/A</p>

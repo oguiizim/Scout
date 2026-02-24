@@ -56,9 +56,10 @@ createRoot(document.getElementById("root")).render(
               <Route path="/teamInfo" element={<TeamInfo />}></Route>
               <Route path="/dashboard/:teamNumber" element={<Dashboard />} />
               <Route path="/info/:teamNumber" element={<PitScout />}></Route>
+              {/* Match Preview */}
+              <Route path="/preview" element={<Preview />}></Route>
               {/* User Settings */}
               <Route path="/settings" element={<Settings />}></Route>
-              <Route path="/preview" element={<Preview />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

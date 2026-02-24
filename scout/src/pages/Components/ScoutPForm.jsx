@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
-import { submitPitData } from "../../api/services/scoutPit.js";
+import { submitPitData } from "../../api/services/getPit.js";
 import toast from "react-hot-toast";
 
 const initialFormState = {
