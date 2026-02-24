@@ -95,7 +95,7 @@ export async function predictMatch({ redTeams, blueTeams }) {
       const { autoTowerPts, autoTowerLevel, endTowerPts, endTowerLevel } =
         calcTowerPoints(safeMatches);
 
-      const expectedTowerPoits = autoTowerPts + endTowerPts;
+      const expectedTowerPoits = endTowerPts;
       const expectedPoints = ballsPoints + expectedTowerPoits;
 
       return {

@@ -171,8 +171,6 @@ export default function PitScoutPage() {
         notes: String(form.notes ?? "").trim(),
       };
 
-      // ✅ se já existe pit -> PUT /scoutpit/{team}
-      // ✅ se não existe -> POST /scoutpit
       const saved = pit
         ? await updatePit(teamNumber, payload)
         : await submitPitData(payload);
@@ -181,6 +179,11 @@ export default function PitScoutPage() {
       toast.success("Pit Scouting atualizado!");
       setEditOpen(false);
     } catch (e) {
+      console.log("STATUS:", e?.response?.status);
+      console.log("DATA:", e?.response?.data); // 👈 aqui costuma vir a mensagem do Spring
+      console.log("HEADERS:", e?.response?.headers);
+      console.log("CONFIG URL:", e?.config?.url);
+      console.log("REQUEST PAYLOAD:", e?.config?.data); // 👈 payload serializado
       toast.error("Não foi possível salvar as alterações.");
     } finally {
       setSaving(false);

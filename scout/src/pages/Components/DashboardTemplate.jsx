@@ -347,7 +347,7 @@ export default function Dashboard() {
           </div>
 
           <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
-            <p className="font-semibold mb-2">Média de Pontos:</p>
+            <p className="font-semibold mb-2">Pontos Esperados:</p>
 
             {metrics.avgPoints == null ? (
               <p className="text-gray-500 text-2xl sm:text-3xl">

@@ -128,8 +128,8 @@ export default function Preview() {
             <ScoreCard red={result.final.red} blue={result.final.blue} />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <BreakdownCard title="Red breakdown" alliance={result.red} />
-              <BreakdownCard title="Blue breakdown" alliance={result.blue} />
+              <BreakdownCard title="Registros Red:" alliance={result.red} />
+              <BreakdownCard title="Registros Blue:" alliance={result.blue} />
             </div>
           </section>
         )}

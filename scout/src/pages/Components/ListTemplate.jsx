@@ -4,6 +4,7 @@ import { getMyScoutMatches } from "../../api/services/getMatchesUser.js";
 import { deleteScoutMatch } from "../../api/services/deleteScoutMatch.js";
 import { TEAMS } from "../../data/Teams.js";
 import useWorkspace from "../../context/UseWorkspace.jsx";
+import grafico_gif from "../../assets/graph-gif.gif";
 
 function ListTemplate({ filters }) {
   const { activeWorkspace } = useWorkspace();
@@ -181,12 +182,15 @@ function ListTemplate({ filters }) {
       "
       >
         <div className="flex items-center justify-between gap-3 mb-4">
-          <h1 className="text-xl sm:text-2xl font-bold">
-            Registros{" "}
-            {loading
-              ? "(Carregando...)"
-              : `(${filtered.length}/${sorted.length})`}
-          </h1>
+          <div className="flex gap-2">
+            <img src={grafico_gif} className="w-8" />
+            <h1 className="text-xl sm:text-2xl font-bold">
+              Registros{" "}
+              {loading
+                ? "(Carregando...)"
+                : `(${filtered.length}/${sorted.length})`}
+            </h1>
+          </div>
 
           <button
             type="button"
@@ -278,7 +282,7 @@ function ListTemplate({ filters }) {
                     <button
                       type="button"
                       onClick={() => setSelected(r)}
-                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
                     >
                       Exibir
                     </button>
@@ -286,7 +290,7 @@ function ListTemplate({ filters }) {
                     <button
                       type="button"
                       onClick={() => removeRecord(r.id)}
-                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
                       title="Excluir"
                     >
                       Excluir
@@ -299,7 +303,7 @@ function ListTemplate({ filters }) {
                   <button
                     type="button"
                     onClick={() => setSelected(r)}
-                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
                   >
                     Exibir
                   </button>
@@ -307,7 +311,7 @@ function ListTemplate({ filters }) {
                   <button
                     type="button"
                     onClick={() => removeRecord(r.id)}
-                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
                     title="Excluir"
                   >
                     Excluir
@@ -361,14 +365,6 @@ function ListTemplate({ filters }) {
                   </p>
                 </div>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
-              >
-                Fechar
-              </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
@@ -419,7 +415,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => removeRecord(selected.id)}
-                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
               >
                 Excluir
               </button>
@@ -427,7 +423,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200"
+                className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200 cursor-pointer"
               >
                 OK
               </button>

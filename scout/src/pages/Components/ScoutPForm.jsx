@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
 import { submitPitData } from "../../api/services/getPit.js";
 import toast from "react-hot-toast";
+import document_gif from "../../assets/document-gif.gif";
 
 const initialFormState = {
   team: "", // number (string no state, converte no submit)
@@ -153,9 +154,12 @@ function ScoutPForm() {
       border-2 border-[#E7E7E9]
     "
     >
-      <h1 className="font-bold text-xl sm:text-2xl justify-start mb-4">
-        Novo Scout Pit
-      </h1>
+      <div className="flex items-center mb-4 gap-2">
+        <img src={document_gif} className="w-7" />
+        <h1 className="font-bold text-xl sm:text-2xl justify-start">
+          Novo Scout Pit
+        </h1>
+      </div>
 
       {/* Team + Robot Name */}
       <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-5 mb-4">
