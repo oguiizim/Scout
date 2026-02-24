@@ -54,18 +54,32 @@ public class ScoutPitService {
     public ScoutPit update(ScoutPit obj) {
         ScoutPit newObj = findByTeam(obj.getTeam());
 
-        newObj.setDriveTrain(obj.getDriveTrain());
-        newObj.setRobotName(obj.getRobotName());
-        newObj.setAutoCenter(obj.getAutoCenter());
-        newObj.setAutoLeft(obj.getAutoLeft());
-        newObj.setAutoRight(obj.getAutoRight());
-        newObj.setCycles(obj.getCycles());
-        newObj.setIntake(obj.getIntake());
-        newObj.setShooter(obj.getShooter());
-        newObj.setStorage(obj.getStorage());
-        newObj.setTimeCycles(obj.getTimeCycles());
-        newObj.setTower(obj.getTower());
-        newObj.setTrenchOrBump(obj.getTrenchOrBump());
+        if (obj.getDriveTrain() != null)
+            newObj.setDriveTrain(obj.getDriveTrain());
+        if (obj.getRobotName() != null)
+            newObj.setRobotName(obj.getRobotName());
+        if (obj.getAutoCenter() != null)
+            newObj.setAutoCenter(obj.getAutoCenter());
+        if (obj.getAutoLeft() != null)
+            newObj.setAutoLeft(obj.getAutoLeft());
+        if (obj.getAutoRight() != null)
+            newObj.setAutoRight(obj.getAutoRight());
+        if (obj.getCycles() != null)
+            newObj.setCycles(obj.getCycles());
+        if (obj.getIntake() != null)
+            newObj.setIntake(obj.getIntake());
+        if (obj.getShooter() != null)
+            newObj.setShooter(obj.getShooter());
+        if (obj.getStorage() != null)
+            newObj.setStorage(obj.getStorage());
+        if (obj.getTimeCycles() != null)
+            newObj.setTimeCycles(obj.getTimeCycles());
+        if (obj.getTower() != null)
+            newObj.setTower(obj.getTower());
+        if (obj.getTrenchOrBump() != null)
+            newObj.setTrenchOrBump(obj.getTrenchOrBump());
+        if (obj.getNotes() != null)
+            newObj.setNotes(obj.getNotes());
 
         return this.scoutPitRepository.save(newObj);
     }

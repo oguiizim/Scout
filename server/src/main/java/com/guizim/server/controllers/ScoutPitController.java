@@ -57,8 +57,8 @@ public class ScoutPitController {
 
     // UPDATE
     @PutMapping("/{team}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ScoutPit obj, @PathVariable Long id) {
-        obj.setId(id);
+    public ResponseEntity<Void> update(@Valid @RequestBody ScoutPit obj, @PathVariable Long team) {
+        obj.setTeam(team);
         this.scoutPitService.update(obj);
         return ResponseEntity.noContent().build();
     }
