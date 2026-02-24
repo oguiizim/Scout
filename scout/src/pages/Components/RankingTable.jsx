@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import TeamInfo from "../ranking/TeamInfo";
 import { fetchAllScoutsForRanking } from "../../api/services/rankingServices.js";
+import TeamInfo from "../ranking/TeamInfo";
 import useWorkspace from "../../context/UseWorkspace.jsx";
+import ranking_gif from "../../assets/ranking-gif.gif";
 
 function calcConsistency(teamMatches, tolPct = 0.2) {
   if (!teamMatches?.length) return 0;
@@ -172,7 +173,10 @@ export default function RankingTable() {
         border-2 border-[#E7E7E9]
       "
       >
-        <h1 className="text-xl sm:text-2xl font-bold mb-4">Rankings</h1>
+        <div className="flex flex-row gap-2 items-center mb-4">
+          <img src={ranking_gif} alt="Fanking" className="w-8" />
+          <h1 className="text-xl sm:text-2xl font-bold">Rankings</h1>
+        </div>
 
         {/* Header */}
         {/* Mobile: Colocação | Time | Consistência (esconde Partidas) */}

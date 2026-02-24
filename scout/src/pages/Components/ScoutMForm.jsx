@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
 import { submitMatchData } from "../../api/services/scoutMatch.js";
 import toast, { Toaster } from "react-hot-toast";
+import document_gif from "../../assets/document-gif.gif";
 
 const initialState = {
   matchNumber: "",
@@ -133,7 +134,10 @@ function ScoutMForm() {
       border-2 border-[#E7E7E9]
     "
     >
-      <h1 className="font-bold text-xl sm:text-2xl mb-4">Novo Scout</h1>
+      <div className="flex gap-2 mb-4 items-center">
+        <img src={document_gif} className="w-7" />
+        <h1 className="font-bold text-xl sm:text-2xl">Novo Scout</h1>
+      </div>
 
       {/* Team and Match Number */}
       <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-5 mb-4">
