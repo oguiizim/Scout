@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
 import { submitPitData } from "../../api/services/getPit.js";
+import { Book, Trash, Save } from "lucide-react";
 import toast from "react-hot-toast";
 import document_gif from "../../assets/document-gif.gif";
+import doc from "../../assets/document.png";
 
 const initialFormState = {
   team: "", // number (string no state, converte no submit)
@@ -58,7 +60,7 @@ function ScoutPForm() {
   };
 
   const isSelectedBtn = (current, value) =>
-    current === value ? "bg-[#F1F5F9]" : "bg-[#ffffff]";
+    current === value ? "bg-lightblue" : "bg-background";
 
   const clearForm = () => {
     setForm(initialFormState);
@@ -147,15 +149,16 @@ function ScoutPForm() {
       className="
       w-full
       max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
-      bg-white flex flex-col text-black
+      bg-background flex flex-col text-text
       p-4 sm:p-5 md:p-6
       mt-4 sm:mt-5 mb-4 sm:mb-5
       rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
-      border-2 border-[#E7E7E9]
+      border-2 border-border
     "
     >
       <div className="flex items-center mb-4 gap-2">
-        <img src={document_gif} className="w-7" />
+        <Book />
+        {/* <img src={doc} className="w-7" /> */}
         <h1 className="font-bold text-xl sm:text-2xl justify-start">
           Novo Scout Pit
         </h1>
@@ -173,7 +176,7 @@ function ScoutPForm() {
           <input
             type="text"
             placeholder="Ex: 8882, SESI, Hydra..."
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={form.teamQuery}
             onChange={(e) => {
               setField("teamQuery", e.target.value);
@@ -186,7 +189,7 @@ function ScoutPForm() {
 
           {/* overlay: não empurra nada pra baixo */}
           {openTeams && (
-            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-border bg-background z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
                 <div className="px-4 py-3 text-[#2e2e2e]">
                   Nenhuma equipe encontrada.
@@ -197,7 +200,7 @@ function ScoutPForm() {
                     key={t.number}
                     type="button"
                     onClick={() => selectTeam(t)}
-                    className="w-full text-left px-4 py-2 hover:bg-[#F1F5F9] transition-all duration-150"
+                    className="w-full text-left px-4 py-2 hover:bg-lightblue transition-all duration-150"
                   >
                     {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
                   </button>
@@ -219,7 +222,7 @@ function ScoutPForm() {
           <input
             type="text"
             placeholder="Ex: Doppler"
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={form.robotName}
             onChange={(e) => setField("robotName", e.target.value)}
           />
@@ -233,7 +236,7 @@ function ScoutPForm() {
           <button
             type="button"
             onClick={() => setField("driveTrain", "swerve")}
-            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
               form.driveTrain,
               "swerve",
             )}`}
@@ -243,7 +246,7 @@ function ScoutPForm() {
           <button
             type="button"
             onClick={() => setField("driveTrain", "tank")}
-            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+            className={`w-full sm:w-1/2 py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
               form.driveTrain,
               "tank",
             )}`}
@@ -267,7 +270,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("shooter", val)}
-              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.shooter,
                 val,
               )}`}
@@ -292,7 +295,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("intake", val)}
-              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.intake,
                 val,
               )}`}
@@ -316,7 +319,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("trenchOrBump", val)}
-              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.trenchOrBump,
                 val,
               )}`}
@@ -339,7 +342,7 @@ function ScoutPForm() {
             <input
               type="number"
               placeholder="Esquerda"
-              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              className="w-full px-4 py-2 rounded-lg border-2 border-border"
               value={form.autoLeft}
               inputMode="numeric"
               onChange={(e) => setField("autoLeft", onlyDigits(e.target.value))}
@@ -351,7 +354,7 @@ function ScoutPForm() {
             <input
               type="number"
               placeholder="Centro"
-              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              className="w-full px-4 py-2 rounded-lg border-2 border-border"
               value={form.autoCenter}
               inputMode="numeric"
               onChange={(e) =>
@@ -365,7 +368,7 @@ function ScoutPForm() {
             <input
               type="number"
               placeholder="Direita"
-              className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+              className="w-full px-4 py-2 rounded-lg border-2 border-border"
               value={form.autoRight}
               inputMode="numeric"
               onChange={(e) =>
@@ -384,7 +387,7 @@ function ScoutPForm() {
         <input
           type="number"
           placeholder="Ex: 26"
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-border"
           value={form.storage}
           inputMode="numeric"
           onChange={(e) => setField("storage", onlyDigits(e.target.value))}
@@ -405,7 +408,7 @@ function ScoutPForm() {
               key={val}
               type="button"
               onClick={() => setField("tower", val)}
-              className={`w-full py-2 rounded-lg hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer ${isSelectedBtn(
+              className={`w-full py-2 rounded-lg hover:bg-lightblue transition-all duration-200 cursor-pointer ${isSelectedBtn(
                 form.tower,
                 val,
               )}`}
@@ -422,7 +425,7 @@ function ScoutPForm() {
         <input
           type="number"
           placeholder="Ex: 7.65"
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-border"
           value={form.timeCycles}
           inputMode="decimal"
           onChange={(e) => setField("timeCycles", onlyDecimal(e.target.value))}
@@ -437,7 +440,7 @@ function ScoutPForm() {
         <input
           type="number"
           placeholder="Ex: 2"
-          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full sm:w-1/2 px-4 py-2 rounded-lg border-2 border-border"
           value={form.cycles}
           inputMode="numeric"
           onChange={(e) => setField("cycles", onlyDigits(e.target.value))}
@@ -450,7 +453,7 @@ function ScoutPForm() {
         <input
           type="text"
           placeholder="Ex: Atira em qualquer local da arena"
-          className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full px-4 py-2 rounded-lg border-2 border-border"
           value={form.notes}
           onChange={(e) => setField("notes", e.target.value)}
         />
@@ -462,8 +465,9 @@ function ScoutPForm() {
           type="button"
           onClick={savePit}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-darkblue text-white rounded-lg py-2 cursor-pointer hover:bg-hoverblue transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
+          <Save />
           {loading ? "Enviando..." : "Salvar"}
         </button>
 
@@ -471,8 +475,9 @@ function ScoutPForm() {
           type="button"
           onClick={clearForm}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-white text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-background text-text rounded-lg py-2 cursor-pointer hover:bg-hoverblue hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
+          <Trash />
           Limpar
         </button>
       </div>

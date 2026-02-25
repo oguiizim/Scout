@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchAllScoutsForRanking } from "../../api/services/rankingServices.js";
+import { ChartNoAxesColumn } from "lucide-react";
 import TeamInfo from "../ranking/TeamInfo";
 import useWorkspace from "../../context/UseWorkspace.jsx";
 import ranking_gif from "../../assets/ranking-gif.gif";
+import rank from "../../assets/ranking.png";
 
 function calcConsistency(teamMatches, tolPct = 0.2) {
   if (!teamMatches?.length) return 0;
@@ -166,15 +168,16 @@ export default function RankingTable() {
         className="
         w-full
         max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
-        bg-white flex flex-col text-black
+        bg-background flex flex-col text-text
         p-4 sm:p-5 md:p-6
         mt-4 sm:mt-5 mb-4 sm:mb-5
         rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
-        border-2 border-[#E7E7E9]
+        border-2 border-border
       "
       >
         <div className="flex flex-row gap-2 items-center mb-4">
-          <img src={ranking_gif} alt="Fanking" className="w-8" />
+          <ChartNoAxesColumn />
+          {/* <img src={rank} alt="Fanking" className="w-8" /> */}
           <h1 className="text-xl sm:text-2xl font-bold">Rankings</h1>
         </div>
 
@@ -211,8 +214,8 @@ export default function RankingTable() {
                 className="
                 w-full grid
                 grid-cols-3 md:grid-cols-4
-                py-3 border-b border-[#E7E7E9]
-                hover:bg-[#F1F5F9] transition-all duration-200
+                py-3 border-b border-border
+                hover:bg-lightblue transition-all duration-200
               "
               >
                 <p className={cell}>{idx + 1}º</p>

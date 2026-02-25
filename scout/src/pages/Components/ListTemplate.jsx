@@ -3,8 +3,10 @@ import toast from "react-hot-toast";
 import { getMyScoutMatches } from "../../api/services/getMatchesUser.js";
 import { deleteScoutMatch } from "../../api/services/deleteScoutMatch.js";
 import { TEAMS } from "../../data/Teams.js";
+import { ChartLine, Maximize2, Trash } from "lucide-react";
 import useWorkspace from "../../context/UseWorkspace.jsx";
 import grafico_gif from "../../assets/graph-gif.gif";
+import grafico from "../../assets/graph.png";
 
 function ListTemplate({ filters }) {
   const { activeWorkspace } = useWorkspace();
@@ -174,16 +176,16 @@ function ListTemplate({ filters }) {
         className="
         w-full
         max-w-130 sm:max-w-180 md:max-w-245 lg:max-w-300
-        bg-white flex flex-col text-black
+        bg-background flex flex-col text-text
         p-4 sm:p-5 md:p-6
         mt-4 sm:mt-5 mb-4 sm:mb-5
         rounded-2xl sm:rounded-[18px] md:rounded-[20px]
-        border-2 border-[#E7E7E9]
+        border-2 border-border
       "
       >
         <div className="flex items-center justify-between gap-3 mb-4">
           <div className="flex gap-2">
-            <img src={grafico_gif} className="w-8" />
+            <ChartLine />
             <h1 className="text-xl sm:text-2xl font-bold">
               Registros{" "}
               {loading
@@ -195,7 +197,7 @@ function ListTemplate({ filters }) {
           <button
             type="button"
             onClick={load}
-            className="rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            className="rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             title="Recarregar"
             disabled={loading}
           >
@@ -209,7 +211,7 @@ function ListTemplate({ filters }) {
         {/* PC (lg): Partida | Time | Posição | Ciclos | Quebrou | Endgame | Scout | Ações */}
         <div
           className="
-          w-full font-semibold text-[#2e2e2e] pb-2 border-b border-[#2e2e2e]
+          w-full font-semibold text-text pb-2 border-b border-[#2e2e2e]
           grid gap-2
           grid-cols-4
           md:grid-cols-7
@@ -235,12 +237,12 @@ function ListTemplate({ filters }) {
         {/* Body */}
         <div className="w-full flex flex-col">
           {filtered.length === 0 && !loading ? (
-            <div className="py-6 text-center text-[#2e2e2e]">
+            <div className="py-6 text-center text-text">
               Nenhum registro encontrado.
             </div>
           ) : (
             filtered.map((r) => (
-              <div key={r.id} className="w-full border-b border-[#E7E7E9] py-3">
+              <div key={r.id} className="w-full border-b border-border py-3">
                 {/* Linha principal (grid) */}
                 <div
                   className="
@@ -282,17 +284,19 @@ function ListTemplate({ filters }) {
                     <button
                       type="button"
                       onClick={() => setSelected(r)}
-                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+                      className="flex items-center rounded-lg gap-2 px-3 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
                     >
+                      <Maximize2 />
                       Exibir
                     </button>
 
                     <button
                       type="button"
                       onClick={() => removeRecord(r.id)}
-                      className="w-20 rounded-lg px-3 py-1 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+                      className="items-center flex gap-2 rounded-lg px-3 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
                       title="Excluir"
                     >
+                      <Trash />
                       Excluir
                     </button>
                   </div>
@@ -303,17 +307,19 @@ function ListTemplate({ filters }) {
                   <button
                     type="button"
                     onClick={() => setSelected(r)}
-                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+                    className="items-center flex gap-2 rounded-lg px-3 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
                   >
+                    <Maximize2 />
                     Exibir
                   </button>
 
                   <button
                     type="button"
                     onClick={() => removeRecord(r.id)}
-                    className="w-24 rounded-lg px-3 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+                    className="items-center flex gap-2 rounded-lg px-3 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
                     title="Excluir"
                   >
+                    <Trash />
                     Excluir
                   </button>
                 </div>
@@ -338,8 +344,8 @@ function ListTemplate({ filters }) {
             className="
         w-full
         max-w-140 md:max-w-205 lg:max-w-245
-        bg-white rounded-2xl md:rounded-[20px]
-        border-2 border-[#E7E7E9]
+        bg-background rounded-2xl md:rounded-[20px]
+        border-2 border-border
         p-4 sm:p-5 md:p-6
         max-h-[90vh]
         overflow-y-auto
@@ -348,65 +354,63 @@ function ListTemplate({ filters }) {
           >
             <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
               <div className="flex flex-col gap-1">
-                <h2 className="text-xl sm:text-2xl font-bold text-black">
+                <h2 className="text-xl sm:text-2xl font-bold text-text">
                   {selectedTeamName
                     ? `${selectedTeamName} #${selectedTeamNumber}`
                     : `Equipe #${selectedTeamNumber || "-"}`}
                 </h2>
 
-                <div className="flex flex-col sm:flex-row sm:gap-6 gap-1 text-[#2e2e2e]">
+                <div className="flex flex-col sm:flex-row sm:gap-6 gap-1 text-text">
                   <p>
-                    <span className="font-semibold text-black">Partida:</span>{" "}
+                    <span className="font-semibold text-text">Partida:</span>{" "}
                     {selected.matchNumber ?? "-"}
                   </p>
                   <p>
-                    <span className="font-semibold text-black">Scout:</span>{" "}
+                    <span className="font-semibold text-text">Scout:</span>{" "}
                     {selected.user?.username ?? "-"}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-[#2e2e2e]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-text">
               <div>
-                <p className="font-semibold text-black">Posição Inicial</p>
+                <p className="font-semibold text-text">Posição Inicial</p>
                 <p>{formatPos(selected.startPos)}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">Ciclos no Autonomo</p>
+                <p className="font-semibold text-text">Ciclos no Autonomo</p>
                 <p>{selected.autoCycles ?? 0}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">
-                  Ciclos no Teleoperado
-                </p>
+                <p className="font-semibold text-text">Ciclos no Teleoperado</p>
                 <p>{selected.teleopCycles ?? 0}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">Quebrou</p>
+                <p className="font-semibold text-text">Quebrou</p>
                 <p>{selected.robotBroke ? "Sim" : "Não"}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">Auto Funcionou</p>
+                <p className="font-semibold text-text">Auto Funcionou</p>
                 <p>{selected.autoWorked ? "Sim" : "Não"}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">Escalada no Endgame</p>
+                <p className="font-semibold text-text">Escalada no Endgame</p>
                 <p>{formatLvl(selected.endgame)}</p>
               </div>
 
               <div>
-                <p className="font-semibold text-black">Escalado no Auto</p>
+                <p className="font-semibold text-text">Escalado no Auto</p>
                 <p>{formatLvl(selected.autoClimb)}</p>
               </div>
 
               <div className="sm:col-span-2">
-                <p className="font-semibold text-black">Observações</p>
+                <p className="font-semibold text-text">Observações</p>
                 <p className="wrap-break-word">{selected.notes || "-"}</p>
               </div>
             </div>
@@ -415,7 +419,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => removeRecord(selected.id)}
-                className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+                className="text-text rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
               >
                 Excluir
               </button>
@@ -423,7 +427,7 @@ function ListTemplate({ filters }) {
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200 cursor-pointer"
+                className="rounded-lg px-6 py-2 bg-darkblue text-white hover:bg-hoverblue transition-all duration-200 cursor-pointer"
               >
                 OK
               </button>

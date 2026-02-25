@@ -1,6 +1,7 @@
-// pages/MatchPredictor.jsx (ou onde você preferir)
+// pages/MatchPredictor.jsx
 import { useState } from "react";
 import { predictMatch } from "../../api/services/predictor.js";
+import { ClockPlus } from "lucide-react";
 import Navbar from "../Components/Navbar.jsx";
 
 export default function Preview() {
@@ -54,85 +55,109 @@ export default function Preview() {
   }
 
   return (
-    <main className="text-black flex flex-col min-h-screen items-center">
-      <Navbar></Navbar>
-      <div className="border-2 border-[#E7E7E9] w-[60%] rounded-2xl p-5 mt-5">
-        <header>
-          <h1 className="text-2xl font-bold mb-4">Previsor de Partidas:</h1>
-        </header>
+    <main className="min-h-screen bg-background text-text">
+      <Navbar />
 
-        <form onSubmit={handleSubmit} className="grid gap-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <AllianceCard title="ALIANÇA VERMELHA" alliance="red">
-              <TeamInput
-                value={red.t1}
-                onChange={handleChange(setRed, "t1")}
-                placeholder="Time 1:"
-                alliance="red"
-              />
-              <TeamInput
-                value={red.t2}
-                onChange={handleChange(setRed, "t2")}
-                placeholder="Time 2:"
-                alliance="red"
-              />
-              <TeamInput
-                value={red.t3}
-                onChange={handleChange(setRed, "t3")}
-                placeholder="Time 3:"
-                alliance="red"
-              />
-            </AllianceCard>
-
-            <AllianceCard title="ALIANÇA AZUL" alliance="blue">
-              <TeamInput
-                value={blue.t1}
-                onChange={handleChange(setBlue, "t1")}
-                placeholder="Time 1:"
-                alliance="blue"
-              />
-              <TeamInput
-                value={blue.t2}
-                onChange={handleChange(setBlue, "t2")}
-                placeholder="Time 2:"
-                alliance="blue"
-              />
-              <TeamInput
-                value={blue.t3}
-                onChange={handleChange(setBlue, "t3")}
-                placeholder="Time 3:"
-                alliance="blue"
-              />
-            </AllianceCard>
-          </div>
-
-          <div className="rounded-xl flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 rounded-lg text-black disabled:opacity-60 border-2 border-[#E7E7E9] hover:bg-[#0F172A] hover-border-0 hover:border-[#0F172A] hover:text-white transition-all duration-200"
-            >
-              {loading ? "Calculando..." : "Prever placar"}
-            </button>
-          </div>
-
-          {error && (
-            <div className="p-3 rounded-lg border border-red-300 text-red-700 bg-red-50">
-              {error}
+      {/* container */}
+      <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        {/* card principal */}
+        <div className="w-full rounded-2xl border-2 border-border p-4 sm:p-6 lg:p-8">
+          <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex gap-3 items-center">
+              <ClockPlus />
+              <h1 className="text-xl font-bold sm:text-2xl">
+                Previsor de Partidas:
+              </h1>
             </div>
+
+            {/* espaço p/ status rápido */}
+            {result && (
+              <p className="text-sm opacity-70">
+                Última previsão gerada com sucesso
+              </p>
+            )}
+          </header>
+
+          <form onSubmit={handleSubmit} className="mt-4 grid gap-4 sm:gap-5">
+            {/* alianças */}
+            <div className="grid gap-4 md:grid-cols-2">
+              <AllianceCard title="ALIANÇA VERMELHA" alliance="red">
+                <TeamInput
+                  value={red.t1}
+                  onChange={handleChange(setRed, "t1")}
+                  placeholder="Time 1"
+                  alliance="red"
+                />
+                <TeamInput
+                  value={red.t2}
+                  onChange={handleChange(setRed, "t2")}
+                  placeholder="Time 2"
+                  alliance="red"
+                />
+                <TeamInput
+                  value={red.t3}
+                  onChange={handleChange(setRed, "t3")}
+                  placeholder="Time 3"
+                  alliance="red"
+                />
+              </AllianceCard>
+
+              <AllianceCard title="ALIANÇA AZUL" alliance="blue">
+                <TeamInput
+                  value={blue.t1}
+                  onChange={handleChange(setBlue, "t1")}
+                  placeholder="Time 1"
+                  alliance="blue"
+                />
+                <TeamInput
+                  value={blue.t2}
+                  onChange={handleChange(setBlue, "t2")}
+                  placeholder="Time 2"
+                  alliance="blue"
+                />
+                <TeamInput
+                  value={blue.t3}
+                  onChange={handleChange(setBlue, "t3")}
+                  placeholder="Time 3"
+                  alliance="blue"
+                />
+              </AllianceCard>
+            </div>
+
+            {/* ações */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-lg border-2 border-border px-4 py-2 font-semibold transition-all duration-200 hover:bg-darkblue hover:text-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              >
+                {loading ? "Calculando..." : "Prever placar"}
+              </button>
+
+              {/* dica/erro rápido (fica do lado no desktop) */}
+              <p className="text-sm opacity-70 sm:text-right">
+                Preencha 3 times por aliança
+              </p>
+            </div>
+
+            {error && (
+              <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-red-700">
+                {error}
+              </div>
+            )}
+          </form>
+
+          {result && (
+            <section className="mt-6 grid gap-4 sm:gap-5">
+              <ScoreCard red={result.final.red} blue={result.final.blue} />
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <BreakdownCard title="Registros Red:" alliance={result.red} />
+                <BreakdownCard title="Registros Blue:" alliance={result.blue} />
+              </div>
+            </section>
           )}
-        </form>
-
-        {result && (
-          <section className="mt-6 grid gap-4">
-            <ScoreCard red={result.final.red} blue={result.final.blue} />
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <BreakdownCard title="Registros Red:" alliance={result.red} />
-              <BreakdownCard title="Registros Blue:" alliance={result.blue} />
-            </div>
-          </section>
-        )}
+        </div>
       </div>
     </main>
   );
@@ -141,17 +166,12 @@ export default function Preview() {
 function AllianceCard({ title, children, alliance }) {
   const divClass =
     alliance === "red"
-      ? "p-4 rounded-xl bg-[#FFB8B8] border-[#FF8A8A] border-2"
-      : "p-4 rounded-xl bg-[#B8CEFF] border-[#5C8FFF] border-2";
-
-  const titleClass =
-    alliance === "red"
-      ? "font-semibold mb-3 text-xl"
-      : "font-semibold mb-3 text-xl";
+      ? "rounded-xl border-2 border-borderred bg-lred p-4 text-black"
+      : "rounded-xl border-2 border-borderblue bg-lblue p-4 text-black";
 
   return (
     <div className={divClass}>
-      <h2 className={titleClass}>{title}:</h2>
+      <h2 className="mb-3 text-lg font-semibold sm:text-xl">{title}</h2>
       <div className="grid gap-2">{children}</div>
     </div>
   );
@@ -160,8 +180,9 @@ function AllianceCard({ title, children, alliance }) {
 function TeamInput({ value, onChange, placeholder, alliance }) {
   const inputClass =
     alliance === "red"
-      ? "text-black w-full p-2 rounded-lg border-[#FF8A8A] bg-[#FAFAFA] border-2"
-      : "text-black w-full p-2 rounded-lg border-[#5C8FFF] bg-[#FAFAFA] border-2";
+      ? "w-full rounded-lg border-2 border-borderred bg-[#FAFAFA] p-2 text-black outline-none focus:ring-2 focus:ring-borderred/40"
+      : "w-full rounded-lg border-2 border-borderblue bg-[#FAFAFA] p-2 text-black outline-none focus:ring-2 focus:ring-borderblue/40";
+
   return (
     <input
       value={value}
@@ -181,44 +202,46 @@ function ScoreCard({ red, blue }) {
 
   const containerClass =
     status === "red"
-      ? "p-4 rounded-xl border-2 bg-[#FFB8B8] border-[#FF8A8A]"
+      ? "rounded-xl border-2 border-borderred bg-lred p-4 text-black"
       : status === "blue"
-        ? "p-4 rounded-xl border-2 bg-[#B8CEFF] border-[#5C8FFF]"
-        : "p-4 rounded-xl border-2 bg-[#E7E7E9] border-[#BABABF]";
+        ? "rounded-xl border-2 border-borderblue bg-lblue p-4 text-black"
+        : "rounded-xl border-2 border-border bg-background p-4";
 
   return (
     <div className={containerClass}>
       <p className="text-sm opacity-70">Placar previsto</p>
 
-      <div className="mt-2 flex items-end gap-4">
-        <div>
-          <p className="text-xs opacity-70">RED</p>
-          <p className="text-4xl font-bold">{red}</p>
-        </div>
+      {/* no mobile empilha melhor */}
+      <div className="mt-3 gap-3 sm:items-end sm:gap-6">
+        <div className="flex gap-4 sm:block">
+          <div>
+            <p className="text-xs opacity-70">RED</p>
+            <p className="text-4xl font-bold">{red}</p>
+          </div>
 
-        <p className="text-2xl opacity-50 mb-1">x</p>
+          <p className="text-2xl opacity-50 sm:mb-1">x</p>
 
-        <div>
-          <p className="text-xs opacity-70">BLUE</p>
-          <p className="text-4xl font-bold">{blue}</p>
+          <div className="text-right sm:text-left">
+            <p className="text-xs opacity-70">BLUE</p>
+            <p className="text-4xl font-bold">{blue}</p>
+          </div>
         </div>
       </div>
-
-      <p className="mt-2 text-sm font-medium">{winnerText}</p>
+      <p className="text-sm font-medium">{winnerText}</p>
     </div>
   );
 }
 
 function BreakdownCard({ title, alliance }) {
   return (
-    <div className="p-4 rounded-xl border-[#E7E7E9] border-2">
-      <h3 className="font-semibold">{title}</h3>
+    <div className="rounded-xl border-2 border-border p-4">
+      <h3 className="text-base font-semibold sm:text-lg">{title}</h3>
 
-      <div className="mt-3 grid gap-2 text-sm">
+      <div className="mt-3 grid gap-3 text-sm">
         {alliance.details.map((d) => (
           <div
             key={d.teamNumber}
-            className="flex items-center justify-between gap-3"
+            className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
           >
             <div className="min-w-0">
               <p className="font-medium">Team {d.teamNumber}</p>
@@ -230,14 +253,14 @@ function BreakdownCard({ title, alliance }) {
               </p>
             </div>
 
-            <p className="font-semibold whitespace-nowrap">
+            <p className="font-semibold sm:whitespace-nowrap">
               {Number(d.expectedPoints ?? 0).toFixed(1)} pts
             </p>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t flex justify-between font-semibold">
+      <div className="mt-4 flex items-center justify-between border-t pt-3 font-semibold">
         <span>Total</span>
         <span>{Number(alliance.total ?? 0).toFixed(1)} pts</span>
       </div>

@@ -16,6 +16,7 @@ import {
   fetchMyTeamPitScout,
 } from "../../api/services/dashboard.js";
 import { getTeamNameByNumber } from "../../api/teamsUtils.js";
+import { ChevronLeft } from 'lucide-react';
 import back from "../../assets/icons8-voltar.png";
 import useWorkspace from "../../context/UseWorkspace.jsx";
 
@@ -288,11 +289,11 @@ export default function Dashboard() {
       className="
       w-full
       max-w-130 sm:max-w-190 md:max-w-245 lg:max-w-300
-      bg-white flex flex-col text-black
+      bg-background flex flex-col text-text
       p-4 sm:p-5 md:p-6
       mt-4 sm:mt-5 mb-4 sm:mb-5
       rounded-2xl sm:rounded-[18px] md:rounded-[20px]
-      border-2 border-[#E7E7E9]
+      border-2 border-border
     "
     >
       <div className="flex justify-between items-center gap-3 mb-4">
@@ -303,15 +304,15 @@ export default function Dashboard() {
         <div className="flex flex-col gap-4">
           <button
             onClick={() => navigate(`/info/${teamNumber}`)}
-            className="py-2 px-4 rounded-lg bg-white border-[#E7E7E9] border-2 items-center flex cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="py-2 px-4 rounded-lg bg-background border-border border-2 items-center flex cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
             <p className="text-xl">Ir para o Scout Pit</p>
           </button>
           <button
             onClick={() => navigate(-1)}
-            className="py-2 px-4 rounded-lg bg-white border-[#E7E7E9] border-2 items-center justify-center flex cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="py-2 px-4 rounded-lg bg-background border-border border-2 items-center justify-center flex cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
-            <img src={back} alt="Voltar" className="w-4 h-4 mr-2 inline" />
+            <ChevronLeft/>
             <p className="text-xl">Voltar</p>
           </button>
         </div>
@@ -324,14 +325,14 @@ export default function Dashboard() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* 4 primeiros itens: grid 2x2 (em md+) */}
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">Total de Scouts:</p>
             <p className="font-normal text-2xl sm:text-3xl">
               {metrics.total} partidas
             </p>
           </div>
 
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">Taxa de Quebras:</p>
             <p className="font-normal text-2xl sm:text-3xl">
               {metrics.breakRatePercent}% ({metrics.brokeOnes}/
@@ -339,14 +340,14 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">Média de Ciclos:</p>
             <p className="font-normal text-2xl sm:text-3xl">
               {metrics.avgCycles} ciclos por partida
             </p>
           </div>
 
-          <div className="p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">Pontos Esperados:</p>
 
             {metrics.avgPoints == null ? (
@@ -365,7 +366,7 @@ export default function Dashboard() {
           </div>
 
           {/* Gráfico 1: pega a linha inteira (col-span-2 no md+) */}
-          <div className="md:col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="md:col-span-2 p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">Gráfico dos ciclos em Partida:</p>
             {metrics.total === 0 ? (
               <p className="text-[#2e2e2e]">Sem dados para exibir.</p>
@@ -375,7 +376,7 @@ export default function Dashboard() {
           </div>
 
           {/* Gráfico 2: pega a linha inteira (col-span-2 no md+) */}
-          <div className="md:col-span-2 p-4 border-2 border-[#E7E7E9] rounded-lg text-lg sm:text-xl">
+          <div className="md:col-span-2 p-4 border-2 border-border rounded-lg text-lg sm:text-xl">
             <p className="font-semibold mb-2">
               Distribuição da Tower End Game:
             </p>

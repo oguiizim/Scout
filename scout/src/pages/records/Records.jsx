@@ -10,7 +10,7 @@ function Records() {
   });
 
   return (
-    <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
+    <div className="overflow-x-hidden min-h-screen flex flex-col items-center bg-background">
       <Navbar />
       <FiltersTemp filters={filters} setFilters={setFilters} />
       <ListTemp filters={filters} />

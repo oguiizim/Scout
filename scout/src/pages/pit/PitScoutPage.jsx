@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import back from "../../assets/icons8-voltar.png";
+import { ChevronLeft } from 'lucide-react';
 
 import { TEAMS } from "../../data/Teams.js";
 import { fetchMyTeamPitScout } from "../../api/services/dashboard.js";
@@ -39,15 +40,15 @@ const MAP = {
 
 function Field({ label, value }) {
   return (
-    <div className="rounded-xl border-2 border-[#E7E7E9] bg-white/5 p-4">
-      <p className="text-xl font-bold tracking-wide text-black/60">{label}</p>
-      <p className="mt-2 text-medium font-normal text-black">
+    <div className="rounded-xl border-2 border-border bg-background/5 p-4">
+      <p className="text-xl font-bold tracking-wide text-text/60">{label}</p>
+      <p className="mt-2 text-medium font-normal text-text">
         {value !== undefined &&
         value !== null &&
         String(value).trim() !== "" ? (
           value
         ) : (
-          <span className="text-black/50">—</span>
+          <span className="text-text/50">—</span>
         )}
       </p>
     </div>
@@ -55,7 +56,7 @@ function Field({ label, value }) {
 }
 
 function Label({ children }) {
-  return <p className="text-sm font-semibold text-black/70 mb-1">{children}</p>;
+  return <p className="text-sm font-semibold text-text/70 mb-1">{children}</p>;
 }
 
 export default function PitScoutPage() {
@@ -192,16 +193,16 @@ export default function PitScoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#ffffff] text-black p-6">
+      <div className="min-h-screen bg-background text-text p-6">
         <div className="max-w-5xl mx-auto">
           <button
             onClick={() => navigate(-1)}
-            className="mb-4 px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 items-center flex cursor-pointer"
+            className="mb-4 px-4 py-2 rounded-lg bg-background border-border border-2 items-center flex cursor-pointer"
           >
-            <img src={back} alt="Voltar" className="w-4 h-4 mr-2 inline" />
+            <ChevronLeft/>
             <p className="text-xl">Voltar</p>
           </button>
-          <p className="text-black/70">Carregando Pit Scouting…</p>
+          <p className="text-text/70">Carregando Pit Scouting…</p>
         </div>
       </div>
     );
@@ -210,27 +211,27 @@ export default function PitScoutPage() {
   // Tela quando não existe pit
   if (!pit) {
     return (
-      <div className="min-h-screen bg-[#ffffff] text-black p-6">
+      <div className="min-h-screen bg-background text-text p-6">
         <div className="max-w-5xl mx-auto">
           <button
             onClick={() => navigate(-1)}
-            className="mb-4 px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 items-center flex cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="mb-4 px-4 py-2 rounded-lg bg-background border-border border-2 items-center flex cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
-            <img src={back} alt="Voltar" className="w-4 h-4 mr-2 inline" />
+            <ChevronLeft/>
             <p className="text-xl">Voltar</p>
           </button>
 
           <h1 className="text-2xl font-semibold">Pit Scouting</h1>
-          <p className="mt-1 text-black/70">{teamInfo}</p>
+          <p className="mt-1 text-text/70">{teamInfo}</p>
 
-          <p className="mt-6 text-black/70">
+          <p className="mt-6 text-text/70">
             Nenhum registro de Pit Scouting encontrado para este time.
           </p>
 
           <div className="mt-6 flex gap-2 flex-wrap">
             <button
               onClick={() => navigate(`/dashboard/${teamNumber}`)}
-              className="px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+              className="px-4 py-2 rounded-lg bg-background border-border border-2 cursor-pointer hover:bg-lightblue transition-all duration-150"
             >
               Ir para Dashboard
             </button>
@@ -238,7 +239,7 @@ export default function PitScoutPage() {
             {/* ✅ agora abre modal pra criar também */}
             <button
               onClick={() => setEditOpen(true)}
-              className="px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 hover:bg-[#0F172A] hover:border-[#0F172A] hover:text-white cursor-pointer transition-all duration-150"
+              className="px-4 py-2 rounded-lg bg-background border-border border-2 hover:bg-darkblue hover:border-[#0F172A] hover:text-white cursor-pointer transition-all duration-150"
             >
               Fazer Pit Scouting
             </button>
@@ -259,8 +260,8 @@ export default function PitScoutPage() {
                 className="
                   w-full
                   max-w-140 md:max-w-205 lg:max-w-245
-                  bg-white rounded-2xl md:rounded-[20px]
-                  border-2 border-[#E7E7E9]
+                  bg-background rounded-2xl md:rounded-[20px]
+                  border-2 border-border
                   p-4 sm:p-5 md:p-6
                   max-h-[90vh]
                   overflow-y-auto
@@ -269,7 +270,7 @@ export default function PitScoutPage() {
               >
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                   <div className="flex flex-col gap-1">
-                    <h2 className="text-xl sm:text-2xl font-bold text-black">
+                    <h2 className="text-xl sm:text-2xl font-bold text-text">
                       {teamInfo}
                     </h2>
                     <p className="text-[#2e2e2e]">
@@ -280,7 +281,7 @@ export default function PitScoutPage() {
                   <button
                     type="button"
                     onClick={() => !saving && setEditOpen(false)}
-                    className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="text-text rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200"
                     disabled={saving}
                   >
                     Fechar
@@ -293,7 +294,7 @@ export default function PitScoutPage() {
                     <input
                       value={teamNumber}
                       disabled
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3 bg-[#F8FAFC]"
+                      className="w-full rounded-xl border-2 border-border p-3 bg-background"
                     />
                   </div>
 
@@ -302,7 +303,7 @@ export default function PitScoutPage() {
                     <input
                       value={form.robotName}
                       onChange={(e) => setField("robotName", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                       placeholder="Ex: NECTAR"
                     />
                   </div>
@@ -312,7 +313,7 @@ export default function PitScoutPage() {
                     <select
                       value={form.driveTrain}
                       onChange={(e) => setField("driveTrain", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                     >
                       <option value="">—</option>
                       <option value="swerve">Swerve Drive</option>
@@ -325,7 +326,7 @@ export default function PitScoutPage() {
                     <select
                       value={form.shooter}
                       onChange={(e) => setField("shooter", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                     >
                       <option value="">—</option>
                       <option value="turret">Torreta</option>
@@ -340,7 +341,7 @@ export default function PitScoutPage() {
                     <select
                       value={form.intake}
                       onChange={(e) => setField("intake", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                     >
                       <option value="">—</option>
                       <option value="4bar">4 Bar / Linkage</option>
@@ -355,7 +356,7 @@ export default function PitScoutPage() {
                     <select
                       value={form.trenchOrBump}
                       onChange={(e) => setField("trenchOrBump", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                     >
                       <option value="">—</option>
                       <option value="trench">Trincheira</option>
@@ -369,7 +370,7 @@ export default function PitScoutPage() {
                     <select
                       value={form.tower}
                       onChange={(e) => setField("tower", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                     >
                       <option value="none">Nenhum</option>
                       <option value="l1">L1</option>
@@ -383,13 +384,13 @@ export default function PitScoutPage() {
                     <input
                       value={form.storage}
                       onChange={(e) => setField("storage", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                       placeholder="Ex: 8"
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <p className="font-semibold text-black">
+                    <p className="font-semibold text-text">
                       Quantidade de Auto rotas por posição
                     </p>
 
@@ -399,7 +400,7 @@ export default function PitScoutPage() {
                         <input
                           value={form.autoLeft}
                           onChange={(e) => setField("autoLeft", e.target.value)}
-                          className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                          className="w-full rounded-xl border-2 border-border p-3"
                           placeholder="Ex: 2"
                         />
                       </div>
@@ -411,7 +412,7 @@ export default function PitScoutPage() {
                           onChange={(e) =>
                             setField("autoCenter", e.target.value)
                           }
-                          className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                          className="w-full rounded-xl border-2 border-border p-3"
                           placeholder="Ex: 1"
                         />
                       </div>
@@ -423,7 +424,7 @@ export default function PitScoutPage() {
                           onChange={(e) =>
                             setField("autoRight", e.target.value)
                           }
-                          className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                          className="w-full rounded-xl border-2 border-border p-3"
                           placeholder="Ex: 0"
                         />
                       </div>
@@ -435,7 +436,7 @@ export default function PitScoutPage() {
                     <input
                       value={form.timeCycles}
                       onChange={(e) => setField("timeCycles", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                       placeholder="Ex: 3.2"
                     />
                   </div>
@@ -445,7 +446,7 @@ export default function PitScoutPage() {
                     <input
                       value={form.cycles}
                       onChange={(e) => setField("cycles", e.target.value)}
-                      className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full rounded-xl border-2 border-border p-3"
                       placeholder="Ex: 12"
                     />
                   </div>
@@ -455,7 +456,7 @@ export default function PitScoutPage() {
                     <textarea
                       value={form.notes}
                       onChange={(e) => setField("notes", e.target.value)}
-                      className="w-full min-h-[120px] rounded-xl border-2 border-[#E7E7E9] p-3"
+                      className="w-full min-h-[120px] rounded-xl border-2 border-border p-3"
                       placeholder="Detalhes importantes..."
                     />
                   </div>
@@ -465,7 +466,7 @@ export default function PitScoutPage() {
                   <button
                     type="button"
                     onClick={() => !saving && setEditOpen(false)}
-                    className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                    className="text-text rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200"
                     disabled={saving}
                   >
                     Cancelar
@@ -474,7 +475,7 @@ export default function PitScoutPage() {
                   <button
                     type="button"
                     onClick={handleSave}
-                    className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60"
+                    className="rounded-lg px-6 py-2 bg-darkblue text-white hover:bg-hoverblue transition-all duration-200 disabled:opacity-60"
                     disabled={saving}
                   >
                     {saving ? "Salvando..." : "Salvar"}
@@ -496,27 +497,27 @@ export default function PitScoutPage() {
   const tower = MAP.tower[pit.tower ?? "none"] ?? pit.tower;
 
   return (
-    <div className="min-h-screen bg-[#ffffff] text-black p-6">
+    <div className="min-h-screen bg-background text-text p-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <button
               onClick={() => navigate(-1)}
-              className="mb-4 px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 items-center flex cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+              className="mb-4 px-4 py-2 rounded-lg bg-background border-border border-2 items-center flex cursor-pointer hover:bg-lightblue transition-all duration-150"
             >
-              <img src={back} alt="Voltar" className="w-4 h-4 mr-2 inline" />
+              <ChevronLeft/>
               <p className="text-xl">Voltar</p>
             </button>
 
             <h1 className="text-3xl font-bold">Pit Scouting</h1>
-            <p className="text-black/70 mt-1">{teamInfo}</p>
+            <p className="text-text/70 mt-1">{teamInfo}</p>
           </div>
 
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => navigate(`/dashboard/${teamNumber}`)}
-              className="px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+              className="px-4 py-2 rounded-lg bg-background border-border border-2 cursor-pointer hover:bg-lightblue transition-all duration-150"
             >
               Ir para Dashboard
             </button>
@@ -524,7 +525,7 @@ export default function PitScoutPage() {
             {/* ✅ agora abre modal */}
             <button
               onClick={() => setEditOpen(true)}
-              className="px-4 py-2 rounded-lg bg-white border-[#E7E7E9] border-2 hover:bg-[#0F172A] hover:border-[#0F172A] hover:text-white cursor-pointer transition-all duration-150"
+              className="px-4 py-2 rounded-lg bg-background border-border border-2 hover:bg-darkblue hover:border-[#0F172A] hover:text-white cursor-pointer transition-all duration-150"
             >
               Editar Pit
             </button>
@@ -548,8 +549,8 @@ export default function PitScoutPage() {
         </div>
 
         {/* Auto rotas */}
-        <div className="mt-8 rounded-2xl border-2 border-[#E7E7E9] bg-white/5 p-5">
-          <h2 className="text-xl font-bold tracking-wide text-black/60">
+        <div className="mt-8 rounded-2xl border-2 border-border bg-background/5 p-5">
+          <h2 className="text-xl font-bold tracking-wide text-text/60">
             Quantidade de Auto rotas por posição
           </h2>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -566,9 +567,9 @@ export default function PitScoutPage() {
         </div>
 
         {/* Observações */}
-        <div className="mt-8 rounded-2xl border-2 border-[#E7E7E9] bg-white/5 p-5">
+        <div className="mt-8 rounded-2xl border-2 border-border bg-background/5 p-5">
           <h2 className="text-lg font-semibold">Observações</h2>
-          <p className="mt-3 text-black/80 whitespace-pre-wrap">
+          <p className="mt-3 text-text/80 whitespace-pre-wrap">
             {pit.notes?.trim() ? pit.notes : "—"}
           </p>
         </div>
@@ -588,8 +589,8 @@ export default function PitScoutPage() {
               className="
                 w-full
                 max-w-140 md:max-w-205 lg:max-w-245
-                bg-white rounded-2xl md:rounded-[20px]
-                border-2 border-[#E7E7E9]
+                bg-background rounded-2xl md:rounded-[20px]
+                border-2 border-border
                 p-4 sm:p-5 md:p-6
                 max-h-[90vh]
                 overflow-y-auto
@@ -598,7 +599,7 @@ export default function PitScoutPage() {
             >
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                 <div className="flex flex-col gap-1">
-                  <h2 className="text-xl sm:text-2xl font-bold text-black">
+                  <h2 className="text-xl sm:text-2xl font-bold text-text">
                     {teamInfo}
                   </h2>
                   <p className="text-[#2e2e2e]">
@@ -609,7 +610,7 @@ export default function PitScoutPage() {
                 <button
                   type="button"
                   onClick={() => !saving && setEditOpen(false)}
-                  className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                  className="text-text rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200"
                   disabled={saving}
                 >
                   Fechar
@@ -622,7 +623,7 @@ export default function PitScoutPage() {
                   <input
                     value={teamNumber}
                     disabled
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3 bg-[#F8FAFC]"
+                    className="w-full rounded-xl border-2 border-border p-3 bg-[#F8FAFC]"
                   />
                 </div>
 
@@ -631,7 +632,7 @@ export default function PitScoutPage() {
                   <input
                     value={form.robotName}
                     onChange={(e) => setField("robotName", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                     placeholder="Ex: NECTAR"
                   />
                 </div>
@@ -641,7 +642,7 @@ export default function PitScoutPage() {
                   <select
                     value={form.driveTrain}
                     onChange={(e) => setField("driveTrain", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                   >
                     <option value="">—</option>
                     <option value="swerve">Swerve Drive</option>
@@ -654,7 +655,7 @@ export default function PitScoutPage() {
                   <select
                     value={form.shooter}
                     onChange={(e) => setField("shooter", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                   >
                     <option value="">—</option>
                     <option value="turret">Torreta</option>
@@ -669,7 +670,7 @@ export default function PitScoutPage() {
                   <select
                     value={form.intake}
                     onChange={(e) => setField("intake", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                   >
                     <option value="">—</option>
                     <option value="4bar">4 Bar / Linkage</option>
@@ -684,7 +685,7 @@ export default function PitScoutPage() {
                   <select
                     value={form.trenchOrBump}
                     onChange={(e) => setField("trenchOrBump", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                   >
                     <option value="">—</option>
                     <option value="trench">Trincheira</option>
@@ -698,7 +699,7 @@ export default function PitScoutPage() {
                   <select
                     value={form.tower}
                     onChange={(e) => setField("tower", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                   >
                     <option value="none">Nenhum</option>
                     <option value="l1">L1</option>
@@ -712,13 +713,13 @@ export default function PitScoutPage() {
                   <input
                     value={form.storage}
                     onChange={(e) => setField("storage", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                     placeholder="Ex: 8"
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <p className="font-semibold text-black">
+                  <p className="font-semibold text-text">
                     Quantidade de Auto rotas por posição
                   </p>
 
@@ -728,7 +729,7 @@ export default function PitScoutPage() {
                       <input
                         value={form.autoLeft}
                         onChange={(e) => setField("autoLeft", e.target.value)}
-                        className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                        className="w-full rounded-xl border-2 border-border p-3"
                         placeholder="Ex: 2"
                       />
                     </div>
@@ -738,7 +739,7 @@ export default function PitScoutPage() {
                       <input
                         value={form.autoCenter}
                         onChange={(e) => setField("autoCenter", e.target.value)}
-                        className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                        className="w-full rounded-xl border-2 border-border p-3"
                         placeholder="Ex: 1"
                       />
                     </div>
@@ -748,7 +749,7 @@ export default function PitScoutPage() {
                       <input
                         value={form.autoRight}
                         onChange={(e) => setField("autoRight", e.target.value)}
-                        className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                        className="w-full rounded-xl border-2 border-border p-3"
                         placeholder="Ex: 0"
                       />
                     </div>
@@ -760,7 +761,7 @@ export default function PitScoutPage() {
                   <input
                     value={form.timeCycles}
                     onChange={(e) => setField("timeCycles", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                     placeholder="Ex: 3.2"
                   />
                 </div>
@@ -770,7 +771,7 @@ export default function PitScoutPage() {
                   <input
                     value={form.cycles}
                     onChange={(e) => setField("cycles", e.target.value)}
-                    className="w-full rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full rounded-xl border-2 border-border p-3"
                     placeholder="Ex: 12"
                   />
                 </div>
@@ -780,7 +781,7 @@ export default function PitScoutPage() {
                   <textarea
                     value={form.notes}
                     onChange={(e) => setField("notes", e.target.value)}
-                    className="w-full min-h-[120px] rounded-xl border-2 border-[#E7E7E9] p-3"
+                    className="w-full min-h-[120px] rounded-xl border-2 border-border p-3"
                     placeholder="Detalhes importantes..."
                   />
                 </div>
@@ -790,7 +791,7 @@ export default function PitScoutPage() {
                 <button
                   type="button"
                   onClick={() => !saving && setEditOpen(false)}
-                  className="text-black rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200"
+                  className="text-text rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200"
                   disabled={saving}
                 >
                   Cancelar
@@ -799,7 +800,7 @@ export default function PitScoutPage() {
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="rounded-lg px-6 py-2 bg-[#0F172A] text-white hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60"
+                  className="rounded-lg px-6 py-2 bg-darkblue text-white hover:bg-hoverblue transition-all duration-200 disabled:opacity-60"
                   disabled={saving}
                 >
                   {saving ? "Salvando..." : "Salvar"}

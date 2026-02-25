@@ -1,10 +1,68 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: rgb(var(--background));
+  --color-border: rgb(var(--border));
+  --color-lblue: rgb(var(--lblue));
+  --color-borderblue: rgb(var(--borderblue));
+  --color-lred: rgb(var(--lred));
+  --color-borderred: rgb(var(--borderred));
+  --color-darkblue: rgb(var(--darkblue));
+  --color-hoverblue: rgb(var(--hoverblue));
+  --color-lightblue: rgb(var(--lightblue));
+  --color-text: rgb(var(--text));
+  --color-linktext: rgb(var(--linktext));
+  --color-hometext: rgb(var(--hometext));
+}
 
 :root {
+  --background: 255, 255, 255;
+  --border: 231, 231, 233;
+  --lblue: 184, 206, 255;
+  --borderblue: 92, 143, 255;
+  --lred: 255, 184, 184;
+  --borderred: 255, 138, 138;
+  --darkblue: 15, 23, 42;
+  --hoverblue: 75, 120, 134;
+  --lightblue: 241, 245, 249;
+  --text: 0, 0, 0;
+  --linktext: 162, 190, 255;
+  --hometext: 255, 255, 255;
+
   font-family: Nunito, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+}
 
-  color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
+.light {
+  --background: 255, 255, 255;
+  --border: 231, 231, 233;
+  --lblue: 184, 206, 255;
+  --borderblue: 92, 143, 255;
+  --lred: 255, 184, 184;
+  --borderred: 255, 138, 138;
+  --darkblue: 15, 23, 42;
+  --hoverblue: 75, 120, 134;
+  --lightblue: 241, 245, 249;
+  --text: 0, 0, 0;
+  --linktext: 162, 190, 255;
+  --hometext: 0, 0, 0;
+}
+
+.dark {
+  --background: 40, 40, 43; /* Matte Black */
+  --border: 26, 26, 26;
+  --lblue: 184, 206, 255;
+  --borderblue: 92, 143, 255;
+  --lred: 255, 184, 184;
+  --borderred: 255, 138, 138;
+  --darkblue: 55, 87, 97;
+  --hoverblue: 92, 147, 163;
+  --lightblue: 121, 121, 122;
+  --text: 255, 255, 255;
+  --linktext: 0, 0, 0;
+  --hometext: 0, 0, 0;
 }
