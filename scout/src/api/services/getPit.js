@@ -17,6 +17,6 @@ export async function updatePit(team, pitData) {
 }
 
 export async function deletePit(team) {
-  const res = await client.delete(`/scoupit/${team}`);
+  const res = await client.delete(`/scoutpit/${team}`);
   return res.data;
 }
