@@ -7,6 +7,14 @@ function getMatchCycles(m) {
   return auto + tele;
 }
 
+function getAutoCycles(m) {
+  return Number(m?.autoCycles ?? 0);
+}
+
+function getTeleCycles(m) {
+  return Number(m?.teleCycles ?? 0);
+}
+
 function getPitCapacity(p) {
   return Number(p?.storage ?? 0);
 }
@@ -15,18 +23,14 @@ const AUTO_TOWER_POINTS = { l1: 15, l2: 25, l3: 35 };
 const END_TOWER_POINTS = { l1: 10, l2: 20, l3: 30 };
 
 function normLevel(v) {
-  const s = String(v ?? "")
-    .toLowerCase()
-    .trim();
+  const s = String(v ?? "").toLowerCase().trim();
   return s === "l1" || s === "l2" || s === "l3" ? s : "none";
 }
 
 function modeLevel(levels) {
-  // levels já deve vir só com l1/l2/l3
   const count = { l1: 0, l2: 0, l3: 0 };
   for (const lv of levels) count[lv]++;
 
-  // desempate: l3 > l2 > l1 (mais “otimista”)
   if (count.l3 >= count.l2 && count.l3 >= count.l1) return "l3";
   if (count.l2 >= count.l1) return "l2";
   return "l1";
@@ -70,6 +74,26 @@ function calcTowerPoints(matches) {
   return { autoTowerPts, autoTowerLevel, endTowerPts, endTowerLevel };
 }
 
+// ✅ NOVA REGRA DE BOLAS POR MATCH (AUTO especial + TELE normal)
+function calcBallsForMatch(m, capacity) {
+  const autoCycles = Math.max(0, getAutoCycles(m));
+  const teleCycles = Math.max(0, getTeleCycles(m));
+
+  const ballsPerCycle = capacity * 0.75;
+
+  // AUTO:
+  // - 1 ciclo => 8 bolas fixas
+  // - >=2 => 8 no primeiro + (autoCycles-1) * ballsPerCycle
+  let autoBalls = 0;
+  if (autoCycles === 1) autoBalls = 8;
+  else if (autoCycles >= 2) autoBalls = 8 + (autoCycles - 1) * ballsPerCycle;
+
+  // TELE: sempre usa storage
+  const teleBalls = teleCycles * ballsPerCycle;
+
+  return autoBalls + teleBalls;
+}
+
 export async function predictMatch({ redTeams, blueTeams }) {
   const pointsPerBall = 1;
   const allTeams = [...redTeams, ...blueTeams].map(Number);
@@ -81,6 +105,7 @@ export async function predictMatch({ redTeams, blueTeams }) {
 
       const safeMatches = Array.isArray(matches) ? matches : [];
 
+      // (mantém seu avgCycles se você usa isso em algum lugar)
       const cycles = safeMatches.map(getMatchCycles).filter(Number.isFinite);
       const avgCycles = cycles.length
         ? cycles.reduce((a, b) => a + b, 0) / cycles.length
@@ -88,10 +113,18 @@ export async function predictMatch({ redTeams, blueTeams }) {
 
       const capacity = pit ? getPitCapacity(pit) : 0;
 
-      const expectedBalls = avgCycles * (capacity * 0.75);
+      // ✅ agora expectedBalls vem da regra nova por match
+      const ballsPerMatch = safeMatches
+        .map((m) => calcBallsForMatch(m, capacity))
+        .filter(Number.isFinite);
+
+      const expectedBalls = ballsPerMatch.length
+        ? ballsPerMatch.reduce((a, b) => a + b, 0) / ballsPerMatch.length
+        : 0;
+
       const ballsPoints = expectedBalls * pointsPerBall;
 
-      // ✅ tower points
+      // tower points
       const { autoTowerPts, autoTowerLevel, endTowerPts, endTowerLevel } =
         calcTowerPoints(safeMatches);
 
