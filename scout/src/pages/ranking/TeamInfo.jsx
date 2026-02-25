@@ -16,7 +16,7 @@ function TeamInfo({ team, position, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/30 z-50" onClick={onClose}>
       <div
-        className="w-fit bg-white flex flex-col text-black p-6 mt-5 mb-5 rounded-[20px] border-2 border-[#E7E7E9]"
+        className="w-fit bg-background flex flex-col text-text p-6 mt-5 mb-5 rounded-[20px] border-2 border-border"
         style={{ position: "fixed", top, left }} // ✅ aqui usa a posição
         onClick={(e) => e.stopPropagation()}
       >
@@ -26,7 +26,7 @@ function TeamInfo({ team, position, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="py-2 px-5 border-2 border-[#E7E7E9] rounded-lg cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="py-2 px-5 border-2 border-border rounded-lg cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
             Sair
           </button>
@@ -39,7 +39,7 @@ function TeamInfo({ team, position, onClose }) {
               navigate(`/info/${team.teamNumber}`);
               onClose();
             }}
-            className="w-[50%] p-2 border-2 border-[#E7E7E9] rounded-lg cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="w-[50%] p-2 border-2 border-border rounded-lg cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
             Pit Scouting
           </button>
@@ -50,7 +50,7 @@ function TeamInfo({ team, position, onClose }) {
               navigate(`/dashboard/${team.teamNumber}`);
               onClose();
             }}
-            className="w-[50%] p-3 border-2 border-[#E7E7E9] rounded-lg cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="w-[50%] p-3 border-2 border-border rounded-lg cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
             Dashboard
           </button>
@@ -58,7 +58,7 @@ function TeamInfo({ team, position, onClose }) {
           {/* <NavLink
             type="button"
             to="`/dashboard?team=${team.teamNumber}`"
-            className="w-[50%] p-3 border-2 border-[#E7E7E9] rounded-lg cursor-pointer hover:bg-[#F1F5F9] transition-all duration-150"
+            className="w-[50%] p-3 border-2 border-border rounded-lg cursor-pointer hover:bg-lightblue transition-all duration-150"
           >
             Dashboard
           </NavLink> */}

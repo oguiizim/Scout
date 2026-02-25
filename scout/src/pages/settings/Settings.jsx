@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import useWorkspace from "../../context/UseWorkspace.jsx";
 import toast from "react-hot-toast";
-import back from "../../assets/icons8-voltar.png";
+import { ChevronLeft, Cog } from "lucide-react";
 import { joinWorkspaceByCode } from "../../api/services/workspace.js";
 
 function Settings() {
@@ -14,7 +14,6 @@ function Settings() {
   const [joinCode, setJoinCode] = useState("");
   const [joining, setJoining] = useState(false);
 
-  // ✅ pegue refreshActiveWorkspace do seu hook
   const { activeWorkspace, loadingWorkspace, refreshActiveWorkspace } =
     useWorkspace();
 
@@ -59,87 +58,111 @@ function Settings() {
   };
 
   return (
-    <div className="font-nunito w-full min-h-screen text-black flex items-center justify-center bg-[#ffffff]">
-      <div className="w-[25%] border-2 border-[#F1F5F9] rounded-2xl p-5 flex flex-col items-center">
-        <div className="flex justify-between items-center w-[80%]">
-          <h1 className="font-bold text-2xl">Settings</h1>
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="cursor-pointer hover:scale-105 hover:bg-[#F1F5F9] hover:rounded-lg transition-all duration-200"
-          >
-            <div className="flex gap-2 border-2 border-[#F1F5F9] rounded-lg py-2 px-4 items-center">
-              <img src={back} alt="" className="w-5 h-5" />
-              <p className="font-semibold text-xl">Sair</p>
-            </div>
-          </button>
-        </div>
+    <div className="font-nunito min-h-screen w-full bg-background text-text">
+      {/* container */}
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+        {/* card */}
+        <div className="w-full max-w-xl rounded-2xl border-2 border-border bg-background p-4 sm:p-6 lg:p-8">
+          {/* header */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex gap-3 items-center">
+                <Cog size={30} />
+                <h1 className="text-2xl font-bold sm:text-3xl">Settings</h1>
+              </div>
 
-        {/* Username */}
-        <div className="flex flex-col w-full my-1">
-          <p className="justify-self-start font-semibold text-xl mb-2">
-            Usuario:
-          </p>
-          <div className="w-full p-2 rounded-lg border-2 border-[#F1F5F9]">
-            {typeof user === "string" ? user : (user?.username ?? "—")}
-          </div>
-        </div>
-
-        {/* WorkspaceTeam */}
-        <div className="flex flex-col w-full my-1">
-          <p className="justify-self-start font-semibold text-xl mb-2">
-            Workspace Team:
-          </p>
-          <div className="w-full p-2 rounded-lg border-2 border-[#F1F5F9]">
-            {loadingWorkspace ? "Carregando..." : workspaceTeam}
-          </div>
-        </div>
-
-        {/* ShareCode */}
-        <div className="flex flex-col w-full my-1">
-          <p className="font-semibold text-xl mb-2">Share Code:</p>
-
-          <div className="flex flex-row w-full gap-2">
-            <div className="w-[60%] p-2 rounded-lg border-2 border-[#F1F5F9]">
-              {loadingWorkspace ? "Carregando..." : shareCode}
+              {/* se quiser colocar o toggle aqui */}
+              {/* <DarkModeToggle /> */}
             </div>
 
             <button
-              onClick={handleCopy}
-              className="w-[40%] p-2 rounded-lg bg-red-200 border-2 border-[#F1F5F9] cursor-pointer flex items-center justify-center font-semibold hover:scale-105 transition"
-              disabled={loadingWorkspace || shareCode === "—"}
-              title={
-                shareCode === "—" ? "Sem código disponível" : "Copiar código"
-              }
+              type="button"
+              onClick={() => navigate(-1)}
+              className="w-full cursor-pointer rounded-lg transition-all duration-200 hover:scale-[1.02] hover:bg-lightblue sm:w-auto"
             >
-              Copiar Código
+              <div className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-border px-4 py-2 sm:w-auto">
+                <ChevronLeft />
+                <p className="text-lg font-semibold sm:text-xl">Sair</p>
+              </div>
             </button>
           </div>
-        </div>
 
-        {/* Join via ShareCode */}
-        <div className="flex flex-col w-full my-1">
-          <p className="font-semibold text-xl mb-2">
-            Entrar em Workspace via Share Code:
-          </p>
+          {/* content */}
+          <div className="mt-6 space-y-4">
+            {/* Username */}
+            <div className="flex flex-col">
+              <p className="mb-2 text-lg font-semibold sm:text-xl">Usuario:</p>
+              <div className="w-full rounded-lg border-2 border-border p-2">
+                {typeof user === "string" ? user : (user?.username ?? "—")}
+              </div>
+            </div>
 
-          <div className="flex flex-row w-full gap-2">
-            <input
-              ref={codeRef}
-              type="text"
-              className="w-[60%] p-2 rounded-lg border-2 border-[#F1F5F9]"
-              placeholder="Cole o Share Code aqui"
-              value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value)}
-            />
+            {/* WorkspaceTeam */}
+            <div className="flex flex-col">
+              <p className="mb-2 text-lg font-semibold sm:text-xl">
+                Workspace Team:
+              </p>
+              <div className="w-full rounded-lg border-2 border-border p-2">
+                {loadingWorkspace ? "Carregando..." : workspaceTeam}
+              </div>
+            </div>
 
-            <button
-              onClick={handleJoinWorkspace}
-              disabled={joining}
-              className="w-[40%] p-2 rounded-lg bg-green-200 border-2 border-[#F1F5F9] cursor-pointer flex items-center justify-center font-semibold hover:scale-105 transition disabled:opacity-60 disabled:hover:scale-100"
-            >
-              {joining ? "Entrando..." : "Entrar em Workspace"}
-            </button>
+            {/* ShareCode */}
+            <div className="flex flex-col">
+              <p className="mb-2 text-lg font-semibold sm:text-xl">
+                Share Code:
+              </p>
+
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="w-full rounded-lg border-2 border-border p-2 sm:w-[60%]">
+                  {loadingWorkspace ? "Carregando..." : shareCode}
+                </div>
+
+                <button
+                  onClick={handleCopy}
+                  className="w-full cursor-pointer rounded-lg border-2 border-border bg-red-200 p-2 font-semibold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 sm:w-[40%]"
+                  disabled={loadingWorkspace || shareCode === "—"}
+                  title={
+                    shareCode === "—"
+                      ? "Sem código disponível"
+                      : "Copiar código"
+                  }
+                >
+                  Copiar Código
+                </button>
+              </div>
+            </div>
+
+            {/* Join via ShareCode */}
+            <div className="flex flex-col">
+              <p className="mb-2 text-lg font-semibold sm:text-xl">
+                Entrar em Workspace via Share Code:
+              </p>
+
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <input
+                  ref={codeRef}
+                  type="text"
+                  className="w-full rounded-lg border-2 border-border p-2 outline-none focus:ring-2 focus:ring-borderblue sm:w-[60%]"
+                  placeholder="Cole o Share Code aqui"
+                  value={joinCode}
+                  onChange={(e) => setJoinCode(e.target.value)}
+                />
+
+                <button
+                  onClick={handleJoinWorkspace}
+                  disabled={joining}
+                  className="w-full cursor-pointer rounded-lg border-2 border-border bg-green-200 p-2 font-semibold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100 sm:w-[40%]"
+                >
+                  {joining ? "Entrando..." : "Entrar em Workspace"}
+                </button>
+              </div>
+            </div>
+
+            {/* opcional: área pro DarkModeToggle no final */}
+            {/* <div className="pt-2">
+              <DarkModeToggle />
+            </div> */}
           </div>
         </div>
       </div>

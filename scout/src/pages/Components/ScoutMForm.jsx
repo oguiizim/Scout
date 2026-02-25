@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
 import { submitMatchData } from "../../api/services/scoutMatch.js";
+import { Book, Save, Trash } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
-import document_gif from "../../assets/document-gif.gif";
 
 const initialState = {
   matchNumber: "",
@@ -49,7 +49,7 @@ function ScoutMForm() {
     setForm((p) => ({ ...p, [key]: Math.max(0, (Number(p[key]) || 0) - 1) }));
 
   const isSelectedBtn = (current, value) =>
-    current === value ? "bg-[#F1F5F9]" : "bg-[#ffffff]";
+    current === value ? "bg-lightblue" : "bg-background";
 
   const clearForm = () => {
     setForm(initialState);
@@ -127,15 +127,16 @@ function ScoutMForm() {
       className="
       w-full
       max-w-[520px] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[900px]
-      bg-white flex flex-col text-black
+      bg-background flex flex-col text-text
       p-4 sm:p-5 md:p-6
       mt-4 sm:mt-5 mb-4 sm:mb-5
       rounded-[16px] sm:rounded-[18px] md:rounded-[20px]
-      border-2 border-[#E7E7E9]
+      border-2 border-border
     "
     >
       <div className="flex gap-2 mb-4 items-center">
-        <img src={document_gif} className="w-7" />
+        <Book />
+        {/* <img src={doc} className="w-7" /> */}
         <h1 className="font-bold text-xl sm:text-2xl">Novo Scout</h1>
       </div>
 
@@ -147,7 +148,7 @@ function ScoutMForm() {
           <input
             type="text"
             placeholder="Ex: 7"
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={form.matchNumber}
             inputMode="numeric"
             pattern="[0-9]*"
@@ -164,7 +165,7 @@ function ScoutMForm() {
           <input
             type="text"
             placeholder="Ex: 8882, Hydra, SESI..."
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={form.teamQuery}
             onChange={(e) => {
               setField("teamQuery", e.target.value);
@@ -176,7 +177,7 @@ function ScoutMForm() {
           />
 
           {openTeams && (
-            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-border bg-background z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
                 <div className="px-4 py-3 text-[#2e2e2e]">
                   Nenhuma equipe encontrada.
@@ -187,7 +188,7 @@ function ScoutMForm() {
                     key={t.number}
                     type="button"
                     onClick={() => selectTeam(t)}
-                    className="w-full text-left px-4 py-2 hover:bg-[#F1F5F9] transition-all duration-150"
+                    className="w-full text-left px-4 py-2 hover:bg-lightblue transition-all duration-150"
                   >
                     {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
                   </button>
@@ -211,7 +212,7 @@ function ScoutMForm() {
           <button
             type="button"
             onClick={() => setField("position", "left")}
-            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-lightblue ${isSelectedBtn(
               form.position,
               "left",
             )}`}
@@ -221,7 +222,7 @@ function ScoutMForm() {
           <button
             type="button"
             onClick={() => setField("position", "center")}
-            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-lightblue ${isSelectedBtn(
               form.position,
               "center",
             )}`}
@@ -231,7 +232,7 @@ function ScoutMForm() {
           <button
             type="button"
             onClick={() => setField("position", "right")}
-            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+            className={`py-2 w-1/3 flex justify-center rounded-lg hover:bg-lightblue ${isSelectedBtn(
               form.position,
               "right",
             )}`}
@@ -251,7 +252,7 @@ function ScoutMForm() {
             <button
               type="button"
               onClick={() => dec("autoCycles")}
-              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-border rounded-lg hover:bg-lightblue font-bold"
             >
               -
             </button>
@@ -261,7 +262,7 @@ function ScoutMForm() {
             <button
               type="button"
               onClick={() => inc("autoCycles")}
-              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-border rounded-lg hover:bg-lightblue font-bold"
             >
               +
             </button>
@@ -276,7 +277,7 @@ function ScoutMForm() {
             <button
               type="button"
               onClick={() => dec("teleCycles")}
-              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-border rounded-lg hover:bg-lightblue font-bold"
             >
               -
             </button>
@@ -286,7 +287,7 @@ function ScoutMForm() {
             <button
               type="button"
               onClick={() => inc("teleCycles")}
-              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-[#E7E7E9] rounded-lg hover:bg-[#F1F5F9] font-bold"
+              className="text-3xl w-12 h-12 sm:w-14 sm:h-14 cursor-pointer border-2 border-border rounded-lg hover:bg-lightblue font-bold"
             >
               +
             </button>
@@ -352,7 +353,7 @@ function ScoutMForm() {
               key={val}
               type="button"
               onClick={() => setField("towerEnd", val)}
-              className={`py-2 w-full flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+              className={`py-2 w-full flex justify-center rounded-lg hover:bg-lightblue ${isSelectedBtn(
                 form.towerEnd,
                 val,
               )}`}
@@ -378,7 +379,7 @@ function ScoutMForm() {
               key={val}
               type="button"
               onClick={() => setField("towerAuto", val)}
-              className={`py-2 w-full flex justify-center rounded-lg hover:bg-[#F1F5F9] ${isSelectedBtn(
+              className={`py-2 w-full flex justify-center rounded-lg hover:bg-lightblue ${isSelectedBtn(
                 form.towerAuto,
                 val,
               )}`}
@@ -396,7 +397,7 @@ function ScoutMForm() {
           <input
             type="text"
             placeholder="Ex: Robô tem a estratégia x..."
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={form.notes}
             onChange={(e) => setField("notes", e.target.value)}
           />
@@ -409,8 +410,9 @@ function ScoutMForm() {
           type="button"
           onClick={saveRecord}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-darkblue text-white rounded-lg py-2 cursor-pointer hover:bg-hoverblue transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
+          <Save />
           {loading ? "Enviando..." : "Salvar"}
         </button>
 
@@ -418,8 +420,9 @@ function ScoutMForm() {
           type="button"
           onClick={clearForm}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-white text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-background text-text rounded-lg py-2 cursor-pointer hover:bg-hoverblue hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
+          <Trash />
           Limpar
         </button>
       </div>

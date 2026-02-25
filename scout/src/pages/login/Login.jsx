@@ -57,8 +57,8 @@ function Login() {
   }
 
   return (
-    <div className="font-nunito w-full min-h-screen flex items-center justify-center bg-[#ffffff]">
-      <div className="text-black w-[30vw] min-w-[320px] max-w-115 flex flex-col items-center rounded-[20px] p-5 border-2 border-[#F1F5F9]">
+    <div className="font-nunito w-full min-h-screen flex items-center justify-center bg-background">
+      <div className="text-text w-[30vw] min-w-[320px] max-w-115 flex flex-col items-center rounded-[20px] p-5 border-2 border-border">
         <div className="w-20 bg-[#E7E7E9] p-2 rounded-2xl my-2.5">
           <img src={logoAxion} alt="Logo" />
         </div>
@@ -71,7 +71,7 @@ function Login() {
         <form onSubmit={handleSubmit} className="w-full">
           <p className="self-start font-semibold mt-2.5">Usuário</p>
           <input
-            className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-2.5 mb-1"
+            className="p-2 rounded-lg w-full border-2 border-border mt-2.5 mb-1"
             type="text"
             placeholder="Digite seu usuário"
             name="username"
@@ -83,7 +83,7 @@ function Login() {
           <p className="self-start font-semibold mt-2.5">Senha</p>
           <div className="grid grid-cols-[1fr_auto] items-center w-full">
             <input
-              className="p-2 rounded-lg w-full border-2 border-[#F1F5F9] mt-1 mb-2.5"
+              className="p-2 rounded-lg w-full border-2 border-border mt-1 mb-2.5"
               type={showPass ? "text" : "password"}
               placeholder="Digite sua senha"
               name="password"
@@ -110,7 +110,7 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#0F172A] py-2 px-4 mb-4 rounded-lg hover:bg-[#141e37] transition-all duration-200 text-white cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-darkblue py-2 px-4 mb-4 rounded-lg hover:bg-hoverblue transition-all duration-200 text-white cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>

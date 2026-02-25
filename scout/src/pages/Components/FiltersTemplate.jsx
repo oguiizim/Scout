@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TEAMS } from "../../data/Teams.js";
+import { Search } from "lucide-react";
 import pesquisar from "../../assets/pesquisar.png";
 
 function FiltersTemplate({ filters, setFilters }) {
@@ -75,19 +76,15 @@ function FiltersTemplate({ filters, setFilters }) {
       className="
       w-full
       max-w-130 sm:max-w-160 md:max-w-205 lg:max-w-245
-      bg-white flex flex-col text-black
+      bg-background flex flex-col text-text
       p-4 sm:p-5 md:p-6
       mt-4 sm:mt-5
       rounded-2xl sm:rounded-[18px] md:rounded-[20px]
-      border-2 border-[#E7E7E9]
+      border-2 border-border
     "
     >
       <div className="flex items-center gap-3 mb-4">
-        <img
-          src={pesquisar}
-          className="w-6 h-6"
-          alt=""
-        />
+        <Search />
         <h1 className="text-xl sm:text-2xl font-bold">Filtros</h1>
       </div>
 
@@ -97,7 +94,7 @@ function FiltersTemplate({ filters, setFilters }) {
           <input
             type="text"
             placeholder="Filtrar por time (nome ou número)"
-            className="w-full px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+            className="w-full px-4 py-2 rounded-lg border-2 border-border"
             value={filters.team}
             onChange={(e) => {
               setField("team", e.target.value);
@@ -108,7 +105,7 @@ function FiltersTemplate({ filters, setFilters }) {
           />
 
           {openTeams && (
-            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
+            <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-border bg-background z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
                 <div className="px-4 py-3 text-[#2e2e2e]">
                   Nenhuma equipe encontrada.
@@ -121,8 +118,8 @@ function FiltersTemplate({ filters, setFilters }) {
                     onClick={() => selectTeam(t)}
                     className={`w-full text-left px-4 py-2 transition-all duration-150 ${
                       idx === activeIndex
-                        ? "bg-[#F1F5F9]"
-                        : "hover:bg-[#F1F5F9]"
+                        ? "bg-lightblue"
+                        : "hover:bg-lightblue"
                     }`}
                   >
                     {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
@@ -137,7 +134,7 @@ function FiltersTemplate({ filters, setFilters }) {
         <input
           type="text"
           placeholder="Filtrar por partida"
-          className="w-full md:max-w-65 px-4 py-2 rounded-lg border-2 border-[#E7E7E9]"
+          className="w-full md:max-w-65 px-4 py-2 rounded-lg border-2 border-border"
           value={filters.match}
           inputMode="numeric"
           pattern="[0-9]*"
@@ -149,7 +146,7 @@ function FiltersTemplate({ filters, setFilters }) {
         <button
           type="button"
           onClick={() => setFilters({ team: "", match: "" })}
-          className="rounded-lg px-4 py-2 border-2 border-[#E7E7E9] hover:bg-[#F1F5F9] transition-all duration-200 cursor-pointer"
+          className="rounded-lg px-4 py-2 border-2 border-border hover:bg-lightblue transition-all duration-200 cursor-pointer"
         >
           Limpar filtros
         </button>
