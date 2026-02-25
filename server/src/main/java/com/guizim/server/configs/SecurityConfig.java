@@ -48,7 +48,14 @@ public class SecurityConfig {
 
         private static final String[] PUBLIC_MATCHERS_DELETE = {
                         "/user/{id}",
-                        "/team/{team}"
+                        "/team/{team}",
+                        "/info/{team}"
+        };
+
+        private static final String[] PUBLIC_MATCHERS_PUT = {
+                        "/user/{id}",
+                        "/team/{team}",
+                        "/info/{team}"
         };
 
         @Bean
@@ -72,6 +79,7 @@ public class SecurityConfig {
                 http.authorizeHttpRequests(auth -> auth
                                 .requestMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS_DELETE).permitAll()
                                 .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+                                .requestMatchers(HttpMethod.PUT, PUBLIC_MATCHERS_PUT).permitAll()
                                 .requestMatchers(PUBLIC_MATCHERS).permitAll()
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
