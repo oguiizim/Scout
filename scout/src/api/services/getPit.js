@@ -12,11 +12,11 @@ export async function submitPitData(pitData) {
 }
 
 export async function updatePit(team, pitData) {
-  const { data } = await client.put(`/scoutpit/${team}`, pitData);
+  const { data } = await client.put(`/scoutpit/team/${team}`, pitData);
   return data;
 }
 
 export async function deletePit(team) {
-  const res = await client.delete(`/scoutpit/del/${team}`);
+  const res = await client.delete(`/scoutpit/team/${team}`);
   return res.data;
 }

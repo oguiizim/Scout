@@ -56,7 +56,7 @@ public class ScoutPitController {
     }
 
     // UPDATE
-    @PutMapping("/{team}")
+    @PutMapping("/team/{team}")
     public ResponseEntity<Void> update(@Valid @RequestBody ScoutPit obj, @PathVariable Long team) {
         obj.setTeam(team);
         this.scoutPitService.update(obj);
@@ -64,7 +64,7 @@ public class ScoutPitController {
     }
 
     // DELETE
-    @DeleteMapping("/del/{team}")
+    @DeleteMapping("/team/{team}")
     public ResponseEntity<Void> delete(@PathVariable Long team) {
         this.scoutPitService.delete(team);
         return ResponseEntity.noContent().build();
