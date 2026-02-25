@@ -47,15 +47,13 @@ public class SecurityConfig {
         };
 
         private static final String[] PUBLIC_MATCHERS_DELETE = {
-                        "/user/{id}",
-                        "/team/{team}",
-                        "/info/{team}"
+                        "/user/*",
+                        "/scoutpit/team/*",
+                        "/info/*"
         };
 
         private static final String[] PUBLIC_MATCHERS_PUT = {
-                        "/user/{id}",
-                        "/team/{team}",
-                        "/info/{team}"
+                        "/user/*"
         };
 
         @Bean

@@ -56,17 +56,17 @@ public class ScoutPitController {
     }
 
     // UPDATE
-    @PutMapping("/team/{team}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ScoutPit obj, @PathVariable Long team) {
-        obj.setTeam(team);
+    @PutMapping("/team/{teamNumber}")
+    public ResponseEntity<Void> update(@Valid @RequestBody ScoutPit obj, @PathVariable Long teamNumber) {
+        obj.setTeam(teamNumber);
         this.scoutPitService.update(obj);
         return ResponseEntity.noContent().build();
     }
 
     // DELETE
-    @DeleteMapping("/team/{team}")
-    public ResponseEntity<Void> delete(@PathVariable Long team) {
-        this.scoutPitService.delete(team);
+    @DeleteMapping("/team/{teamNumber}")
+    public ResponseEntity<Void> delete(@PathVariable Long teamNumber) {
+        this.scoutPitService.delete(teamNumber);
         return ResponseEntity.noContent().build();
     }
 
