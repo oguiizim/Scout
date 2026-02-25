@@ -107,7 +107,7 @@ function FiltersTemplate({ filters, setFilters }) {
           {openTeams && (
             <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-border bg-background z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
-                <div className="px-4 py-3 text-[#2e2e2e]">
+                <div className="px-4 py-3 text-text">
                   Nenhuma equipe encontrada.
                 </div>
               ) : (
@@ -122,7 +122,7 @@ function FiltersTemplate({ filters, setFilters }) {
                         : "hover:bg-lightblue"
                     }`}
                   >
-                    {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
+                    {t.name} <span className="text-text">#{t.number}</span>
                   </button>
                 ))
               )}
