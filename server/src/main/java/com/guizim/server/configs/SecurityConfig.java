@@ -47,7 +47,8 @@ public class SecurityConfig {
         };
 
         private static final String[] PUBLIC_MATCHERS_DELETE = {
-                        "/user/{id}"
+                        "/user/{id}",
+                        "/team/{team}"
         };
 
         @Bean
