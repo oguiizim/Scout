@@ -6,7 +6,7 @@ function ScoutP() {
   const [count, useCount] = useState(0);
 
   return (
-    <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff]">
+    <div className="overflow-x-hidden flex flex-col items-center bg-background">
       <Navbar></Navbar>
       <ScoutPForm></ScoutPForm>
     </div>

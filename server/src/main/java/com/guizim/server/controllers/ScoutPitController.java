@@ -65,8 +65,8 @@ public class ScoutPitController {
 
     // DELETE
     @DeleteMapping("/{team}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        this.scoutPitService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long team) {
+        this.scoutPitService.delete(team);
         return ResponseEntity.noContent().build();
     }
 

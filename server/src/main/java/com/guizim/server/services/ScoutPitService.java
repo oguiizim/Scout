@@ -84,10 +84,12 @@ public class ScoutPitService {
         return this.scoutPitRepository.save(newObj);
     }
 
+    @Transactional
     public void delete(Long team) {
-        ScoutPit obj = findByTeam(team);
+        loggedUser();
+        Workspace ws = activeWorkspace();
         try {
-            this.scoutPitRepository.deleteById(obj.getId());
+            this.scoutPitRepository.deleteByWorkspaceAndTeam(ws.getId(), team);
         } catch (Exception e) {
             throw new DataBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }

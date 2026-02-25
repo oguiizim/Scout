@@ -3,7 +3,7 @@ import ScoutMForm from "../Components/ScoutMForm";
 
 function ScoutM() {
   return (
-    <div className="overflow-x-hidden flex flex-col items-center bg-[#ffffff] min-h-screen">
+    <div className="overflow-x-hidden flex flex-col items-center bg-background min-h-screen">
       <Navbar />
       <ScoutMForm />
     </div>
