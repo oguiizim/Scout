@@ -16,6 +16,7 @@
   --color-text: rgb(var(--text));
   --color-linktext: rgb(var(--linktext));
   --color-hometext: rgb(var(--hometext));
+  --color-pitscout: rgb(var(--pitscout));
 }
 
 :root {
@@ -31,6 +32,7 @@
   --text: 0, 0, 0;
   --linktext: 162, 190, 255;
   --hometext: 255, 255, 255;
+  --pitscout: 0, 0, 0;
 
   font-family: Nunito, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -50,6 +52,7 @@
   --text: 0, 0, 0;
   --linktext: 162, 190, 255;
   --hometext: 0, 0, 0;
+  --pitscout: 0, 0, 0;
 }
 
 .dark {
@@ -65,4 +68,5 @@
   --text: 255, 255, 255;
   --linktext: 0, 0, 0;
   --hometext: 0, 0, 0;
+  --pitscout: 255, 255, 255;
 }

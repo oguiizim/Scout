@@ -9,9 +9,7 @@ import com.guizim.server.models.ScoutPit;
 
 @Repository
 public interface ScoutPitRepository extends JpaRepository<ScoutPit, Long> {
-    Optional<ScoutPit> findByTeam(Long team);
-
-    Optional<ScoutPit> findByTeamAndUser_id(Long team, Long id);
+    void deleteByWorkspaceAndTeam(Long workspaceId, Long team);
 
     //
 
