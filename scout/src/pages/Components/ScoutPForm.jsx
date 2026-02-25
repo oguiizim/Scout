@@ -188,7 +188,7 @@ function ScoutPForm() {
           {openTeams && (
             <div className="absolute left-0 top-full mt-2 w-full max-h-56 overflow-auto rounded-lg border-2 border-[#E7E7E9] bg-white z-50 shadow-lg">
               {filteredTeams.length === 0 ? (
-                <div className="px-4 py-3 text-[#2e2e2e]">
+                <div className="px-4 py-3 text-text">
                   Nenhuma equipe encontrada.
                 </div>
               ) : (
@@ -199,7 +199,7 @@ function ScoutPForm() {
                     onClick={() => selectTeam(t)}
                     className="w-full text-left px-4 py-2 hover:bg-[#F1F5F9] transition-all duration-150"
                   >
-                    {t.name} <span className="text-[#2e2e2e]">#{t.number}</span>
+                    {t.name} <span className="text-text">#{t.number}</span>
                   </button>
                 ))
               )}
@@ -207,7 +207,7 @@ function ScoutPForm() {
           )}
 
           {form.team && (
-            <p className="mt-2 text-sm font-normal text-[#2e2e2e]">
+            <p className="mt-2 text-sm font-normal text-text">
               Selecionado: {form.teamName} #{form.team}
             </p>
           )}
@@ -462,7 +462,7 @@ function ScoutPForm() {
           type="button"
           onClick={savePit}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-[#0F172A] text-white rounded-lg py-2 cursor-pointer hover:bg-[#141e37] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-darkblue text-white rounded-lg py-2 cursor-pointer hover:bg-hoverblue transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
           {loading ? "Enviando..." : "Salvar"}
         </button>
@@ -471,7 +471,7 @@ function ScoutPForm() {
           type="button"
           onClick={clearForm}
           disabled={loading}
-          className="w-full sm:w-1/2 flex justify-center bg-white text-black rounded-lg py-2 cursor-pointer hover:bg-[#0F172A] hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-1/2 flex justify-center bg-background text-text rounded-lg py-2 cursor-pointer hover:bg-hoverblue hover:text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed gap-2"
         >
           Limpar
         </button>
