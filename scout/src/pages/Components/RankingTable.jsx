@@ -40,13 +40,7 @@ function calcConsistency(teamMatches) {
   return Math.max(0, base - breakPenalty);
 }
 
-/**
- * ✅ Ajuste aqui para bater com o retorno REAL do seu backend.
- * Como você tem ScoutMatch no Spring, muito provável que venha:
- * raw.team.number (e raw.team.name) OU raw.teamNumber direto.
- */
 function normalizeScout(raw) {
-  // tenta achar teamNumber de várias formas
   const teamNumber = raw.team ?? null;
 
   const teamName =
@@ -84,7 +78,6 @@ export default function RankingTable() {
       try {
         const scouts = await fetchAllScoutsForRanking();
 
-        // ✅ AQUI estava o problema: você estava setando cru e o teamNumber vinha undefined
         const normalized = (Array.isArray(scouts) ? scouts : [])
           .map(normalizeScout)
           .filter(
@@ -143,7 +136,15 @@ export default function RankingTable() {
           ? cycles.reduce((sum, v) => sum + v, 0) / cycles.length
           : 0;
 
-      const totalArmazem = t.matches.reduce(
+      const fullCycles = t.matches.map(
+        (m) => Math.max(0, m.teleCycles ?? 0) + Math.max(0, m.autoCycles ?? 0),
+      );
+      const fullAvgCycles =
+        fullCycles.length > 0
+          ? fullCycles.reduce((sum, v) => sum + v, 0) / fullCycles.length
+          : 0;
+
+      const storage = t.matches.reduce(
         (sum, m) => sum + (Number(m.storage) || 0),
         0,
       );
@@ -153,7 +154,8 @@ export default function RankingTable() {
         teamName: t.teamName,
         consistency,
         avgCycles,
-        totalArmazem,
+        fullAvgCycles,
+        storage,
         matchesCount: t.matches.length,
       };
     });
@@ -164,16 +166,16 @@ export default function RankingTable() {
         return b.consistency - a.consistency;
       }
       // 2. Média de ciclos
-      if (b.avgCycles !== a.avgCycles) {
-        return b.avgCycles - a.avgCycles;
+      if (b.fullAvgCycles !== a.fullAvgCycles) {
+        return b.fullAvgCycles - a.fullAvgCycles;
       }
-      // 3. Quantidade de armazém
-      if (b.totalArmazem !== a.totalArmazem) {
-        return b.totalArmazem - a.totalArmazem;
-      }
-      // 4. Quantidade de partidas
+      // 3. Quantidade de partidas
       if (b.matchesCount !== a.matchesCount) {
         return b.matchesCount - a.matchesCount;
+      }
+      // 4. Quantidade de armazém
+      if (b.storage !== a.storage) {
+        return b.storage - a.storage;
       }
       // 5. Número do time
       return Number(a.teamNumber) - Number(b.teamNumber);

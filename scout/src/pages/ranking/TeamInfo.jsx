@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { getTeamNameByNumber } from "../../api/teamsUtils";
 
 function TeamInfo({ team, position, onClose }) {
   const navigate = useNavigate();
 
   if (!team || !position) return null;
+  const teamName = getTeamNameByNumber(team?.teamNumber);
 
-  const teamLabel = team.teamName
-    ? `${team.teamName} #${team.teamNumber}`
+  const teamLabel = teamName
+    ? `${teamName} #${team.teamNumber}`
     : `Equipe #${team.teamNumber}`;
 
   // (opcional) evita sair da tela
@@ -54,14 +56,6 @@ function TeamInfo({ team, position, onClose }) {
           >
             Dashboard
           </button>
-
-          {/* <NavLink
-            type="button"
-            to="`/dashboard?team=${team.teamNumber}`"
-            className="w-[50%] p-3 border-2 border-border rounded-lg cursor-pointer hover:bg-lightblue transition-all duration-150"
-          >
-            Dashboard
-          </NavLink> */}
         </div>
       </div>
     </div>

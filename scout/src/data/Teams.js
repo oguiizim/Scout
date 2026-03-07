@@ -1,5 +1,3 @@
-// src/data/teams.js
-
 export const TEAMS = [
   { number: 1156, name: "Under Control" },
   { number: 1860, name: "Alphabots" },
