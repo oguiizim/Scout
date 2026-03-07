@@ -3,35 +3,34 @@ import { fetchAllScoutsForRanking } from "../../api/services/rankingServices.js"
 import { ChartNoAxesColumn } from "lucide-react";
 import TeamInfo from "../ranking/TeamInfo";
 import useWorkspace from "../../context/UseWorkspace.jsx";
-import ranking_gif from "../../assets/ranking-gif.gif";
-import rank from "../../assets/ranking.png";
 
-function calcConsistency(teamMatches, tolPct = 0.2) {
+function calcConsistency(teamMatches) {
   if (!teamMatches?.length) return 0;
 
-  const cycles = teamMatches.map(
-    (m) => (m.autoCycles ?? 0) + (m.teleopCycles ?? 0),
-  );
+  const cycles = teamMatches.map((m) => m.teleopCycles ?? 0);
   const n = cycles.length;
 
   const mean = cycles.reduce((a, b) => a + b, 0) / n;
   if (mean <= 0) return 0;
 
-  const tol = mean * tolPct;
+  // Limite mínimo aceitável: 50% da média
+  const minAcceptable = mean * 0.5;
 
-  const excessAvg =
+  // Calcula o quanto cada partida ficou abaixo do limite mínimo
+  const deficitAvg =
     cycles.reduce((sum, v) => {
-      const diff = Math.abs(v - mean);
-      return sum + Math.max(0, diff - tol);
+      if (v > minAcceptable) return sum;
+      return sum + (minAcceptable - v);
     }, 0) / n;
 
-  const base = Math.round((1 / (1 + excessAvg)) * 100);
+  // Quanto maior o déficit médio, menor a nota
+  const base = Math.round((1 / (1 + deficitAvg)) * 100);
 
-  const brokeCount = teamMatches.filter((m) => m.robotBroke).length;
+  const brokeCount = teamMatches.filter((m) => m.robotBroke === true).length;
   const x = brokeCount / n;
 
-  const inconsistent = excessAvg > 0;
-  const penaltyMult = inconsistent ? 1.5 : 1.0;
+  const hadLowMatch = deficitAvg > 0;
+  const penaltyMult = hadLowMatch ? 1.5 : 1.0;
   const penaltyPoints = Math.round(base * x * penaltyMult);
 
   return Math.max(0, base - penaltyPoints);
@@ -158,7 +157,6 @@ export default function RankingTable() {
     return arr;
   }, [records]);
 
-  const cols = "grid-cols-[0.3fr_0.5fr_0.5fr_0.3fr]";
   const cell = "flex items-center justify-center";
   const cellTeam = "flex items-center justify-center cursor-pointer";
 
