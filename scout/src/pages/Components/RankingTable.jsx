@@ -20,8 +20,8 @@ function calcConsistency(teamMatches) {
 
   if (median <= 0) return 0;
 
-  // Só considera ruim se fizer 50% ou menos da mediana
-  const threshold = median * 0.5;
+  // Só considera ruim se fizer 60% ou menos da mediana
+  const threshold = median * 0.6;
 
   // Conta quantas partidas ficaram abaixo ou igual ao limite
   const lowMatches = cycles.filter((v) => v <= threshold).length;
@@ -53,7 +53,7 @@ function normalizeScout(raw) {
     raw.teamName ?? raw.team_name ?? raw.team?.name ?? raw.team?.teamName ?? "";
 
   const autoCycles = raw.autoCycles ?? 0;
-  const teleopCycles = raw.teleCycles ?? 0;
+  const teleCycles = raw.teleCycles ?? 0;
 
   const areBroke = raw.areBroke ?? false;
 
@@ -62,7 +62,7 @@ function normalizeScout(raw) {
     teamNumber,
     teamName,
     autoCycles,
-    teleopCycles,
+    teleCycles,
     areBroke,
   };
 }
@@ -136,18 +136,46 @@ export default function RankingTable() {
 
     const arr = Array.from(byTeam.values()).map((t) => {
       const consistency = calcConsistency(t.matches);
+
+      const cycles = t.matches.map((m) => Math.max(0, m.teleCycles ?? 0));
+      const avgCycles =
+        cycles.length > 0
+          ? cycles.reduce((sum, v) => sum + v, 0) / cycles.length
+          : 0;
+
+      const totalArmazem = t.matches.reduce(
+        (sum, m) => sum + (Number(m.storage) || 0),
+        0,
+      );
+
       return {
         teamNumber: t.teamNumber,
         teamName: t.teamName,
         consistency,
+        avgCycles,
+        totalArmazem,
         matchesCount: t.matches.length,
       };
     });
 
     arr.sort((a, b) => {
-      if (b.consistency !== a.consistency) return b.consistency - a.consistency;
-      if (b.matchesCount !== a.matchesCount)
+      // 1. Consistência
+      if (b.consistency !== a.consistency) {
+        return b.consistency - a.consistency;
+      }
+      // 2. Média de ciclos
+      if (b.avgCycles !== a.avgCycles) {
+        return b.avgCycles - a.avgCycles;
+      }
+      // 3. Quantidade de armazém
+      if (b.totalArmazem !== a.totalArmazem) {
+        return b.totalArmazem - a.totalArmazem;
+      }
+      // 4. Quantidade de partidas
+      if (b.matchesCount !== a.matchesCount) {
         return b.matchesCount - a.matchesCount;
+      }
+      // 5. Número do time
       return Number(a.teamNumber) - Number(b.teamNumber);
     });
 
