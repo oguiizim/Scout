@@ -7,7 +7,7 @@ import useWorkspace from "../../context/UseWorkspace.jsx";
 function calcConsistency(teamMatches) {
   if (!teamMatches?.length) return 0;
 
-  const cycles = teamMatches.map((m) => Math.max(0, m.teleopCycles ?? 0));
+  const cycles = teamMatches.map((m) => Math.max(0, m.teleCycles ?? 0));
   const n = cycles.length;
 
   if (n === 0) return 0;
@@ -31,7 +31,7 @@ function calcConsistency(teamMatches) {
   const base = Math.round(100 * (1 - lowRate));
 
   // Penalidade separada por quebra real
-  const brokeCount = teamMatches.filter((m) => m.robotBroke === true).length;
+  const brokeCount = teamMatches.filter((m) => m.areBroke === true).length;
   const brokeRate = brokeCount / n;
 
   // Quebra pesa, mas não destrói completamente a nota
@@ -47,22 +47,15 @@ function calcConsistency(teamMatches) {
  */
 function normalizeScout(raw) {
   // tenta achar teamNumber de várias formas
-  const teamNumber =
-    raw.teamNumber ??
-    raw.team_number ??
-    raw.team?.number ?? // ✅ comum no Spring: objeto team
-    raw.team?.teamNumber ??
-    raw.team ??
-    null;
+  const teamNumber = raw.team ?? null;
 
   const teamName =
     raw.teamName ?? raw.team_name ?? raw.team?.name ?? raw.team?.teamName ?? "";
 
-  const autoCycles = raw.autoCycles ?? raw.auto_cycles ?? raw.auto ?? 0;
-  const teleopCycles = raw.teleopCycles ?? raw.teleop_cycles ?? raw.teleop ?? 0;
+  const autoCycles = raw.autoCycles ?? 0;
+  const teleopCycles = raw.teleCycles ?? 0;
 
-  const robotBroke =
-    raw.robotBroke ?? raw.robot_broke ?? raw.broke ?? raw.brokeDown ?? false;
+  const areBroke = raw.areBroke ?? false;
 
   return {
     ...raw,
@@ -70,7 +63,7 @@ function normalizeScout(raw) {
     teamName,
     autoCycles,
     teleopCycles,
-    robotBroke,
+    areBroke,
   };
 }
 
