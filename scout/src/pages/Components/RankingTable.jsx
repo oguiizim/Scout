@@ -7,33 +7,37 @@ import useWorkspace from "../../context/UseWorkspace.jsx";
 function calcConsistency(teamMatches) {
   if (!teamMatches?.length) return 0;
 
-  const cycles = teamMatches.map((m) => m.teleopCycles ?? 0);
+  const cycles = teamMatches.map((m) => Math.max(0, m.teleopCycles ?? 0));
   const n = cycles.length;
 
-  const mean = cycles.reduce((a, b) => a + b, 0) / n;
-  if (mean <= 0) return 0;
+  if (n === 0) return 0;
 
-  // Limite mínimo aceitável: 50% da média
-  const minAcceptable = mean * 0.5;
+  const sorted = [...cycles].sort((a, b) => a - b);
+  const median =
+    n % 2 === 0
+      ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2
+      : sorted[Math.floor(n / 2)];
 
-  // Calcula o quanto cada partida ficou abaixo do limite mínimo
-  const deficitAvg =
-    cycles.reduce((sum, v) => {
-      if (v > minAcceptable) return sum;
-      return sum + (minAcceptable - v);
-    }, 0) / n;
+  if (median <= 0) return 0;
 
-  // Quanto maior o déficit médio, menor a nota
-  const base = Math.round((1 / (1 + deficitAvg)) * 100);
+  // Só considera ruim se fizer 50% ou menos da mediana
+  const threshold = median * 0.5;
 
+  // Conta quantas partidas ficaram abaixo ou igual ao limite
+  const lowMatches = cycles.filter((v) => v <= threshold).length;
+  const lowRate = lowMatches / n;
+
+  // Penalidade leve por partidas muito abaixo do padrão
+  const base = Math.round(100 * (1 - lowRate));
+
+  // Penalidade separada por quebra real
   const brokeCount = teamMatches.filter((m) => m.robotBroke === true).length;
-  const x = brokeCount / n;
+  const brokeRate = brokeCount / n;
 
-  const hadLowMatch = deficitAvg > 0;
-  const penaltyMult = hadLowMatch ? 1.5 : 1.0;
-  const penaltyPoints = Math.round(base * x * penaltyMult);
+  // Quebra pesa, mas não destrói completamente a nota
+  const breakPenalty = Math.round(brokeRate * 25);
 
-  return Math.max(0, base - penaltyPoints);
+  return Math.max(0, base - breakPenalty);
 }
 
 /**
